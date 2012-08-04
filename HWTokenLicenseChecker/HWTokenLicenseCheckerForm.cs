@@ -51,9 +51,7 @@ namespace HWTokenLicenseChecker
             LMX2SQLite lmx2Sqlite = new LMX2SQLite { LicenseData = data, SqlitePath = sqlPath };
             lmx2Sqlite.CreateDatabase();
             lmx2Sqlite.ReadXMLLicenseData();
-
-       
-            //lmx2Sqlite.ImportToDatabase();
+            lmx2Sqlite.ImportToDatabase();
 
             lmx2Sqlite.CloseDatabase();
             LoadToDataGridView();

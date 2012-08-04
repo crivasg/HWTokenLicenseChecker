@@ -42,11 +42,6 @@ namespace HWTokenLicenseChecker
         public void ReadXMLLicenseData()
         {
             String[] xmlNodes = {@"LICENSE_PATH",@"FEATURE","USER"};
-            String[] sqlStmtTextArray = {
-                    @"INSERT INTO license_path (server_version, ip, port, type, uptime ) VALUES (?,?,?,?,?)",
-                    @"INSERT INTO feature (feature_id, name, version ,vendor, start, end, used_licenses, total_licenses, share, isPartner ) VALUES (?,?,?,?,?,?,?,?,?,?)",
-                    @"INSERT INTO user (name, host, ip, used_licenses, login_time, checkout_time, share_custom, feature_id ) VALUES (?,?,?,?,?,?,?,?)"};
-
 
             licensePathData =  new List<String> ();
             featureData = new List<String> ();
@@ -144,8 +139,50 @@ namespace HWTokenLicenseChecker
                 }
 
             }
+            
+        }
 
-        // insert to LICENSE_PATH table
+        public void CreateDatabase()
+        {
+            cnn = new SQLiteConnection("Data Source=" + _sqlitePath);
+            cnn.Open();
+
+            String sqlStmt = @"CREATE TABLE license_path (server_version STRING,ip STRING,port INTEGER,type STRING,uptime STRING);";
+            sqlStmt += Environment.NewLine + Environment.NewLine;
+            //<LICENSE_PATH TYPE="xxxxxxx" HOST="####@###.###.###.###" SERVER_VERSION="#.##" 
+            // UPTIME="## day(s) ## hour(s) ## min(s) ## sec(s)">
+
+            sqlStmt += @"CREATE TABLE feature (feature_id INTEGER, name STRING,version REAL,vendor STRING,start STRING,end STRING,used_licenses INTEGER,total_licenses INTEGER,share STRING,isPartner INTEGER);";
+            sqlStmt += Environment.NewLine + Environment.NewLine;
+            //<FEATURE NAME="xxxxxxx" VERSION="##.#" VENDOR="xxxxxxx" START="yyyy-mm-dd"
+            // END="yyyy-mm-dd" USED_LICENSES="######" TOTAL_LICENSES="###" SHARE="xxxxxxx">
+
+            // ::TODO:: prepare the database for when licenses are borrowed
+            sqlStmt += @"CREATE TABLE user (name STRING, host STRING, ip STRING, used_licenses INTEGER, login_time STRING, checkout_time STRING,share_custom STRING, feature_id INTEGER);";
+            sqlStmt += Environment.NewLine + Environment.NewLine;
+
+            //<USER NAME="xxxxxxx" HOST="xxxxxxx" IP="###.###.###.###" USED_LICENSES="####"
+            // LOGIN_TIME="yyyy-mm-dd hh:mm" CHECKOUT_TIME="yyyy-mm-dd hh:min" SHARE_CUSTOM="xxxxxxx:xxxxxxx"/>
+            //>
+
+            SQLiteCommand cmd = new SQLiteCommand(cnn);
+            cmd.CommandText = sqlStmt;
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+
+            //CheckDatabaseSchema();
+        }
+
+        public void ImportToDatabase()
+        {
+
+            String[] sqlStmtTextArray = {
+                    @"INSERT INTO license_path (server_version, ip, port, type, uptime ) VALUES (?,?,?,?,?)",
+                    @"INSERT INTO feature (feature_id, name, version ,vendor, start, end, used_licenses, total_licenses, share, isPartner ) VALUES (?,?,?,?,?,?,?,?,?,?)",
+                    @"INSERT INTO user (name, host, ip, used_licenses, login_time, checkout_time, share_custom, feature_id ) VALUES (?,?,?,?,?,?,?,?)"};
+
+            // insert to LICENSE_PATH table
             using (SQLiteTransaction sqlTransaction = cnn.BeginTransaction())
             {
                 using (SQLiteCommand mycommand = new SQLiteCommand(cnn))
@@ -170,19 +207,19 @@ namespace HWTokenLicenseChecker
                     {
                         String[] tmpArray = licPath.Split(new Char[] { ',' });
                         typeParam.Value = tmpArray[3]; //
-                        ipParam.Value   = tmpArray[1];
+                        ipParam.Value = tmpArray[1];
                         portParam.Value = int.Parse(tmpArray[2]);
                         serverVersionParam.Value = Double.Parse(tmpArray[0]);
                         uptimeParam.Value = tmpArray[4];
 
                         mycommand.ExecuteNonQuery();
-                        
+
 
                     }
                 }
                 sqlTransaction.Commit();
             }
-      
+
             // insert the featrues
             using (SQLiteTransaction sqlTransaction = cnn.BeginTransaction())
             {
@@ -250,7 +287,7 @@ namespace HWTokenLicenseChecker
                     SQLiteParameter userShareParam = new SQLiteParameter();
                     SQLiteParameter featureIdParam = new SQLiteParameter();
 
-                    mycommand.CommandText = sqlStmtTextArray[2]; 
+                    mycommand.CommandText = sqlStmtTextArray[2];
 
                     mycommand.Parameters.Add(nameParam);
                     mycommand.Parameters.Add(hostParam);
@@ -263,7 +300,7 @@ namespace HWTokenLicenseChecker
 
                     foreach (String userStr in userData)
                     {
-                        String[] tmpArray = userStr.Split(new Char[] {','});
+                        String[] tmpArray = userStr.Split(new Char[] { ',' });
                         nameParam.Value = tmpArray[0];
                         hostParam.Value = tmpArray[1];
                         iPParam.Value = tmpArray[2];
@@ -273,56 +310,28 @@ namespace HWTokenLicenseChecker
                         userShareParam.Value = tmpArray[6];
                         featureIdParam.Value = int.Parse(tmpArray[7]);
 
-                        mycommand.ExecuteNonQuery(); 
+                        mycommand.ExecuteNonQuery();
                     }
 
 
                 }
                 sqlTransaction.Commit();
             }
-            
-        }
 
-        public void CreateDatabase()
-        {
-            cnn = new SQLiteConnection("Data Source=" + _sqlitePath);
-            cnn.Open();
-
-            String sqlStmt = @"CREATE TABLE license_path (server_version STRING,ip STRING,port INTEGER,type STRING,uptime STRING);";
-            sqlStmt += Environment.NewLine + Environment.NewLine;
-            //<LICENSE_PATH TYPE="xxxxxxx" HOST="####@###.###.###.###" SERVER_VERSION="#.##" 
-            // UPTIME="## day(s) ## hour(s) ## min(s) ## sec(s)">
-
-            sqlStmt += @"CREATE TABLE feature (feature_id INTEGER, name STRING,version REAL,vendor STRING,start STRING,end STRING,used_licenses INTEGER,total_licenses INTEGER,share STRING,isPartner INTEGER);";
-            sqlStmt += Environment.NewLine + Environment.NewLine;
-            //<FEATURE NAME="xxxxxxx" VERSION="##.#" VENDOR="xxxxxxx" START="yyyy-mm-dd"
-            // END="yyyy-mm-dd" USED_LICENSES="######" TOTAL_LICENSES="###" SHARE="xxxxxxx">
-
-            // ::TODO:: prepare the database for when licenses are borrowed
-            sqlStmt += @"CREATE TABLE user (name STRING, host STRING, ip STRING, used_licenses INTEGER, login_time STRING, checkout_time STRING,share_custom STRING, feature_id INTEGER);";
-            sqlStmt += Environment.NewLine + Environment.NewLine;
-
-            //<USER NAME="xxxxxxx" HOST="xxxxxxx" IP="###.###.###.###" USED_LICENSES="####"
-            // LOGIN_TIME="yyyy-mm-dd hh:mm" CHECKOUT_TIME="yyyy-mm-dd hh:min" SHARE_CUSTOM="xxxxxxx:xxxxxxx"/>
-            //>
-
-            SQLiteCommand cmd = new SQLiteCommand(cnn);
-            cmd.CommandText = sqlStmt;
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
+            licensePathData.Clear();
+            featureData.Clear();
+            userData.Clear();
 
 
-            //CheckDatabaseSchema();
-        }
-
-        public void ImportToDatabase()
-        {
-        
         }
 
         public void CloseDatabase()
         {
             cnn.Close();
+
+            licensePathData = null;
+            featureData = null;
+            userData = null;
         }
 
         private void CheckDatabaseSchema()
