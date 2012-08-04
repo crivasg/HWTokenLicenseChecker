@@ -5,6 +5,10 @@ using System.Text;
 using System.IO;
 using System.Windows.Forms;
 
+using System.Data;
+using System.Data.Common;
+using System.Data.SQLite;
+
 namespace HWTokenLicenseChecker
 {
     class Setup
@@ -12,6 +16,8 @@ namespace HWTokenLicenseChecker
 
         private String dirname = @"";
         private String dbPath = @"";
+
+        private SQLiteConnection cnn;
 
         public Setup()
         {
@@ -46,26 +52,6 @@ namespace HWTokenLicenseChecker
             String dbPath = Path.Combine(dirname, @"Licenses.sqlite3");
 
         }
-        public void CheckAndCreateDatabase()
-        {
-            if(!File.Exists(dbPath))
-            {
-	            CreateDatabase();
-            }
-            else
-            {
-                CheckDatabaseSchema();
-            }
-        }
 
-        private void CreateDatabase()
-        { 
-        
-        }
-
-        private void CheckDatabaseSchema()
-        { 
-        
-        }
     }
 }
