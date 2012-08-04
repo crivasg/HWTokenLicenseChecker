@@ -21,7 +21,10 @@ namespace HWTokenLicenseChecker
         public HWTokenLicenseCheckerForm()
         {
             InitializeComponent();
-            
+
+            Setup setup = new Setup();
+            setup.CheckAndCreateAppData();
+
             // ::TODO::
             // delete the file or just delete the data in the table.
             // check name of tables and columns. ???
