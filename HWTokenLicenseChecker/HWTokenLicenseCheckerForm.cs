@@ -21,11 +21,17 @@ namespace HWTokenLicenseChecker
         public HWTokenLicenseCheckerForm()
         {
             InitializeComponent();
-            
+
+            Setup setup = new Setup();
+            setup.CheckAndCreateAppData();
+            setup.RemoveTempFiles();
+            sqlPath = setup.DatabasePath;
+
+            String folder = setup.DataPath;
+
             // ::TODO::
             // delete the file or just delete the data in the table.
             // check name of tables and columns. ???
-            sqlPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), @"licenses.sqlite3");
             if(File.Exists(sqlPath))
             {
                 File.Delete(sqlPath);
