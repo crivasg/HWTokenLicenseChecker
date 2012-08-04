@@ -39,7 +39,7 @@ namespace HWTokenLicenseChecker
         /// if not, it creates it
         /// </summary>
          public void CheckAndCreateAppData()
-	    {
+	     {
             String appDataDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             String exeName = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
             dirname = Path.Combine(appDataDir, exeName);
@@ -49,9 +49,32 @@ namespace HWTokenLicenseChecker
                 Directory.CreateDirectory(dirname);
             }
 
-            String dbPath = Path.Combine(dirname, @"Licenses.sqlite3");
+            dbPath = Path.Combine(dirname, @"Licenses.sqlite3");
 
-        }
+         }
+
+         public void RemoveTempFiles()
+         {
+
+             String[] fileNames = Directory.GetFiles(dirname);
+             foreach (String fileName in fileNames)
+             {
+                 String tmp = Path.Combine(dirname, fileName);
+                 
+                 if(File.Exists(tmp) && !Path.GetFileName(tmp).Equals( @"Licenses.sqlite3") )
+                 {
+                     try
+                     {
+                         File.Delete(tmp);
+                     }
+                     catch (IOException deleteError)
+                     {
+                         MessageBox.Show(deleteError.ToString());
+                     }
+                 }
+
+             }
+         }
 
     }
 }
