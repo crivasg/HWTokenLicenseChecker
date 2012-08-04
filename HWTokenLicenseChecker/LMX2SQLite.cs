@@ -348,20 +348,6 @@ namespace HWTokenLicenseChecker
             cnn.Close();
         }
 
-        private void InsertLicensePath()
-        { 
-        
-        }
-        private void InsertFeature()
-        {
-
-        }
-
-        private void InsertUser()
-        {
-
-        }
-
         private void CheckDatabaseSchema()
         {
 
