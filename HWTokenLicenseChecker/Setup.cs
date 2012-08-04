@@ -13,8 +13,6 @@ namespace HWTokenLicenseChecker
         private String dirname = @"";
         private String dbPath = @"";
 
-        private SQLiteConnection cnn;
-
         public Setup()
         {
         
@@ -49,6 +47,10 @@ namespace HWTokenLicenseChecker
 
          }
 
+         /// <summary>
+         /// Removes all unneeded and temporary files at %APPDATA%\HWTokenLicenseChecker\
+         /// folders
+         /// </summary>
          public void RemoveTempFiles()
          {
 
