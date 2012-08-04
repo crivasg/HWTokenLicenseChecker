@@ -23,16 +23,6 @@ namespace HWTokenLicenseChecker
         private String[] _licenseData;
         private String _sqlitePath;
 
-        private String[] sqlTablesName = { @"feature", @"token" };
-        private String[] sqlColumnsForFeatures = { @"feature_id" , @"name", @"version" , @"vendor" , 
-                                                   @"start_date" , @"expire_date", @"key_type" , @"license_sharing" , 
-                                                   @"isStacking", @"used_tokens" , @"total_tokens" };
-
-        private String[] sqlColumnsForTokens = { @"feature_id" , @"drawTokens" , @"username", @"hostname" ,
-                                                 @"hostip" , @"isBorrow" , @"borrowExpireDate", @"borrowExpireTime" ,
-                                                 @"loginDate" , @"loginTime", @"checkoutDate" , @"checkoutTime" , 
-                                                 @"username2" , @"hostname2" , @"unique" };
-
         public String[] LicenseData { 
             get { return _licenseData; } 
             set { _licenseData = value;} 
@@ -351,50 +341,6 @@ namespace HWTokenLicenseChecker
         private void CheckDatabaseSchema()
         {
 
-            int numOfTables = sqlTablesName.Length;
-            int[] numOfColumns = { sqlColumnsForFeatures.Length , 
-                                   sqlColumnsForTokens.Length };
-
-
-            List<String> tableList = new List<String>();
-            List<String> tableColumnList = new List<String>();
-            // , new string[] { null, null, "feature" }
-            DataTable dt = cnn.GetSchema(SQLiteMetaDataCollectionNames.Tables);
-
-            foreach (DataRow dr in dt.Rows)
-            {
-                // 2 for tables....
-                tableList.Add(dr.ItemArray[2].ToString());
-            }
-
-            List<int> countColumnsList = new List<int>();
-
-            foreach (String tableName in tableList)
-            {
-                int countColumns = 0;
-                DataTable dc = cnn.GetSchema(SQLiteMetaDataCollectionNames.Columns, new String[] { "", "", tableName });
-                foreach (DataRow dcr in dc.Rows)
-                {
-                    tableColumnList.Add(tableName + @":" + dcr.ItemArray[3].ToString());
-                    ++countColumns; 
-                }
-
-                countColumnsList.Add(countColumns);
-            }
-
-            MessageBox.Show(String.Join(",", tableColumnList.ToArray()) + "|" 
-                                        + countColumnsList[0].ToString() + "|"
-                                        + countColumnsList[1].ToString() + @"\"
-                                       + numOfColumns[0] + @"\" + numOfColumns[1]);
-
-            int checkResult = 0;
-
-            // 1st db check:
-            // check number of tables and columns per table match
-            if (tableList.Count != numOfTables)
-            {
-                checkResult = 1;
-            }
         }
     }
 }
