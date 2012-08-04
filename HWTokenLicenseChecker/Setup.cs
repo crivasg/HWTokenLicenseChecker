@@ -11,6 +11,7 @@ namespace HWTokenLicenseChecker
     {
 
         private String dirname = @"";
+        private String dbPath = @"";
 
         public Setup()
         {
@@ -20,6 +21,11 @@ namespace HWTokenLicenseChecker
         public String DataPath
         {
             get { return dirname; }
+        }
+
+        public String DatabasePath
+        {
+            get { return dbPath; }
         }
 
         /// <summary>
@@ -37,7 +43,29 @@ namespace HWTokenLicenseChecker
                 Directory.CreateDirectory(dirname);
             }
 
+            String dbPath = Path.Combine(dirname, @"Licenses.sqlite3");
 
+        }
+        public void CheckAndCreateDatabase()
+        {
+            if(!File.Exists(dbPath))
+            {
+	            CreateDatabase();
+            }
+            else
+            {
+                CheckDatabaseSchema();
+            }
+        }
+
+        private void CreateDatabase()
+        { 
+        
+        }
+
+        private void CheckDatabaseSchema()
+        { 
+        
         }
     }
 }
