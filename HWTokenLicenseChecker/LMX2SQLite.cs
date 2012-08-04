@@ -283,18 +283,6 @@ namespace HWTokenLicenseChecker
             
         }
 
-        //String userNameAttribute = textReader["NAME"].Trim();
-        //String userHostAttribute = textReader["HOST"].Trim();
-        //String userIpAttribute = textReader["IP"].Trim();
-        //String userUsed_LicensesAttribute = textReader["USED_LICENSES"].Trim();
-        //String userLogin_TimeAttribute = textReader["LOGIN_TIME"].Trim();
-        //String userCheckout_TimeAttribute = textReader["CHECKOUT_TIME"].Trim();
-        //String userShare_CustomAttribute = textReader["SHARE_CUSTOM"].Trim();
-
-        //String tmp = String.Format(@"""{0}"",{1},""{2}"",{3},""{4}"",""{5}"",""{6}"",""{7}""",
-        //    userNameAttribute, userHostAttribute, userIpAttribute, userUsed_LicensesAttribute,
-        //    userLogin_TimeAttribute, userCheckout_TimeAttribute, userShare_CustomAttribute, featureId);
-
         public void CreateDatabase()
         {
             cnn = new SQLiteConnection("Data Source=" + _sqlitePath);
@@ -318,7 +306,6 @@ namespace HWTokenLicenseChecker
             // LOGIN_TIME="yyyy-mm-dd hh:mm" CHECKOUT_TIME="yyyy-mm-dd hh:min" SHARE_CUSTOM="xxxxxxx:xxxxxxx"/>
             //>
 
-            
             SQLiteCommand cmd = new SQLiteCommand(cnn);
             cmd.CommandText = sqlStmt;
             cmd.ExecuteNonQuery();
