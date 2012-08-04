@@ -10,9 +10,16 @@ namespace HWTokenLicenseChecker
     class Setup
     {
 
+        private String dirname = @"";
+
         public Setup()
         {
         
+        }
+
+        public String DataPath
+        {
+            get { return dirname; }
         }
 
         /// <summary>
@@ -22,7 +29,13 @@ namespace HWTokenLicenseChecker
          public void CheckAndCreateAppData()
 	    {
             String appDataDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            String appDataDir2 = Application.UserAppDataPath;
+            String exeName = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
+            dirname = Path.Combine(appDataDir, exeName);
+
+            if (!Directory.Exists(dirname))
+            {
+                Directory.CreateDirectory(dirname);
+            }
 
 
         }
