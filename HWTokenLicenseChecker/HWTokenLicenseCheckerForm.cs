@@ -17,6 +17,7 @@ namespace HWTokenLicenseChecker
     public partial class HWTokenLicenseCheckerForm : Form
     {
         String sqlPath = @"";
+        String folder = @"";
 
         public HWTokenLicenseCheckerForm()
         {
@@ -26,12 +27,12 @@ namespace HWTokenLicenseChecker
             setup.CheckAndCreateAppData();
             setup.RemoveTempFiles();
             sqlPath = setup.DatabasePath;
-            String folder = setup.DataPath;
+            folder = setup.DataPath;
 
             GetLMXLicenseData();
         }
 
-        void GetLMXLicenseData()
+        public void GetLMXLicenseData()
         {
 
             lmxendutil lmx = new lmxendutil();
