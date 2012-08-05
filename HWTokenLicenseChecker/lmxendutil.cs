@@ -48,35 +48,7 @@ namespace HWTokenLicenseChecker
             }
 
             String args = String.Format(@"-licstatxml -port {0} -host {1} > {2}", lmx_port, lmx_server, outputXMLFile);
-            //MessageBox.Show(args);
 
-            /* 
-             
-             
-            ProcessStartInfo psi = new ProcessStartInfo(lmxendutilPath);
-            psi.Arguments = @" > " + outputXMLFile;
-            psi.RedirectStandardOutput = true;
-            //psi.CreateNoWindow = true;
-            //psi.WindowStyle = ProcessWindowStyle.Hidden;
-            psi.UseShellExecute = false;
-            Process listFiles;
-            try
-            {
-                listFiles = Process.Start(psi);
-                StreamReader myOutput = listFiles.StandardOutput;
-                listFiles.WaitForExit();
-                if (listFiles.HasExited)
-                {
-                    String output = myOutput.ReadToEnd();
-                    data = output.Split('\n');
-                }
-            }
-            catch (Exception e)
-            {
-
-                MessageBox.Show(String.Format("{0} Exception caught.", e));
-            }
-            */
         }
 	    
 
