@@ -60,6 +60,9 @@ namespace HWTokenLicenseChecker
 
             start.RedirectStandardOutput = true;
             start.UseShellExecute = false;
+            start.CreateNoWindow = true;
+            start.WindowStyle = ProcessWindowStyle.Hidden;
+            
 
             using (Process process = Process.Start(start))
             {
