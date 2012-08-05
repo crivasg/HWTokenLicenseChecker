@@ -26,16 +26,7 @@ namespace HWTokenLicenseChecker
             setup.CheckAndCreateAppData();
             setup.RemoveTempFiles();
             sqlPath = setup.DatabasePath;
-
             String folder = setup.DataPath;
-
-            // ::TODO::
-            // delete the file or just delete the data in the table.
-            // check name of tables and columns. ???
-            //if(File.Exists(sqlPath))
-            //{
-            //    File.Delete(sqlPath);
-            //}
 
             GetLMXLicenseData();
         }
