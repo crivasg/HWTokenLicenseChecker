@@ -32,10 +32,11 @@ namespace HWTokenLicenseChecker
             GetLMXLicenseData();
         }
 
-        public void GetLMXLicenseData()
+        private void GetLMXLicenseData()
         {
 
-            lmxendutil lmx = new lmxendutil();
+            lmxendutil lmx = new lmxendutil() { AppDataFolder = folder };
+            lmx.ExecuteLMX();
            
             Clipboard.SetText(sqlPath);
 

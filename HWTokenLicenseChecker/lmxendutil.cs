@@ -16,15 +16,16 @@ namespace HWTokenLicenseChecker
         private const String LMX_LICENSE_PATH_ENV_VAR = @"LMX_LICENSE_PATH";
 
 	    private String lmxendutilPath = @"";
+        private String folder = @"";
 
         private String lmx_port = @"";
         private String lmx_server = @"";
 
+        private String[] output = null;
+
 	    public lmxendutil ()
 	    {
-		    this.GetLmxEndUtilPath();
-            this.FixXMLFile();
-		    this.GetData();
+
 	    }
 
         public String LmxPath
@@ -32,13 +33,47 @@ namespace HWTokenLicenseChecker
             get { return this.lmxendutilPath; }
         }
 
+        public String AppDataFolder
+        {
+            set { folder = value; }
+            get { return this.folder; }
+        }
+
+        public void ExecuteLMX()
+        {
+            this.GetLmxEndUtilPath();
+            this.GetData();
+            this.FixXMLFile();       
+        }
+
 	    private void GetData()
 	    {
 
-            String outputXMLFile = @"";
+            String outputXMLFile = Path.Combine(folder, @"licenses.tmp");
+            String args = String.Format(@"-licstatxml -port {0} -host {1} ", lmx_port, lmx_server);
 
-            String args = String.Format(@"-licstatxml -port {0} -host {1} > {2}", lmx_port, lmx_server, outputXMLFile);
+            // http://www.dotnetperls.com/redirectstandardoutput
+            ProcessStartInfo start = new ProcessStartInfo();
+            start.FileName = lmxendutilPath;
+            start.Arguments = args;
+            String result = @"";
 
+            start.RedirectStandardOutput = true;
+            start.UseShellExecute = false;
+
+            using (Process process = Process.Start(start))
+            {
+                //
+                // Read in all the text from the process with the StreamReader.
+                //
+                using (StreamReader reader = process.StandardOutput)
+                {
+                    result = reader.ReadToEnd();
+                    
+                }
+            }
+
+            output = result.Split('\n');
         }
 	    
 
@@ -106,34 +141,21 @@ namespace HWTokenLicenseChecker
 
         private void FixXMLFile()
         {
-            String outputXMLFile = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), @"licenses.tmp");
-            String xmlFile = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), @"licenses.xml");
-            if (File.Exists(outputXMLFile))
-            {
-                StringBuilder sb = new StringBuilder();
 
-                using (StreamReader sr = new StreamReader(outputXMLFile))
+            String xmlFile = Path.Combine(folder, @"licenses.xml");
+            StringBuilder sb = new StringBuilder();
+
+            foreach (String line in output)
+            {
+                if (line.StartsWith(@">") || line.StartsWith(@"<"))
                 {
-                    String line;
-                    while ((line = sr.ReadLine()) != null)
-                    {
-                        // the XML data from lmx contains some non-xml data, which needs
-                        // to be removed
-                        if(line.StartsWith(@">") || line.StartsWith(@"<"))
-                        {
-                            sb.AppendLine(line);
-                        }
-                    }
-                }
-                using (StreamWriter outfile = new StreamWriter(xmlFile))
-                {
-                    outfile.Write(sb.ToString());
-                }
+                    sb.AppendLine(line);
+                }            
             }
 
-            if (File.Exists(outputXMLFile))
+            using (StreamWriter outfile = new StreamWriter(xmlFile))
             {
-                File.Delete(outputXMLFile);
+                outfile.Write(sb.ToString());
             }
 
         }
