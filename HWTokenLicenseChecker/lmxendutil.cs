@@ -15,7 +15,6 @@ namespace HWTokenLicenseChecker
         private const String ALTAIR_HOME_ENV_VAR = @"ALTAIR_HOME";
         private const String LMX_LICENSE_PATH_ENV_VAR = @"LMX_LICENSE_PATH";
 
-        private String[] data = null;
 	    private String lmxendutilPath = @"";
 
         private String lmx_port = @"";
@@ -28,11 +27,6 @@ namespace HWTokenLicenseChecker
 		    this.GetData();
 	    }
 
-	    public String[] Data
-	    {
-		    get { return this.data; }
-	    }
-
         public String LmxPath
         {
             get { return this.lmxendutilPath; }
@@ -41,11 +35,7 @@ namespace HWTokenLicenseChecker
 	    private void GetData()
 	    {
 
-            String outputXMLFile = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), @"licenses.tmp");
-            if (File.Exists(outputXMLFile))
-            {
-                //File.Delete(outputXMLFile);
-            }
+            String outputXMLFile = @"";
 
             String args = String.Format(@"-licstatxml -port {0} -host {1} > {2}", lmx_port, lmx_server, outputXMLFile);
 

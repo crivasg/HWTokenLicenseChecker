@@ -44,11 +44,10 @@ namespace HWTokenLicenseChecker
         {
 
             lmxendutil lmx = new lmxendutil();
-            String[] data = lmx.Data;
            
             Clipboard.SetText(sqlPath);
 
-            LMX2SQLite lmx2Sqlite = new LMX2SQLite { LicenseData = data, SqlitePath = sqlPath };
+            LMX2SQLite lmx2Sqlite = new LMX2SQLite {SqlitePath = sqlPath };
             lmx2Sqlite.CreateDatabase();
             lmx2Sqlite.ReadXMLLicenseData();
             lmx2Sqlite.ImportToDatabase();
