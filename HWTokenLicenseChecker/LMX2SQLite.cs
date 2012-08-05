@@ -49,7 +49,7 @@ namespace HWTokenLicenseChecker
 
             int featureCounter = 0;
             int userCounter = 0;
-            String xmlFile = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), @"licenses.xml");
+            String xmlFile = Path.ChangeExtension(_sqlitePath, @"xml");
             String featureName = @"";
             int featureId = 0;
 
