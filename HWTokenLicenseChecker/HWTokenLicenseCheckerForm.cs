@@ -32,10 +32,10 @@ namespace HWTokenLicenseChecker
             // ::TODO::
             // delete the file or just delete the data in the table.
             // check name of tables and columns. ???
-            if(File.Exists(sqlPath))
-            {
-                File.Delete(sqlPath);
-            }
+            //if(File.Exists(sqlPath))
+            //{
+            //    File.Delete(sqlPath);
+            //}
 
             GetLMXLicenseData();
         }

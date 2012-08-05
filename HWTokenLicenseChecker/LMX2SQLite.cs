@@ -147,18 +147,18 @@ namespace HWTokenLicenseChecker
             cnn = new SQLiteConnection("Data Source=" + _sqlitePath);
             cnn.Open();
 
-            String sqlStmt = @"CREATE TABLE license_path (server_version STRING,ip STRING,port INTEGER,type STRING,uptime STRING);";
+            String sqlStmt = @"CREATE TABLE IF NOT EXISTS license_path (server_version STRING,ip STRING,port INTEGER,type STRING,uptime STRING);";
             sqlStmt += Environment.NewLine + Environment.NewLine;
             //<LICENSE_PATH TYPE="xxxxxxx" HOST="####@###.###.###.###" SERVER_VERSION="#.##" 
             // UPTIME="## day(s) ## hour(s) ## min(s) ## sec(s)">
 
-            sqlStmt += @"CREATE TABLE feature (feature_id INTEGER, name STRING,version REAL,vendor STRING,start STRING,end STRING,used_licenses INTEGER,total_licenses INTEGER,share STRING,isPartner INTEGER);";
+            sqlStmt += @"CREATE TABLE IF NOT EXISTS feature (feature_id INTEGER, name STRING,version REAL,vendor STRING,start STRING,end STRING,used_licenses INTEGER,total_licenses INTEGER,share STRING,isPartner INTEGER);";
             sqlStmt += Environment.NewLine + Environment.NewLine;
             //<FEATURE NAME="xxxxxxx" VERSION="##.#" VENDOR="xxxxxxx" START="yyyy-mm-dd"
             // END="yyyy-mm-dd" USED_LICENSES="######" TOTAL_LICENSES="###" SHARE="xxxxxxx">
 
             // ::TODO:: prepare the database for when licenses are borrowed
-            sqlStmt += @"CREATE TABLE user (name STRING, host STRING, ip STRING, used_licenses INTEGER, login_time STRING, checkout_time STRING,share_custom STRING, feature_id INTEGER);";
+            sqlStmt += @"CREATE TABLE IF NOT EXISTS user (name STRING, host STRING, ip STRING, used_licenses INTEGER, login_time STRING, checkout_time STRING,share_custom STRING, feature_id INTEGER);";
             sqlStmt += Environment.NewLine + Environment.NewLine;
 
             //<USER NAME="xxxxxxx" HOST="xxxxxxx" IP="###.###.###.###" USED_LICENSES="####"
