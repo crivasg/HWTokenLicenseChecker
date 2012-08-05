@@ -67,7 +67,18 @@ namespace HWTokenLicenseChecker
             db.Fill(ds);
             dt = ds.Tables[0];
             dataGridView.DataSource = dt;
+
+            for (int i = 0; i < dataGridView.ColumnCount; ++i )
+            {
+                if (i != 1)
+                {
+                    dataGridView.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                }
+                
+            }
+            dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             
+
             // update the string in the status bar.
             int used_licenses = -1;
             int total_licenses = -1;
