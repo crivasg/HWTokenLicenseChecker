@@ -145,7 +145,7 @@ namespace HWTokenLicenseChecker
         private void FixXMLFile()
         {
 
-            String xmlFile = Path.Combine(folder, @"licenses.xml");
+            String xmlFile = Path.Combine(folder, @"Licenses.xml");
             StringBuilder sb = new StringBuilder();
 
             foreach (String line in output)
