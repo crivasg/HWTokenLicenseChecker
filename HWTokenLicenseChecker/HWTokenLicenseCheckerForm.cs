@@ -113,8 +113,11 @@ namespace HWTokenLicenseChecker
                 reader.Close();
             }
 
-            toolStripStatusLabel1.Text = String.Format(@"{0}@{1}. Uptime: {2}. {3} of {4} license(s) used. Expiration Date: {5}", 
-                port,ip,uptime,used_licenses, total_licenses, end_date);
+            toolStripStatusLabel1.Text = String.Format(@"Uptime: {0}. {1} of {2} license(s) used. Expiration Date: {3}", 
+                uptime,used_licenses, total_licenses, end_date);
+
+            this.Text += String.Format(@" {0}@{1}",port,ip);
+            // {0}@{1}.
 
             cmd.Dispose();
             cnn.Close();
