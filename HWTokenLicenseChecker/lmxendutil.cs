@@ -106,21 +106,6 @@ namespace HWTokenLicenseChecker
             {
                 altair_Home = Environment.GetEnvironmentVariable(ALTAIR_HOME_ENV_VAR, EnvironmentVariableTarget.User);
             }
-            //String arch = this.GetArch();
-
-            // Code to test the DirSearch() method.
-            String securityPath = Path.Combine(altair_Home, @"security");
-            lstFilesFound = new List<String>();
-            DirSearch(securityPath, @"*.exe");
-
-            String lmxPath = @"";
-            foreach (String fileFound in lstFilesFound)
-            {
-                if (fileFound.Contains(LMX_END_USER_UTIL_NAME))
-                {
-                    lmxPath = fileFound;
-                }
-            }
 
 		    // check if env variable exists? and get arch by code: win32 or win64?
 
@@ -151,9 +136,17 @@ namespace HWTokenLicenseChecker
 			    }
 		    }
 
-		    lmxendutilPath = Path.Combine(altair_Home,lmxPath);
-		    
+            String securityPath = Path.Combine(altair_Home, @"security");
+            lstFilesFound = new List<String>();
+            DirSearch(securityPath, @"*.exe");
 
+            foreach (String fileFound in lstFilesFound)
+            {
+                if (fileFound.Contains(LMX_END_USER_UTIL_NAME))
+                {
+                    lmxendutilPath = fileFound;
+                }
+            }
 	    }
 
         private void FixXMLFile()
