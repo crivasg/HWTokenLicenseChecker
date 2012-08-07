@@ -7,10 +7,24 @@ using System.Windows.Forms;
 
 namespace HWTokenLicenseChecker
 {
+
+    enum EnvVarType
+    {
+        FolderPath,
+        FilePath,
+        IntegerValue,
+        FloatValue,
+        StringValue,
+        HostIp,
+        HostPortAndIp
+    };
+
     class EnvVariable
     {
         private String envName = @"";
         private String envValue = @"";
+        private String description = @"";
+        private EnvVarType type;
 
         public EnvVariable()
         { 
@@ -41,6 +55,26 @@ namespace HWTokenLicenseChecker
             }
         }
 
+        public String Description
+        {
+            set
+            {
+                description = value;
+            }
+            get
+            {
+                return description;
+            }
+        }
+
+        public EnvVarType Type
+        {
+            set
+            {
+                type = value;
+            }        
+        }
+
 
         public void GetEnviromentVariableData()
         {
@@ -62,7 +96,30 @@ namespace HWTokenLicenseChecker
 
         private void SetEnviromentVariableData()
         { 
-        
+		    switch (type)
+		    {
+			    case EnvVarType.FolderPath :
+				    GetFolderPath();
+				    break;
+			    case EnvVarType.FilePath :
+				    GetFilePath();
+				    break;
+			    case EnvVarType.IntegerValue :
+				    GetIntegerValue();
+				    break;
+			    case EnvVarType.FloatValue :
+                    GetFloatValue();
+				    break;
+			    case EnvVarType.StringValue :
+                    GetStringValue();
+				    break;
+			    case EnvVarType.HostIp :
+				    GetHostIp();
+				    break;
+			    case EnvVarType.HostPortAndIp :
+				    GetHostPortAndIp();
+				    break;
+		    }        
         }
 
         private void QuestionToSetEnviromentVariable()
@@ -78,6 +135,50 @@ namespace HWTokenLicenseChecker
                 Environment.SetEnvironmentVariable(envName, envValue, EnvironmentVariableTarget.User);
             }
 
-        }        
+        }
+
+        private void GetFolderPath()
+        {
+            FolderBrowserDialog browserDialog = new FolderBrowserDialog();
+            browserDialog.Description = description;
+            browserDialog.ShowNewFolderButton = false;
+            browserDialog.RootFolder = Environment.SpecialFolder.MyComputer;
+
+            if (browserDialog.ShowDialog() == DialogResult.OK)
+            {
+                envValue = browserDialog.SelectedPath;
+            }
+        }
+
+        private void GetFilePath()
+        {
+
+        }
+
+        private void GetIntegerValue()
+        {
+
+        }
+
+        private void GetFloatValue()
+        {
+
+        }
+
+        private void GetStringValue()
+        {
+
+        }
+
+        private void GetHostIp()
+        {
+
+        }
+
+        private void GetHostPortAndIp()
+        {
+
+        }
+
     }
 }
