@@ -38,5 +38,34 @@ namespace HWTokenLicenseChecker
                 return envValue;
             }
         }
+
+
+        public void GetEnviromentVariableData()
+        {
+            if (!String.IsNullOrEmpty(envName))
+            {
+                envValue = Environment.GetEnvironmentVariable(envName, EnvironmentVariableTarget.Machine);
+                if (String.IsNullOrEmpty(envValue))
+                {
+                    envValue = Environment.GetEnvironmentVariable(envName, EnvironmentVariableTarget.User);
+                }
+
+                if (String.IsNullOrEmpty(envValue))
+                {
+                    SetEnviromentVariableData();
+                    QuestionToSetEnviromentVariable();
+                }
+            }
+        }
+
+        private void SetEnviromentVariableData()
+        { 
+        
+        }
+
+        private void QuestionToSetEnviromentVariable()
+        { 
+        
+        }
     }
 }
