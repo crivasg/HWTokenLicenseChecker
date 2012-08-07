@@ -14,6 +14,7 @@ namespace HWTokenLicenseChecker
         
         private const String ALTAIR_HOME_ENV_VAR = @"ALTAIR_HOME";
         private const String LMX_LICENSE_PATH_ENV_VAR = @"LMX_LICENSE_PATH";
+        private const String LMX_END_USER_UTIL_NAME = @"lmxendutil";
 
 	    private String lmxendutilPath = @"";
         private String folder = @"";
@@ -22,6 +23,8 @@ namespace HWTokenLicenseChecker
         private String lmx_server = @"";
 
         private String[] output = null;
+
+        private List<String> lstFilesFound = null;
 
 	    public lmxendutil ()
 	    {
@@ -49,7 +52,6 @@ namespace HWTokenLicenseChecker
 	    private void GetData()
 	    {
 
-            String outputXMLFile = Path.Combine(folder, @"licenses.tmp");
             String args = String.Format(@"-licstatxml -port {0} -host {1} ", lmx_port, lmx_server);
 
             // http://www.dotnetperls.com/redirectstandardoutput
@@ -104,10 +106,7 @@ namespace HWTokenLicenseChecker
             {
                 altair_Home = Environment.GetEnvironmentVariable(ALTAIR_HOME_ENV_VAR, EnvironmentVariableTarget.User);
             }
-            String arch = this.GetArch();
-		    String lmxPath = @"security\bin\#####\lmxendutil.exe";
 
-            lmxPath = lmxPath.Replace(@"#####", arch);
 		    // check if env variable exists? and get arch by code: win32 or win64?
 
 		    if( String.IsNullOrEmpty(altair_Home) )
@@ -137,8 +136,23 @@ namespace HWTokenLicenseChecker
 			    }
 		    }
 
-		    lmxendutilPath = Path.Combine(altair_Home,lmxPath);
-		    
+            String securityPath = Path.Combine(altair_Home, @"security");
+            lstFilesFound = new List<String>();
+            DirSearch(securityPath, @"*.exe");
+
+            foreach (String fileFound in lstFilesFound)
+            {
+                if (fileFound.Contains(LMX_END_USER_UTIL_NAME))
+                {
+                    lmxendutilPath = fileFound;
+                }
+            }
+
+            if (String.IsNullOrEmpty(lmxendutilPath))
+            {
+                throw new System.ArgumentNullException(lmxendutilPath, @"LMX End user utility not found!");
+            
+            }
 
 	    }
 
@@ -163,20 +177,26 @@ namespace HWTokenLicenseChecker
 
         }
 
-        private String GetArch()
+        private void DirSearch(String sDir, String fileExtension)
         {
-
-            String arch = @"win16";
-            if (IntPtr.Size == 8)
+            // http://support.microsoft.com/kb/303974
+            try
             {
-                arch = @"win64";
+                foreach (String d in Directory.GetDirectories(sDir))
+                {
+                    foreach (String f in Directory.GetFiles(d, fileExtension))
+                    {
+                        lstFilesFound.Add(f);
+                    }
+                    DirSearch(d, fileExtension);
+                }
             }
-            else if (IntPtr.Size == 4)
+            catch (System.Exception excpt)
             {
-                arch = @"win32";
+                MessageBox.Show(excpt.Message);
+                //Console.WriteLine(excpt.Message);
             }
 
-            return arch;
         }
     }
 }
