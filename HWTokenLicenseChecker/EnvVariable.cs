@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using System.Windows.Forms;
+
 namespace HWTokenLicenseChecker
 {
     class EnvVariable
@@ -64,8 +66,18 @@ namespace HWTokenLicenseChecker
         }
 
         private void QuestionToSetEnviromentVariable()
-        { 
-        
-        }
+        {
+
+            String question = String.Format(@"Set environment variable '{0}' to '{1}'", envName, envValue);
+
+            var result = MessageBox.Show(question, @"Env. Variable " + envName,
+            MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                Environment.SetEnvironmentVariable(envName, envValue, EnvironmentVariableTarget.User);
+            }
+
+        }        
     }
 }
