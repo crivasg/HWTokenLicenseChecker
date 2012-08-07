@@ -23,6 +23,8 @@ namespace HWTokenLicenseChecker
 
         private String[] output = null;
 
+        private List<String> lstFilesFound = null;
+
 	    public lmxendutil ()
 	    {
 
@@ -104,10 +106,23 @@ namespace HWTokenLicenseChecker
             {
                 altair_Home = Environment.GetEnvironmentVariable(ALTAIR_HOME_ENV_VAR, EnvironmentVariableTarget.User);
             }
-            String arch = this.GetArch();
-		    String lmxPath = @"security\bin\#####\lmxendutil.exe";
+            //String arch = this.GetArch();
 
-            lmxPath = lmxPath.Replace(@"#####", arch);
+            // Code to test the DirSearch() method.
+            String securityPath = Path.Combine(altair_Home, @"security");
+            lstFilesFound = new List<String>();
+            DirSearch(securityPath, @"*.exe");
+
+            String lmxPath = @"";
+
+            foreach (String fileFound in lstFilesFound)
+            {
+                if (fileFound.Contains(@"lmxendutil"))
+                {
+                    lmxPath = fileFound;
+                }
+            }
+
 		    // check if env variable exists? and get arch by code: win32 or win64?
 
 		    if( String.IsNullOrEmpty(altair_Home) )
@@ -182,13 +197,11 @@ namespace HWTokenLicenseChecker
         private void DirSearch(String sDir, String fileExtension)
         {
 
-            List<String> lstFilesFound = new List<String>();
-
             try
             {
-                foreach (string d in Directory.GetDirectories(sDir))
+                foreach (String d in Directory.GetDirectories(sDir))
                 {
-                    foreach (string f in Directory.GetFiles(d, fileExtension))
+                    foreach (String f in Directory.GetFiles(d, fileExtension))
                     {
                         lstFilesFound.Add(f);
                     }
@@ -197,8 +210,10 @@ namespace HWTokenLicenseChecker
             }
             catch (System.Exception excpt)
             {
-                Console.WriteLine(excpt.Message);
+                MessageBox.Show(excpt.Message);
+                //Console.WriteLine(excpt.Message);
             }
+
         }
     }
 }
