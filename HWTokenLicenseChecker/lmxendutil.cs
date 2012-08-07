@@ -97,7 +97,7 @@ namespace HWTokenLicenseChecker
                 lmx_server = @"192.128.2.36";
             }
 
-            EnvVariable altairEnvVar = new EnvVariable() { Name = @"CESAR_PATH", Type = EnvVarType.FolderPath };
+            EnvVariable altairEnvVar = new EnvVariable() { Name = @"CESAR_FILE", Type = EnvVarType.FilePath };
             altairEnvVar.GetEnviromentVariableData();
             String tmpString = altairEnvVar.Value;
             MessageBox.Show(tmpString);

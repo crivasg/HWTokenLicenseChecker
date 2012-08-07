@@ -152,7 +152,17 @@ namespace HWTokenLicenseChecker
 
         private void GetFilePath()
         {
+            // change to openFileBrowserDialog
+            OpenFileDialog browserDialog = new OpenFileDialog();
+            browserDialog.Title = description;
+            browserDialog.CheckFileExists = true;
+            browserDialog.Multiselect = false;
+            browserDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
+            if (browserDialog.ShowDialog() == DialogResult.OK)
+            {
+                envValue = browserDialog.FileName;
+            }
         }
 
         private void GetIntegerValue()
