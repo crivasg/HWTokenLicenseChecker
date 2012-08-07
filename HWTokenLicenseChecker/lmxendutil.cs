@@ -147,6 +147,13 @@ namespace HWTokenLicenseChecker
                     lmxendutilPath = fileFound;
                 }
             }
+
+            if (String.IsNullOrEmpty(lmxendutilPath))
+            {
+                throw new System.ArgumentNullException(lmxendutilPath, @"LMX End user utility not found!");
+            
+            }
+
 	    }
 
         private void FixXMLFile()
