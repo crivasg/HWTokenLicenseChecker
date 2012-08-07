@@ -97,6 +97,12 @@ namespace HWTokenLicenseChecker
                 lmx_server = @"192.128.2.36";
             }
 
+            EnvVariable altairEnvVar = new EnvVariable() { Name = ALTAIR_HOME_ENV_VAR };
+            altairEnvVar.GetEnviromentVariableData();
+            String tmpString = altairEnvVar.Value;
+
+            //MessageBox.Show(tmpString);
+
 
             // get the path to 'lmxendutil.exe'
             String altair_Home = Environment.GetEnvironmentVariable(ALTAIR_HOME_ENV_VAR);
