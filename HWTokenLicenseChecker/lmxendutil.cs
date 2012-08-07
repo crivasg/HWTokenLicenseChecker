@@ -14,6 +14,7 @@ namespace HWTokenLicenseChecker
         
         private const String ALTAIR_HOME_ENV_VAR = @"ALTAIR_HOME";
         private const String LMX_LICENSE_PATH_ENV_VAR = @"LMX_LICENSE_PATH";
+        private const String LMX_END_USER_UTIL_NAME = @"lmxendutil";
 
 	    private String lmxendutilPath = @"";
         private String folder = @"";
@@ -51,7 +52,6 @@ namespace HWTokenLicenseChecker
 	    private void GetData()
 	    {
 
-            String outputXMLFile = Path.Combine(folder, @"licenses.tmp");
             String args = String.Format(@"-licstatxml -port {0} -host {1} ", lmx_port, lmx_server);
 
             // http://www.dotnetperls.com/redirectstandardoutput
@@ -114,10 +114,9 @@ namespace HWTokenLicenseChecker
             DirSearch(securityPath, @"*.exe");
 
             String lmxPath = @"";
-
             foreach (String fileFound in lstFilesFound)
             {
-                if (fileFound.Contains(@"lmxendutil"))
+                if (fileFound.Contains(LMX_END_USER_UTIL_NAME))
                 {
                     lmxPath = fileFound;
                 }
@@ -178,25 +177,9 @@ namespace HWTokenLicenseChecker
 
         }
 
-        private String GetArch()
-        {
-
-            String arch = @"win16";
-            if (IntPtr.Size == 8)
-            {
-                arch = @"win64";
-            }
-            else if (IntPtr.Size == 4)
-            {
-                arch = @"win32";
-            }
-
-            return arch;
-        }
-
         private void DirSearch(String sDir, String fileExtension)
         {
-
+            // http://support.microsoft.com/kb/303974
             try
             {
                 foreach (String d in Directory.GetDirectories(sDir))
