@@ -178,5 +178,27 @@ namespace HWTokenLicenseChecker
 
             return arch;
         }
+
+        private void DirSearch(String sDir, String fileExtension)
+        {
+
+            List<String> lstFilesFound = new List<String>();
+
+            try
+            {
+                foreach (string d in Directory.GetDirectories(sDir))
+                {
+                    foreach (string f in Directory.GetFiles(d, fileExtension))
+                    {
+                        lstFilesFound.Add(f);
+                    }
+                    DirSearch(d, fileExtension);
+                }
+            }
+            catch (System.Exception excpt)
+            {
+                Console.WriteLine(excpt.Message);
+            }
+        }
     }
 }
