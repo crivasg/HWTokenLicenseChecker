@@ -78,6 +78,8 @@ namespace HWTokenLicenseChecker
 
         public void GetEnviromentVariableData()
         {
+            GetStringValue();
+
             if (!String.IsNullOrEmpty(envName))
             {
                 envValue = Environment.GetEnvironmentVariable(envName, EnvironmentVariableTarget.Machine);
@@ -96,6 +98,7 @@ namespace HWTokenLicenseChecker
 
         private void SetEnviromentVariableData()
         { 
+
 		    switch (type)
 		    {
 			    case EnvVarType.FolderPath :
@@ -177,7 +180,7 @@ namespace HWTokenLicenseChecker
 
         private void GetStringValue()
         {
-
+            String textValue = Prompt.ShowDialog("Test", "123");
         }
 
         private void GetHostIp()
