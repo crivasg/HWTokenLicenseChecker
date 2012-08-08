@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 using System.Windows.Forms;
 
@@ -78,7 +79,7 @@ namespace HWTokenLicenseChecker
 
         public void GetEnviromentVariableData()
         {
-            GetStringValue();
+            GetHostIp();
 
             if (!String.IsNullOrEmpty(envName))
             {
@@ -170,12 +171,29 @@ namespace HWTokenLicenseChecker
 
         private void GetIntegerValue()
         {
+            bool flag = false;
+            int number = -9999999;
 
+            while (!flag)
+            {
+                GetStringValue();
+                flag = int.TryParse(envValue, out number);
+                //MessageBox.Show(String.Format(@"{0} {1} {2}", envValue,number, flag));
+            }
+            
         }
 
         private void GetFloatValue()
         {
+            bool flag = false;
+            float number = -9999999;
 
+            while (!flag)
+            {
+                GetStringValue();
+                flag = float.TryParse(envValue, out number);
+                //MessageBox.Show(String.Format(@"{0} {1} {2}", envValue,number, flag));
+            }
         }
 
         private void GetStringValue()
@@ -184,18 +202,35 @@ namespace HWTokenLicenseChecker
             bool flag = true;
             while (flag)
             {
-                String textValue = Prompt.ShowDialog("Value", String.Format(@"Enter value for {0}",envName) );
-                if (!String.IsNullOrEmpty(textValue))
+                envValue = Prompt.ShowDialog("Value", String.Format(@"Enter value for {0}",envName) );
+                if (!String.IsNullOrEmpty(envValue))
                 {
                     flag = false;
                 }
             }
-
-            
         }
 
         private void GetHostIp()
         {
+
+            bool flag = true;
+            String tmp1 = @"";
+
+            while (flag)
+            {
+                GetStringValue();
+
+                Regex ip = new Regex(@"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b");
+                MatchCollection result = ip.Matches(envValue);
+                tmp1 = envValue;
+                if (result.Count > 0)
+                {
+                    envValue = result[0].ToString();
+                    //MessageBox.Show(String.Format(@"{0} {1}", tmp1, envValue));
+                    flag = false;
+                }
+
+            }
 
         }
 
