@@ -180,7 +180,18 @@ namespace HWTokenLicenseChecker
 
         private void GetStringValue()
         {
-            String textValue = Prompt.ShowDialog("Test", "123");
+
+            bool flag = true;
+            while (flag)
+            {
+                String textValue = Prompt.ShowDialog("Value", String.Format(@"Enter value for {0}",envName) );
+                if (!String.IsNullOrEmpty(textValue))
+                {
+                    flag = false;
+                }
+            }
+
+            
         }
 
         private void GetHostIp()
