@@ -85,21 +85,6 @@ namespace HWTokenLicenseChecker
 	    private void GetLmxEndUtilPath()
 	    {
 
-            // get the port and ip of the hyperorks license
-            /*String server_info = Environment.GetEnvironmentVariable(LMX_LICENSE_PATH_ENV_VAR);
-            if (!String.IsNullOrEmpty(server_info))
-            {
-                String[] server_info_array = server_info.Split(new Char[] { '@' });
-                lmx_port = server_info_array[0];
-                lmx_server = server_info_array[1];
-            }
-            else
-            {
-                //[REDACTED] settings
-                lmx_port = @"6200";
-                lmx_server = @"192.128.2.36";
-            }*/
-
             // Get the server info using the LMX_LICENSE_PATH enviroment variable
             EnvVariable lmxEnvVar = new EnvVariable() { Name = LMX_LICENSE_PATH_ENV_VAR, Type = EnvVarType.HostPortAndIp };
             lmxEnvVar.GetEnviromentVariableData();
@@ -107,48 +92,14 @@ namespace HWTokenLicenseChecker
             String[] server_info_array = server_info.Split(new Char[] { '@' });
             lmx_port = server_info_array[0];
             lmx_server = server_info_array[1];
-            MessageBox.Show(server_info);
+            //MessageBox.Show(server_info);
 
 
             // Get the ALTAIR_HOME folder.
             EnvVariable altairEnvVar = new EnvVariable() { Name = ALTAIR_HOME_ENV_VAR, Type = EnvVarType.FolderPath };
             altairEnvVar.GetEnviromentVariableData();
             String altair_Home = altairEnvVar.Value;
-            MessageBox.Show(altair_Home);
-
-            /*if (String.IsNullOrEmpty(altair_Home))
-            {
-                altair_Home = Environment.GetEnvironmentVariable(ALTAIR_HOME_ENV_VAR, EnvironmentVariableTarget.User);
-            }
-
-		    // check if env variable exists? and get arch by code: win32 or win64?
-
-		    if( String.IsNullOrEmpty(altair_Home) )
-		    {
-			    FolderBrowserDialog browserDialog = new FolderBrowserDialog();
-			    browserDialog.Description = @"Select the Altair Home folder (W:\path\to\Altair\##.#).";
-			    browserDialog.ShowNewFolderButton = false;
-			    browserDialog.RootFolder = Environment.SpecialFolder.MyComputer;
-
-			    if (browserDialog.ShowDialog()  == DialogResult.OK )
-			    {
-				    altair_Home	= browserDialog.SelectedPath;
-                    String question = String.Format(@"Set environment variable '{0}' to '{1}'", ALTAIR_HOME_ENV_VAR, altair_Home);
-
-                    var result = MessageBox.Show(question, 
-                        @"Env. Variable " + ALTAIR_HOME_ENV_VAR,
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Question);
-
-                    if (result == DialogResult.Yes)
-                    {
-                        Environment.SetEnvironmentVariable(ALTAIR_HOME_ENV_VAR,
-                            altair_Home, 
-                            EnvironmentVariableTarget.User); 
-                    }
-
-			    }
-		    }*/
+            //MessageBox.Show(altair_Home);
 
             String securityPath = Path.Combine(altair_Home, @"security");
             lstFilesFound = new List<String>();
