@@ -100,6 +100,7 @@ namespace HWTokenLicenseChecker
                 lmx_server = @"192.128.2.36";
             }*/
 
+            // Get the server info using the LMX_LICENSE_PATH enviroment variable
             EnvVariable lmxEnvVar = new EnvVariable() { Name = LMX_LICENSE_PATH_ENV_VAR, Type = EnvVarType.HostPortAndIp };
             lmxEnvVar.GetEnviromentVariableData();
             String server_info = lmxEnvVar.Value;
@@ -109,9 +110,13 @@ namespace HWTokenLicenseChecker
             MessageBox.Show(server_info);
 
 
-            // get the path to 'lmxendutil.exe'
-            String altair_Home = Environment.GetEnvironmentVariable(ALTAIR_HOME_ENV_VAR);
-            if (String.IsNullOrEmpty(altair_Home))
+            // Get the ALTAIR_HOME folder.
+            EnvVariable altairEnvVar = new EnvVariable() { Name = ALTAIR_HOME_ENV_VAR, Type = EnvVarType.FolderPath };
+            altairEnvVar.GetEnviromentVariableData();
+            String altair_Home = altairEnvVar.Value;
+            MessageBox.Show(altair_Home);
+
+            /*if (String.IsNullOrEmpty(altair_Home))
             {
                 altair_Home = Environment.GetEnvironmentVariable(ALTAIR_HOME_ENV_VAR, EnvironmentVariableTarget.User);
             }
@@ -143,7 +148,7 @@ namespace HWTokenLicenseChecker
                     }
 
 			    }
-		    }
+		    }*/
 
             String securityPath = Path.Combine(altair_Home, @"security");
             lstFilesFound = new List<String>();
