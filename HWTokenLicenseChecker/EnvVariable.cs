@@ -79,7 +79,7 @@ namespace HWTokenLicenseChecker
 
         public void GetEnviromentVariableData()
         {
-            GetHostIp();
+            GetHostPortAndIp();
 
             if (!String.IsNullOrEmpty(envName))
             {
@@ -236,7 +236,24 @@ namespace HWTokenLicenseChecker
 
         private void GetHostPortAndIp()
         {
+            bool flag = true;
+            String tmp1 = @"";
 
+            while (flag)
+            {
+                GetStringValue();
+
+                Regex ip = new Regex(@"\b\d{1,100}\@\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b");
+                MatchCollection result = ip.Matches(envValue);
+                tmp1 = envValue;
+                if (result.Count > 0)
+                {
+                    envValue = result[0].ToString();
+                    //MessageBox.Show(String.Format(@"{0} {1}", tmp1, envValue));
+                    flag = false;
+                }
+
+            }
         }
 
     }
