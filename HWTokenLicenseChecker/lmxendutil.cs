@@ -14,6 +14,7 @@ namespace HWTokenLicenseChecker
         
         private const String ALTAIR_HOME_ENV_VAR = @"ALTAIR_HOME";
         private const String LMX_LICENSE_PATH_ENV_VAR = @"LMX_LICENSE_PATH";
+        private const String LMX_END_USER_UTIL_NAME = @"lmxendutil";
 
 	    private String lmxendutilPath = @"";
         private String folder = @"";
@@ -22,6 +23,8 @@ namespace HWTokenLicenseChecker
         private String lmx_server = @"";
 
         private String[] output = null;
+
+        private List<String> lstFilesFound = null;
 
 	    public lmxendutil ()
 	    {
@@ -186,6 +189,28 @@ namespace HWTokenLicenseChecker
             }
 
             return arch;
+        }
+
+        private void DirSearch(String sDir, String fileExtension)
+        {
+            // http://support.microsoft.com/kb/303974
+            try
+            {
+                foreach (String d in Directory.GetDirectories(sDir))
+                {
+                    foreach (String f in Directory.GetFiles(d, fileExtension))
+                    {
+                        lstFilesFound.Add(f);
+                    }
+                    DirSearch(d, fileExtension);
+                }
+            }
+            catch (System.Exception excpt)
+            {
+                MessageBox.Show(excpt.Message);
+                //Console.WriteLine(excpt.Message);
+            }
+
         }
     }
 }
