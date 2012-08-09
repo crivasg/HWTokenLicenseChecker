@@ -220,14 +220,20 @@ namespace HWTokenLicenseChecker
             {
                 GetStringValue();
 
-                Regex ip = new Regex(@"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b");
-                MatchCollection result = ip.Matches(envValue);
-                tmp1 = envValue;
-                if (result.Count > 0)
-                {
-                    envValue = result[0].ToString();
-                    //MessageBox.Show(String.Format(@"{0} {1}", tmp1, envValue));
-                    flag = false;
+                String[] tmpArray = envValue.Split(new Char[] { '@', '.' });
+
+                if (tmpArray.Length == 4)
+                { 
+
+                    Regex ip = new Regex(@"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b");
+                    MatchCollection result = ip.Matches(envValue);
+                    tmp1 = envValue;
+                    if (result.Count > 0)
+                    {
+                        envValue = result[0].ToString();
+                        //MessageBox.Show(String.Format(@"{0} {1}", tmp1, envValue));
+                        flag = false;
+                    }
                 }
 
             }
@@ -243,14 +249,18 @@ namespace HWTokenLicenseChecker
             {
                 GetStringValue();
 
-                Regex ip = new Regex(@"\b\d{1,100}\@\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b");
-                MatchCollection result = ip.Matches(envValue);
-                tmp1 = envValue;
-                if (result.Count > 0)
+                String[] tmpArray = envValue.Split(new Char[] { '@', '.' });
+                if (tmpArray.Length == 5)
                 {
-                    envValue = result[0].ToString();
-                    //MessageBox.Show(String.Format(@"{0} {1}", tmp1, envValue));
-                    flag = false;
+                    Regex ip = new Regex(@"\b\d{1,100}\@\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b");
+                    MatchCollection result = ip.Matches(envValue);
+                    tmp1 = envValue;
+                    if (result.Count > 0)
+                    {
+                        envValue = result[0].ToString();
+                        //MessageBox.Show(String.Format(@"{0} {1}", tmp1, envValue));
+                        flag = false;
+                    }
                 }
 
             }
