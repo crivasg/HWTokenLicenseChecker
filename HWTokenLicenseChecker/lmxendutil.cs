@@ -98,9 +98,9 @@ namespace HWTokenLicenseChecker
                 lmx_server = @"192.128.2.36";
             }*/
 
-            EnvVariable altairEnvVar = new EnvVariable() { Name = LMX_LICENSE_PATH_ENV_VAR, Type = EnvVarType.HostPortAndIp };
-            altairEnvVar.GetEnviromentVariableData();
-            String server_info = altairEnvVar.Value;
+            EnvVariable lmxEnvVar = new EnvVariable() { Name = LMX_LICENSE_PATH_ENV_VAR, Type = EnvVarType.HostPortAndIp };
+            lmxEnvVar.GetEnviromentVariableData();
+            String server_info = lmxEnvVar.Value;
             String[] server_info_array = server_info.Split(new Char[] { '@' });
             lmx_port = server_info_array[0];
             lmx_server = server_info_array[1];
