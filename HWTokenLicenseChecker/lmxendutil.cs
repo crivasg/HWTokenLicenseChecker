@@ -115,8 +115,8 @@ namespace HWTokenLicenseChecker
 
             if (String.IsNullOrEmpty(lmxendutilPath))
             {
+                MessageBox.Show(@"LMX End user utility not found!");
                 throw new System.ArgumentNullException(lmxendutilPath, @"LMX End user utility not found!");
-            
             }
 
 	    }
