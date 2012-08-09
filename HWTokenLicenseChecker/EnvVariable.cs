@@ -79,7 +79,7 @@ namespace HWTokenLicenseChecker
 
         public void GetEnviromentVariableData()
         {
-            GetHostPortAndIp();
+            //GetHostPortAndIp();
 
             if (!String.IsNullOrEmpty(envName))
             {

@@ -82,8 +82,9 @@ namespace HWTokenLicenseChecker
 
 	    private void GetLmxEndUtilPath()
 	    {
+
             // get the port and ip of the hyperorks license
-            String server_info = Environment.GetEnvironmentVariable(LMX_LICENSE_PATH_ENV_VAR);
+            /*String server_info = Environment.GetEnvironmentVariable(LMX_LICENSE_PATH_ENV_VAR);
             if (!String.IsNullOrEmpty(server_info))
             {
                 String[] server_info_array = server_info.Split(new Char[] { '@' });
@@ -95,12 +96,15 @@ namespace HWTokenLicenseChecker
                 //[REDACTED] settings
                 lmx_port = @"6200";
                 lmx_server = @"192.128.2.36";
-            }
+            }*/
 
-            EnvVariable altairEnvVar = new EnvVariable() { Name = @"CESAR_FILE", Type = EnvVarType.FilePath };
+            EnvVariable altairEnvVar = new EnvVariable() { Name = LMX_LICENSE_PATH_ENV_VAR, Type = EnvVarType.HostPortAndIp };
             altairEnvVar.GetEnviromentVariableData();
-            String tmpString = altairEnvVar.Value;
-            MessageBox.Show(tmpString);
+            String server_info = altairEnvVar.Value;
+            String[] server_info_array = server_info.Split(new Char[] { '@' });
+            lmx_port = server_info_array[0];
+            lmx_server = server_info_array[1];
+            MessageBox.Show(server_info);
 
 
             // get the path to 'lmxendutil.exe'
