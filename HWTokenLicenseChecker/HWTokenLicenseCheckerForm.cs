@@ -16,8 +16,11 @@ namespace HWTokenLicenseChecker
 {
     public partial class HWTokenLicenseCheckerForm : Form
     {
-        String sqlPath = @"";
-        String folder = @"";
+        private String sqlPath = @"";
+        private String folder = @"";
+
+        private int minHWPAFeatureId = -1;
+        private int maxHWPAFeatureId = -2;
 
         public HWTokenLicenseCheckerForm()
         {
@@ -122,9 +125,22 @@ namespace HWTokenLicenseChecker
             this.Text += String.Format(@" {0}@{1}",port,ip);
             // {0}@{1}.
 
+            // Get range HWPartner's feature...
+            sqlQuery = @"SELECT MIN(feature_id),MAX(feature_id) FROM feature WHERE isPartner != 0;";
+            cmd.CommandText = sqlQuery;
+
+            using (DbDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    minHWPAFeatureId = int.Parse(reader[0].ToString());
+                    maxHWPAFeatureId = int.Parse(reader[1].ToString());
+                }
+                reader.Close();
+            }
+
             cmd.Dispose();
             cnn.Close();
-
 
         }
 
