@@ -158,14 +158,19 @@ namespace HWTokenLicenseChecker
             String user = @"";
             String host = @"";
             int feature_id = -1;
+            int tokens = -1;
             DataGridViewRow currentRow = dataGridView.CurrentRow;
             try
             {
                 user = Convert.ToString(currentRow.Cells[0].Value);
                 host = Convert.ToString(currentRow.Cells[1].Value);
+                tokens = Convert.ToInt32(currentRow.Cells[2].Value);
                 feature_id = Convert.ToInt32(currentRow.Cells[4].Value);
             }
             catch { return; }
+
+            userTextBox.Text = user;
+            tokensTextBox.Text = tokens.ToString();
 
             if (feature_id >= minHWPAFeatureId && feature_id <= minHWPAFeatureId)
             {
@@ -173,7 +178,7 @@ namespace HWTokenLicenseChecker
             }
             else
             {
-                // regular feature
+                ProcessTokens(@"=");
             }
 
             //MessageBox.Show(@"Hello!");
@@ -184,6 +189,11 @@ namespace HWTokenLicenseChecker
 
             GetUserTokenInfo();
             
+        }
+
+        private void ProcessTokens(String comparisonString)
+        { 
+               
         }
 
     }
