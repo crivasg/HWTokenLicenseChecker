@@ -50,6 +50,8 @@ namespace HWTokenLicenseChecker
 
             lmx2Sqlite.CloseDatabase();
             LoadToDataGridView();
+
+            
   
         }
 
@@ -142,6 +144,46 @@ namespace HWTokenLicenseChecker
             cmd.Dispose();
             cnn.Close();
 
+        }
+
+        private void GetUserTokenInfo()
+        {
+            int numRows = dataGridView.Rows.Count;
+
+            if (numRows < 1)
+            {
+                return;
+            }
+
+            String user = @"";
+            String host = @"";
+            int feature_id = -1;
+            DataGridViewRow currentRow = dataGridView.CurrentRow;
+            try
+            {
+                user = Convert.ToString(currentRow.Cells[0].Value);
+                host = Convert.ToString(currentRow.Cells[1].Value);
+                feature_id = Convert.ToInt32(currentRow.Cells[4].Value);
+            }
+            catch { return; }
+
+            if (feature_id >= minHWPAFeatureId && feature_id <= minHWPAFeatureId)
+            {
+                // feature is HWPartner
+            }
+            else
+            {
+                // regular feature
+            }
+
+            //MessageBox.Show(@"Hello!");
+        }
+
+        private void dataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+
+            GetUserTokenInfo();
+            
         }
 
     }
