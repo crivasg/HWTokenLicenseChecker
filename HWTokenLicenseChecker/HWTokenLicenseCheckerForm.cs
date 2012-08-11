@@ -162,19 +162,33 @@ namespace HWTokenLicenseChecker
             DataGridViewRow currentRow = dataGridView.CurrentRow;
             try
             {
-                user = Convert.ToString(currentRow.Cells[0].Value);
-                host = Convert.ToString(currentRow.Cells[1].Value);
-                tokens = Convert.ToInt32(currentRow.Cells[2].Value);
+                user = Convert.ToString(currentRow.Cells[0].Value).ToLower();
+                host = Convert.ToString(currentRow.Cells[1].Value).ToUpper();
+                String tmpTokens = Convert.ToString(currentRow.Cells[2].Value);
+
+                if (tmpTokens.Contains(@"HWPA") || tmpTokens.Contains(@"BRRW"))
+                {
+                    String[] tmpTokensArray = tmpTokens.Split(new Char[] {'-'});
+                    tokens = int.Parse(tmpTokensArray[0]);
+                }
+                else
+                {
+                    tokens = Convert.ToInt32(currentRow.Cells[2].Value);;
+                }
+
+                
                 feature_id = Convert.ToInt32(currentRow.Cells[4].Value);
             }
             catch { return; }
 
             userTextBox.Text = user;
             tokensTextBox.Text = tokens.ToString();
+            borrowHWPATextBox.Text = @"";
 
             if (feature_id >= minHWPAFeatureId && feature_id <= minHWPAFeatureId)
             {
                 // feature is HWPartner
+                borrowHWPATextBox.Text = @"HWPA";
                 ProcessTokens(user, host, feature_id, @"SELECT DISTINCT feature_id FROM feature WHERE isPartner != 0");
             }
             else
