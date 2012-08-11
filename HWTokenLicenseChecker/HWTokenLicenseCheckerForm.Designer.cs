@@ -201,11 +201,13 @@
             // 
             // featureTextBox
             // 
+            this.featureTextBox.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.featureTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.featureTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.featureTextBox.Location = new System.Drawing.Point(483, 123);
             this.featureTextBox.Multiline = true;
             this.featureTextBox.Name = "featureTextBox";
+            this.featureTextBox.ReadOnly = true;
             this.tableLayoutPanel1.SetRowSpan(this.featureTextBox, 2);
             this.featureTextBox.Size = new System.Drawing.Size(275, 116);
             this.featureTextBox.TabIndex = 6;
@@ -224,27 +226,33 @@
             // userTextBox
             // 
             this.userTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.userTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.userTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.userTextBox.Location = new System.Drawing.Point(103, 15);
             this.userTextBox.Name = "userTextBox";
+            this.userTextBox.ReadOnly = true;
             this.userTextBox.Size = new System.Drawing.Size(274, 29);
             this.userTextBox.TabIndex = 8;
             // 
             // hostTextBox
             // 
             this.hostTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.hostTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.hostTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.hostTextBox.Location = new System.Drawing.Point(483, 15);
             this.hostTextBox.Name = "hostTextBox";
+            this.hostTextBox.ReadOnly = true;
             this.hostTextBox.Size = new System.Drawing.Size(275, 29);
             this.hostTextBox.TabIndex = 9;
             // 
             // borrowHWPATextBox
             // 
             this.borrowHWPATextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.borrowHWPATextBox.BackColor = System.Drawing.SystemColors.Window;
             this.borrowHWPATextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.borrowHWPATextBox.Location = new System.Drawing.Point(103, 135);
             this.borrowHWPATextBox.Name = "borrowHWPATextBox";
+            this.borrowHWPATextBox.ReadOnly = true;
             this.borrowHWPATextBox.Size = new System.Drawing.Size(274, 29);
             this.borrowHWPATextBox.TabIndex = 11;
             // 
@@ -286,27 +294,33 @@
             // tokensTextBox
             // 
             this.tokensTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.tokensTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.tokensTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tokensTextBox.Location = new System.Drawing.Point(483, 75);
             this.tokensTextBox.Name = "tokensTextBox";
+            this.tokensTextBox.ReadOnly = true;
             this.tokensTextBox.Size = new System.Drawing.Size(275, 29);
             this.tokensTextBox.TabIndex = 12;
             // 
             // sessionTimeTextBox
             // 
             this.sessionTimeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.sessionTimeTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.sessionTimeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sessionTimeTextBox.Location = new System.Drawing.Point(103, 196);
             this.sessionTimeTextBox.Name = "sessionTimeTextBox";
+            this.sessionTimeTextBox.ReadOnly = true;
             this.sessionTimeTextBox.Size = new System.Drawing.Size(274, 29);
             this.sessionTimeTextBox.TabIndex = 13;
             // 
             // checkoutTextBox
             // 
             this.checkoutTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkoutTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.checkoutTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkoutTextBox.Location = new System.Drawing.Point(103, 75);
             this.checkoutTextBox.Name = "checkoutTextBox";
+            this.checkoutTextBox.ReadOnly = true;
             this.checkoutTextBox.Size = new System.Drawing.Size(274, 29);
             this.checkoutTextBox.TabIndex = 14;
             // 
