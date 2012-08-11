@@ -118,8 +118,8 @@ namespace HWTokenLicenseChecker
                     if (textReader.Name == @"USER" && textReader.NodeType != XmlNodeType.EndElement)
                     {
                         ++userCounter;
-                        String userNameAttribute = textReader["NAME"].Trim();
-                        String userHostAttribute = textReader["HOST"].Trim();
+                        String userNameAttribute = textReader["NAME"].Trim().ToLower();
+                        String userHostAttribute = textReader["HOST"].Trim().ToUpper();
                         String userIpAttribute = textReader["IP"].Trim();
                         String userUsed_LicensesAttribute = textReader["USED_LICENSES"].Trim();
                         String userLogin_TimeAttribute = textReader["LOGIN_TIME"].Trim();

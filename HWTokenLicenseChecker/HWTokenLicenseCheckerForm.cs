@@ -16,8 +16,11 @@ namespace HWTokenLicenseChecker
 {
     public partial class HWTokenLicenseCheckerForm : Form
     {
-        String sqlPath = @"";
-        String folder = @"";
+        private String sqlPath = @"";
+        private String folder = @"";
+
+        private int minHWPAFeatureId = -1;
+        private int maxHWPAFeatureId = -2;
 
         public HWTokenLicenseCheckerForm()
         {
@@ -47,6 +50,8 @@ namespace HWTokenLicenseChecker
 
             lmx2Sqlite.CloseDatabase();
             LoadToDataGridView();
+
+            
   
         }
 
@@ -122,10 +127,150 @@ namespace HWTokenLicenseChecker
             this.Text += String.Format(@" {0}@{1}",port,ip);
             // {0}@{1}.
 
+            // Get range HWPartner's feature...
+            sqlQuery = @"SELECT MIN(feature_id),MAX(feature_id) FROM feature WHERE isPartner != 0;";
+            cmd.CommandText = sqlQuery;
+
+            using (DbDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    minHWPAFeatureId = int.Parse(reader[0].ToString());
+                    maxHWPAFeatureId = int.Parse(reader[1].ToString());
+                }
+                reader.Close();
+            }
+
             cmd.Dispose();
             cnn.Close();
 
+        }
 
+        private void GetUserTokenInfo()
+        {
+            int numRows = dataGridView.Rows.Count;
+
+            if (numRows < 1)
+            {
+                return;
+            }
+
+            String user = @"";
+            String host = @"";
+            int feature_id = -1;
+            int tokens = -1;
+            DataGridViewRow currentRow = dataGridView.CurrentRow;
+            try
+            {
+                user = Convert.ToString(currentRow.Cells[0].Value).ToLower();
+                host = Convert.ToString(currentRow.Cells[1].Value).ToUpper();
+                String tmpTokens = Convert.ToString(currentRow.Cells[2].Value);
+
+                if (tmpTokens.Contains(@"HWPA") || tmpTokens.Contains(@"BRRW"))
+                {
+                    String[] tmpTokensArray = tmpTokens.Split(new Char[] {'-'});
+                    tokens = int.Parse(tmpTokensArray[0]);
+                }
+                else
+                {
+                    tokens = Convert.ToInt32(currentRow.Cells[2].Value);;
+                }
+
+                
+                feature_id = Convert.ToInt32(currentRow.Cells[4].Value);
+            }
+            catch { return; }
+
+            userTextBox.Text = user;
+            tokensTextBox.Text = tokens.ToString();
+            borrowHWPATextBox.Text = @"";
+
+            if (feature_id >= minHWPAFeatureId && feature_id <= minHWPAFeatureId)
+            {
+                // feature is HWPartner
+                borrowHWPATextBox.Text = @"HWPA";
+                ProcessTokens(user, host, feature_id, @"SELECT DISTINCT feature_id FROM feature WHERE isPartner != 0");
+            }
+            else
+            {
+                // feature normal
+                ProcessTokens(user, host, feature_id, @"SELECT DISTINCT feature_id FROM feature WHERE isPartner = 0");
+            }
+
+            //MessageBox.Show(@"Hello!");
+        }
+
+        private void dataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+
+            GetUserTokenInfo();
+            
+        }
+
+        private void ProcessTokens(String user, String host, int feature_id, String featureQuery)
+        {
+            SQLiteConnection cnn = new SQLiteConnection("Data Source=" + sqlPath);
+            cnn.Open();
+            SQLiteCommand cmd = new SQLiteCommand(cnn);
+
+            // get the features used
+            String sqlQuery = String.Format(@"SELECT DISTINCT feature.name,user.login_time,user.host||'|'||user.ip FROM user JOIN feature USING (feature_id) WHERE user.name = ""{0}"" AND user.host = ""{1}"" AND user.feature_id IN ({2});", user, host, featureQuery);
+
+            cmd.CommandText = sqlQuery;
+
+            String tmp = @"";
+            String logTmp = @"";
+            List<String> featureList = new List<String>();
+            List<DateTime> dateList = new List<DateTime>();
+            List<String> hostList = new List<String>();
+
+            using (DbDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    tmp = reader[0].ToString();
+                    String tmpString = reader[1].ToString().Replace(@"""", @"");
+                    String tmpHost = reader[2].ToString();
+                    DateTime dt = DateTime.Parse(tmpString, System.Globalization.CultureInfo.InvariantCulture);
+                    dateList.Add(dt);
+
+                    if (!featureList.Contains(tmp))
+                    {
+                        featureList.Add(tmp);
+                    }
+
+                    if (!hostList.Contains(tmpHost))
+                    {
+                        hostList.Add(tmpHost);
+                    }
+                }
+                reader.Close();
+            }
+            cmd.Dispose();
+            cnn.Close();
+
+            featureTextBox.Text = String.Join(Environment.NewLine, featureList.ToArray());
+
+            DateTime loggingTime = DateTime.Now;
+
+            foreach (DateTime date in dateList)
+            {
+                if (date.CompareTo(loggingTime) < 0)
+                {
+                    loggingTime = date;
+                }
+            }
+
+            checkoutTextBox.Text = loggingTime.ToString();
+
+            TimeSpan ts = DateTime.Now - loggingTime;
+            logTmp = ts.ToString();
+            String[] dateSplit = logTmp.Split(new Char[] {'.',':'});
+            sessionTimeTextBox.Text = String.Format(@"{0}days {1}h:{2}m:{3}s",
+                dateSplit[0], dateSplit[1], dateSplit[2], dateSplit[3]);
+
+            hostTextBox.Text = hostList[0];
+        
         }
 
     }
