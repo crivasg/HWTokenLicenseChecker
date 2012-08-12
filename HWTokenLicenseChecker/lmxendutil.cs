@@ -15,8 +15,10 @@ namespace HWTokenLicenseChecker
         private const String ALTAIR_HOME_ENV_VAR = @"ALTAIR_HOME";
         private const String LMX_LICENSE_PATH_ENV_VAR = @"LMX_LICENSE_PATH";
         private const String LMX_END_USER_UTIL_NAME = @"lmxendutil";
+        private const String LMX_CONFIG_TOOL_NAME = @"lmxconfigtool";
 
 	    private String lmxendutilPath = @"";
+        private String lmxconfigtoolPath = @"";
         private String folder = @"";
 
         private String lmx_port = @"";
@@ -40,6 +42,11 @@ namespace HWTokenLicenseChecker
         {
             set { folder = value; }
             get { return this.folder; }
+        }
+
+        public String LMXConfigTool
+        {
+            get { return lmxconfigtoolPath;  }
         }
 
         public void ExecuteLMX()
@@ -111,6 +118,10 @@ namespace HWTokenLicenseChecker
                 {
                     lmxendutilPath = fileFound;
                 }
+                if (fileFound.Contains(LMX_CONFIG_TOOL_NAME))
+                {
+                    lmxconfigtoolPath = fileFound;
+                }
             }
 
             if (String.IsNullOrEmpty(lmxendutilPath))
@@ -119,6 +130,11 @@ namespace HWTokenLicenseChecker
                 throw new System.ArgumentNullException(lmxendutilPath, @"LMX End user utility not found!");
             }
 
+            if (String.IsNullOrEmpty(lmxconfigtoolPath))
+            {
+                MessageBox.Show(@"LMX Config Tool not found!");
+                throw new System.ArgumentNullException(lmxendutilPath, @"LMX End user utility not found!");
+            }
 	    }
 
         private void FixXMLFile()
@@ -138,6 +154,7 @@ namespace HWTokenLicenseChecker
             using (StreamWriter outfile = new StreamWriter(xmlFile))
             {
                 outfile.Write(sb.ToString());
+                outfile.Close();
             }
 
         }
