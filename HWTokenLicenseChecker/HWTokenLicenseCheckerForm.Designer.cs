@@ -34,6 +34,10 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.checkoutTextBox = new System.Windows.Forms.TextBox();
+            this.sessionTimeTextBox = new System.Windows.Forms.TextBox();
+            this.tokensTextBox = new System.Windows.Forms.TextBox();
+            this.hostTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -43,14 +47,10 @@
             this.featureTextBox = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.userTextBox = new System.Windows.Forms.TextBox();
-            this.hostTextBox = new System.Windows.Forms.TextBox();
             this.borrowHWPATextBox = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.tokensTextBox = new System.Windows.Forms.TextBox();
-            this.sessionTimeTextBox = new System.Windows.Forms.TextBox();
-            this.checkoutTextBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -65,6 +65,7 @@
             this.dataGridView.Location = new System.Drawing.Point(12, 12);
             this.dataGridView.MultiSelect = false;
             this.dataGridView.Name = "dataGridView";
+            this.dataGridView.ReadOnly = true;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView.Size = new System.Drawing.Size(767, 268);
             this.dataGridView.TabIndex = 0;
@@ -132,6 +133,54 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(761, 242);
             this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // checkoutTextBox
+            // 
+            this.checkoutTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkoutTextBox.BackColor = System.Drawing.SystemColors.Window;
+            this.checkoutTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkoutTextBox.Location = new System.Drawing.Point(103, 75);
+            this.checkoutTextBox.Name = "checkoutTextBox";
+            this.checkoutTextBox.ReadOnly = true;
+            this.checkoutTextBox.Size = new System.Drawing.Size(274, 29);
+            this.checkoutTextBox.TabIndex = 14;
+            this.checkoutTextBox.Enter += new System.EventHandler(this.userTextBox_Enter);
+            // 
+            // sessionTimeTextBox
+            // 
+            this.sessionTimeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.sessionTimeTextBox.BackColor = System.Drawing.SystemColors.Window;
+            this.sessionTimeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sessionTimeTextBox.Location = new System.Drawing.Point(103, 196);
+            this.sessionTimeTextBox.Name = "sessionTimeTextBox";
+            this.sessionTimeTextBox.ReadOnly = true;
+            this.sessionTimeTextBox.Size = new System.Drawing.Size(274, 29);
+            this.sessionTimeTextBox.TabIndex = 13;
+            this.sessionTimeTextBox.Enter += new System.EventHandler(this.userTextBox_Enter);
+            // 
+            // tokensTextBox
+            // 
+            this.tokensTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.tokensTextBox.BackColor = System.Drawing.SystemColors.Window;
+            this.tokensTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tokensTextBox.Location = new System.Drawing.Point(483, 75);
+            this.tokensTextBox.Name = "tokensTextBox";
+            this.tokensTextBox.ReadOnly = true;
+            this.tokensTextBox.Size = new System.Drawing.Size(275, 29);
+            this.tokensTextBox.TabIndex = 12;
+            this.tokensTextBox.Enter += new System.EventHandler(this.userTextBox_Enter);
+            // 
+            // hostTextBox
+            // 
+            this.hostTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.hostTextBox.BackColor = System.Drawing.SystemColors.Window;
+            this.hostTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.hostTextBox.Location = new System.Drawing.Point(483, 15);
+            this.hostTextBox.Name = "hostTextBox";
+            this.hostTextBox.ReadOnly = true;
+            this.hostTextBox.Size = new System.Drawing.Size(275, 29);
+            this.hostTextBox.TabIndex = 9;
+            this.hostTextBox.Enter += new System.EventHandler(this.userTextBox_Enter);
             // 
             // label1
             // 
@@ -211,6 +260,7 @@
             this.tableLayoutPanel1.SetRowSpan(this.featureTextBox, 2);
             this.featureTextBox.Size = new System.Drawing.Size(275, 116);
             this.featureTextBox.TabIndex = 6;
+            this.featureTextBox.Enter += new System.EventHandler(this.userTextBox_Enter);
             // 
             // label7
             // 
@@ -233,17 +283,7 @@
             this.userTextBox.ReadOnly = true;
             this.userTextBox.Size = new System.Drawing.Size(274, 29);
             this.userTextBox.TabIndex = 8;
-            // 
-            // hostTextBox
-            // 
-            this.hostTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.hostTextBox.BackColor = System.Drawing.SystemColors.Window;
-            this.hostTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.hostTextBox.Location = new System.Drawing.Point(483, 15);
-            this.hostTextBox.Name = "hostTextBox";
-            this.hostTextBox.ReadOnly = true;
-            this.hostTextBox.Size = new System.Drawing.Size(275, 29);
-            this.hostTextBox.TabIndex = 9;
+            this.userTextBox.Enter += new System.EventHandler(this.userTextBox_Enter);
             // 
             // borrowHWPATextBox
             // 
@@ -255,6 +295,7 @@
             this.borrowHWPATextBox.ReadOnly = true;
             this.borrowHWPATextBox.Size = new System.Drawing.Size(274, 29);
             this.borrowHWPATextBox.TabIndex = 11;
+            this.borrowHWPATextBox.Enter += new System.EventHandler(this.userTextBox_Enter);
             // 
             // tableLayoutPanel2
             // 
@@ -290,39 +331,6 @@
             this.label8.Size = new System.Drawing.Size(58, 60);
             this.label8.TabIndex = 0;
             this.label8.Text = "Username:";
-            // 
-            // tokensTextBox
-            // 
-            this.tokensTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.tokensTextBox.BackColor = System.Drawing.SystemColors.Window;
-            this.tokensTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tokensTextBox.Location = new System.Drawing.Point(483, 75);
-            this.tokensTextBox.Name = "tokensTextBox";
-            this.tokensTextBox.ReadOnly = true;
-            this.tokensTextBox.Size = new System.Drawing.Size(275, 29);
-            this.tokensTextBox.TabIndex = 12;
-            // 
-            // sessionTimeTextBox
-            // 
-            this.sessionTimeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.sessionTimeTextBox.BackColor = System.Drawing.SystemColors.Window;
-            this.sessionTimeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.sessionTimeTextBox.Location = new System.Drawing.Point(103, 196);
-            this.sessionTimeTextBox.Name = "sessionTimeTextBox";
-            this.sessionTimeTextBox.ReadOnly = true;
-            this.sessionTimeTextBox.Size = new System.Drawing.Size(274, 29);
-            this.sessionTimeTextBox.TabIndex = 13;
-            // 
-            // checkoutTextBox
-            // 
-            this.checkoutTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkoutTextBox.BackColor = System.Drawing.SystemColors.Window;
-            this.checkoutTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkoutTextBox.Location = new System.Drawing.Point(103, 75);
-            this.checkoutTextBox.Name = "checkoutTextBox";
-            this.checkoutTextBox.ReadOnly = true;
-            this.checkoutTextBox.Size = new System.Drawing.Size(274, 29);
-            this.checkoutTextBox.TabIndex = 14;
             // 
             // HWTokenLicenseCheckerForm
             // 

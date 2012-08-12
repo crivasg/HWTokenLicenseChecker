@@ -22,6 +22,8 @@ namespace HWTokenLicenseChecker
         private int minHWPAFeatureId = -1;
         private int maxHWPAFeatureId = -2;
 
+        private int selectedRow = -1;
+
         public HWTokenLicenseCheckerForm()
         {
             InitializeComponent();
@@ -160,6 +162,8 @@ namespace HWTokenLicenseChecker
             int feature_id = -1;
             int tokens = -1;
             DataGridViewRow currentRow = dataGridView.CurrentRow;
+            selectedRow = currentRow.Index;
+
             try
             {
                 user = Convert.ToString(currentRow.Cells[0].Value).ToLower();
@@ -271,6 +275,12 @@ namespace HWTokenLicenseChecker
 
             hostTextBox.Text = hostList[0];
         
+        }
+
+        private void userTextBox_Enter(object sender, EventArgs e)
+        {
+            //MessageBox.Show(selectedRow.ToString());
+            dataGridView.Focus();
         }
 
     }
