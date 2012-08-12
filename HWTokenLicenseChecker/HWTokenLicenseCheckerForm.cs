@@ -11,6 +11,7 @@ using System.Data.Common;
 using System.Data.SQLite;
 
 using System.IO;
+using System.Diagnostics;
 
 namespace HWTokenLicenseChecker
 {
@@ -18,15 +19,24 @@ namespace HWTokenLicenseChecker
     {
         private String sqlPath = @"";
         private String folder = @"";
+        private String lmxconfigtool = @"";
 
         private int minHWPAFeatureId = -1;
         private int maxHWPAFeatureId = -2;
 
         private int selectedRow = -1;
+        private bool isRunning = false;
 
         public HWTokenLicenseCheckerForm()
         {
             InitializeComponent();
+
+            GetLMXLicenseData();
+        }
+
+        private void GetLMXLicenseData()
+        {
+            isRunning = true;
 
             Setup setup = new Setup();
             setup.CheckAndCreateAppData();
@@ -34,16 +44,11 @@ namespace HWTokenLicenseChecker
             sqlPath = setup.DatabasePath;
             folder = setup.DataPath;
 
-            GetLMXLicenseData();
-        }
-
-        private void GetLMXLicenseData()
-        {
-
             lmxendutil lmx = new lmxendutil() { AppDataFolder = folder };
             lmx.ExecuteLMX();
+            lmxconfigtool = lmx.LMXConfigTool;
            
-            Clipboard.SetText(sqlPath);
+            //Clipboard.SetText(sqlPath);
 
             LMX2SQLite lmx2Sqlite = new LMX2SQLite {SqlitePath = sqlPath };
             lmx2Sqlite.CreateDatabase();
@@ -53,7 +58,7 @@ namespace HWTokenLicenseChecker
             lmx2Sqlite.CloseDatabase();
             LoadToDataGridView();
 
-            
+            isRunning = false;
   
         }
 
@@ -281,6 +286,135 @@ namespace HWTokenLicenseChecker
         {
             //MessageBox.Show(selectedRow.ToString());
             dataGridView.Focus();
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dataGridView.MultiSelect = true;
+            dataGridView.SelectAll();
+            DataObject dataObj = dataGridView.GetClipboardContent();
+            Clipboard.SetDataObject(dataObj, true);
+            dataGridView.ClearSelection();
+            dataGridView.MultiSelect = false;
+
+            dataGridView.Rows[selectedRow].Selected = true;
+
+            
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void copyRowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            DataGridViewRow currentRow = dataGridView.CurrentRow;
+            int numCells = currentRow.Cells.Count;
+            String textToCopy = @"";
+            for (int ii = 0; ii < numCells; ++ii)
+            {
+                textToCopy += String.Format("{0}\t", currentRow.Cells[ii].Value);
+            }
+
+            Clipboard.SetText(textToCopy);
+            
+        }
+
+        private void csvToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            String csvString = String.Empty;
+            int numCols = dataGridView.Columns.Count;
+            int numRows = dataGridView.Rows.Count;
+
+            for (int col = 0; col < numCols; ++col)
+            {
+                csvString += dataGridView.Columns[col].HeaderText + ",";
+            }
+            csvString += Environment.NewLine;
+            for (int row = 0; row < numRows; ++row)
+            {
+                for (int col = 0; col < numCols; ++col)
+                {
+                    csvString += dataGridView.Rows[row].Cells[col].Value + ",";
+                }
+                csvString += Environment.NewLine;
+            }
+            // 
+            saveCSVFileDialog.Title = "Export data inta CSV file";
+            saveCSVFileDialog.Filter = "CSV Files|*.csv|All Files|*.*";
+            if (saveCSVFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                //MessageBox.Show(csvString + Environment.NewLine + saveCSVFileDialog.FileName);
+                StreamWriter streamWriter = new StreamWriter(saveCSVFileDialog.FileName);
+
+                streamWriter.Write(csvString);
+                streamWriter.Close();
+            }
+
+        }
+
+        private void sQLiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFile("sqlite3", "SQLite3 Database|*.sqlite3|All Files|*.*", "Export SQLite Data");
+        }
+
+        private void lmxConfigToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start(lmxconfigtool);
+
+        }
+
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (isRunning)
+            {
+                MessageBox.Show(@"Is running");
+            }
+            if (!isRunning)
+            {
+                refreshToolStripMenuItem.Enabled = false;
+                this.Text = @"HW Token License Checker";
+                GetLMXLicenseData();
+                refreshToolStripMenuItem.Enabled = true;
+            }
+        }
+
+        private void xMLToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFile("xml", "XML Document|*.xml|All Files|*.*", "Export SQLite Data");
+        }
+
+        private void SaveFile(String format, String filter, String title)
+        {
+
+            String destination = String.Empty;
+            String source = sqlPath;
+            saveCSVFileDialog.Title = title;
+            saveCSVFileDialog.Filter = filter;
+
+            if(format.ToLower() == @"xml")
+            {
+                source = Path.ChangeExtension(source,format.ToLower());
+            }
+
+            if (saveCSVFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                destination = saveCSVFileDialog.FileName;
+                try
+                {
+                    File.Copy(source,destination);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+                finally
+                {
+
+                }
+            }       
         }
 
     }

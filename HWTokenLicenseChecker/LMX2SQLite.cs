@@ -139,6 +139,8 @@ namespace HWTokenLicenseChecker
                 }
 
             }
+
+            textReader.Close();
             
         }
 

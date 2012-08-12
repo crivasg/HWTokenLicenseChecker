@@ -57,13 +57,13 @@ namespace HWTokenLicenseChecker
              String[] fileNames = Directory.GetFiles(dirname);
              foreach (String fileName in fileNames)
              {
-                 String tmp = Path.Combine(dirname, fileName);
-                 
-                 if(File.Exists(tmp) && !Path.GetFileName(tmp).Equals( @"Licenses.sqlite3") )
+                 //String tmp = Path.Combine(dirname, fileName);
+
+                 if (File.Exists(fileName) && !Path.GetFileName(fileName).Equals(@"Licenses.sqlite3"))
                  {
                      try
                      {
-                         File.Delete(tmp);
+                         File.Delete(fileName);
                      }
                      catch (IOException deleteError)
                      {
