@@ -11,6 +11,7 @@ using System.Data.Common;
 using System.Data.SQLite;
 
 using System.IO;
+using System.Diagnostics;
 
 namespace HWTokenLicenseChecker
 {
@@ -18,6 +19,7 @@ namespace HWTokenLicenseChecker
     {
         private String sqlPath = @"";
         private String folder = @"";
+        private String lmxconfigtool = @"";
 
         private int minHWPAFeatureId = -1;
         private int maxHWPAFeatureId = -2;
@@ -42,8 +44,9 @@ namespace HWTokenLicenseChecker
 
             lmxendutil lmx = new lmxendutil() { AppDataFolder = folder };
             lmx.ExecuteLMX();
+            lmxconfigtool = lmx.LMXConfigTool;
            
-            Clipboard.SetText(sqlPath);
+            //Clipboard.SetText(sqlPath);
 
             LMX2SQLite lmx2Sqlite = new LMX2SQLite {SqlitePath = sqlPath };
             lmx2Sqlite.CreateDatabase();
@@ -374,6 +377,12 @@ namespace HWTokenLicenseChecker
             }
 
             
+        }
+
+        private void lmxConfigToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start(lmxconfigtool);
+
         }
 
     }

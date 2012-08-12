@@ -383,33 +383,33 @@
             this.csvToolStripMenuItem,
             this.sQLiteToolStripMenuItem});
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.saveAsToolStripMenuItem.Text = "&Export";
             // 
             // csvToolStripMenuItem
             // 
             this.csvToolStripMenuItem.Name = "csvToolStripMenuItem";
-            this.csvToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.csvToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.csvToolStripMenuItem.Text = "CSV";
             this.csvToolStripMenuItem.Click += new System.EventHandler(this.csvToolStripMenuItem_Click);
             // 
             // sQLiteToolStripMenuItem
             // 
             this.sQLiteToolStripMenuItem.Name = "sQLiteToolStripMenuItem";
-            this.sQLiteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.sQLiteToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.sQLiteToolStripMenuItem.Text = "SQLite";
             this.sQLiteToolStripMenuItem.Click += new System.EventHandler(this.sQLiteToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(140, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -460,6 +460,7 @@
             this.lmxConfigToolStripMenuItem.Name = "lmxConfigToolStripMenuItem";
             this.lmxConfigToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.lmxConfigToolStripMenuItem.Text = "&Launch lmx-config";
+            this.lmxConfigToolStripMenuItem.Click += new System.EventHandler(this.lmxConfigToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
