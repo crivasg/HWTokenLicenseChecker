@@ -30,17 +30,17 @@ namespace HWTokenLicenseChecker
         {
             InitializeComponent();
 
-            Setup setup = new Setup();
-            setup.CheckAndCreateAppData();
-            setup.RemoveTempFiles();
-            sqlPath = setup.DatabasePath;
-            folder = setup.DataPath;
-
             GetLMXLicenseData();
         }
 
         private void GetLMXLicenseData()
         {
+
+            Setup setup = new Setup();
+            setup.CheckAndCreateAppData();
+            setup.RemoveTempFiles();
+            sqlPath = setup.DatabasePath;
+            folder = setup.DataPath;
 
             lmxendutil lmx = new lmxendutil() { AppDataFolder = folder };
             lmx.ExecuteLMX();
