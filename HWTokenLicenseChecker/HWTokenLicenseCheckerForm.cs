@@ -302,5 +302,20 @@ namespace HWTokenLicenseChecker
             this.Close();
         }
 
+        private void copyRowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            DataGridViewRow currentRow = dataGridView.CurrentRow;
+            int numCells = currentRow.Cells.Count;
+            String textToCopy = @"";
+            for (int ii = 0; ii < numCells; ++ii)
+            {
+                textToCopy += String.Format("{0}\t", currentRow.Cells[ii].Value);
+            }
+
+            Clipboard.SetText(textToCopy);
+            
+        }
+
     }
 }

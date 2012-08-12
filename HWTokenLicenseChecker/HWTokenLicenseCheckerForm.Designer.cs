@@ -485,6 +485,7 @@
             this.copyRowToolStripMenuItem.Name = "copyRowToolStripMenuItem";
             this.copyRowToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.copyRowToolStripMenuItem.Text = "Copy Row";
+            this.copyRowToolStripMenuItem.Click += new System.EventHandler(this.copyRowToolStripMenuItem_Click);
             // 
             // cSVToolStripMenuItem
             // 
