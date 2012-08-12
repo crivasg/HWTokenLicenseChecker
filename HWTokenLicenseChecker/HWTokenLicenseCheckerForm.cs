@@ -283,5 +283,19 @@ namespace HWTokenLicenseChecker
             dataGridView.Focus();
         }
 
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dataGridView.MultiSelect = true;
+            dataGridView.SelectAll();
+            DataObject dataObj = dataGridView.GetClipboardContent();
+            Clipboard.SetDataObject(dataObj, true);
+            dataGridView.ClearSelection();
+            dataGridView.MultiSelect = false;
+
+            dataGridView.Rows[selectedRow].Selected = true;
+
+            
+        }
+
     }
 }
