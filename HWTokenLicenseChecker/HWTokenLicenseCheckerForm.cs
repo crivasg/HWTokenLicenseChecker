@@ -355,34 +355,54 @@ namespace HWTokenLicenseChecker
 
         private void sQLiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            String dest = String.Empty;
-            saveCSVFileDialog.Title = "Export SQLite Data";
-            saveCSVFileDialog.Filter = "SQLite3 Database|*.sqlite3|All Files|*.*";
-
-            if (saveCSVFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                dest = saveCSVFileDialog.FileName;
-                try
-                {
-                    File.Copy(sqlPath, dest);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.ToString());
-                }
-                finally
-                { 
-                
-                }
-            }
-
-            
+            SaveFile("sqlite3", "SQLite3 Database|*.sqlite3|All Files|*.*", "Export SQLite Data");
         }
 
         private void lmxConfigToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Process.Start(lmxconfigtool);
 
+        }
+
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            // refresh...
+            refreshToolStripMenuItem.Enabled = false;
+            this.Text = @"HW Token License Checker";
+            GetLMXLicenseData();
+            refreshToolStripMenuItem.Enabled = true;
+        }
+
+        private void xMLToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFile("xml", "XML Document|*.xml|All Files|*.*", "Export SQLite Data");
+        }
+
+        private void SaveFile(String format, String filter, String title)
+        {
+
+            String destination = String.Empty;
+            String source = String.Empty;
+            saveCSVFileDialog.Title = title;
+            saveCSVFileDialog.Filter = filter;
+
+            if (saveCSVFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                destination = saveCSVFileDialog.FileName;
+                try
+                {
+                    File.Copy(source,destination);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+                finally
+                {
+
+                }
+            }       
         }
 
     }

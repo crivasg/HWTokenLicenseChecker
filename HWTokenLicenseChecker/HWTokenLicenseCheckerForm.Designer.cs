@@ -72,6 +72,7 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveCSVFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.xMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -381,9 +382,10 @@
             // 
             this.saveAsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.csvToolStripMenuItem,
-            this.sQLiteToolStripMenuItem});
+            this.sQLiteToolStripMenuItem,
+            this.xMLToolStripMenuItem});
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveAsToolStripMenuItem.Text = "&Export";
             // 
             // csvToolStripMenuItem
@@ -454,6 +456,7 @@
             this.refreshToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
             this.refreshToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.refreshToolStripMenuItem.Text = "&Refresh";
+            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // lmxConfigToolStripMenuItem
             // 
@@ -507,6 +510,13 @@
             // 
             this.saveCSVFileDialog.Filter = "CSV Files|*.csv";
             this.saveCSVFileDialog.Title = "Select CSV to export data";
+            // 
+            // xMLToolStripMenuItem
+            // 
+            this.xMLToolStripMenuItem.Name = "xMLToolStripMenuItem";
+            this.xMLToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.xMLToolStripMenuItem.Text = "XML";
+            this.xMLToolStripMenuItem.Click += new System.EventHandler(this.xMLToolStripMenuItem_Click);
             // 
             // HWTokenLicenseCheckerForm
             // 
@@ -580,6 +590,7 @@
         private System.Windows.Forms.ToolStripMenuItem csvToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sQLiteToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveCSVFileDialog;
+        private System.Windows.Forms.ToolStripMenuItem xMLToolStripMenuItem;
     }
 }
 
