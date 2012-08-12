@@ -71,6 +71,7 @@
             this.copyRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.csvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sQLiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveCSVFileDialog = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -492,12 +493,18 @@
             this.csvToolStripMenuItem.Name = "csvToolStripMenuItem";
             this.csvToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.csvToolStripMenuItem.Text = "CSV";
+            this.csvToolStripMenuItem.Click += new System.EventHandler(this.csvToolStripMenuItem_Click);
             // 
             // sQLiteToolStripMenuItem
             // 
             this.sQLiteToolStripMenuItem.Name = "sQLiteToolStripMenuItem";
             this.sQLiteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.sQLiteToolStripMenuItem.Text = "SQLite";
+            // 
+            // saveCSVFileDialog
+            // 
+            this.saveCSVFileDialog.Filter = "CSV Files|*.csv";
+            this.saveCSVFileDialog.Title = "Select CSV to export data";
             // 
             // HWTokenLicenseCheckerForm
             // 
@@ -570,6 +577,7 @@
         private System.Windows.Forms.ToolStripMenuItem copyRowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem csvToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sQLiteToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog saveCSVFileDialog;
     }
 }
 
