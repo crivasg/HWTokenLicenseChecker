@@ -154,6 +154,7 @@ namespace HWTokenLicenseChecker
             using (StreamWriter outfile = new StreamWriter(xmlFile))
             {
                 outfile.Write(sb.ToString());
+                outfile.Close();
             }
 
         }

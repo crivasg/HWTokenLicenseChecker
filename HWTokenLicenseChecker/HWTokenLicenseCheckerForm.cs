@@ -25,6 +25,7 @@ namespace HWTokenLicenseChecker
         private int maxHWPAFeatureId = -2;
 
         private int selectedRow = -1;
+        private bool isRunning = false;
 
         public HWTokenLicenseCheckerForm()
         {
@@ -35,6 +36,7 @@ namespace HWTokenLicenseChecker
 
         private void GetLMXLicenseData()
         {
+            isRunning = true;
 
             Setup setup = new Setup();
             setup.CheckAndCreateAppData();
@@ -56,7 +58,7 @@ namespace HWTokenLicenseChecker
             lmx2Sqlite.CloseDatabase();
             LoadToDataGridView();
 
-            
+            isRunning = false;
   
         }
 
@@ -366,12 +368,17 @@ namespace HWTokenLicenseChecker
 
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-            // refresh...
-            refreshToolStripMenuItem.Enabled = false;
-            this.Text = @"HW Token License Checker";
-            GetLMXLicenseData();
-            refreshToolStripMenuItem.Enabled = true;
+            if (isRunning)
+            {
+                MessageBox.Show(@"Is running");
+            }
+            if (!isRunning)
+            {
+                refreshToolStripMenuItem.Enabled = false;
+                this.Text = @"HW Token License Checker";
+                GetLMXLicenseData();
+                refreshToolStripMenuItem.Enabled = true;
+            }
         }
 
         private void xMLToolStripMenuItem_Click(object sender, EventArgs e)
@@ -383,9 +390,14 @@ namespace HWTokenLicenseChecker
         {
 
             String destination = String.Empty;
-            String source = String.Empty;
+            String source = sqlPath;
             saveCSVFileDialog.Title = title;
             saveCSVFileDialog.Filter = filter;
+
+            if(format.ToLower() == @"xml")
+            {
+                source = Path.ChangeExtension(source,format.ToLower());
+            }
 
             if (saveCSVFileDialog.ShowDialog() == DialogResult.OK)
             {
