@@ -383,7 +383,7 @@ namespace HWTokenLicenseChecker
 
         private void xMLToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFile("xml", "XML Document|*.xml|All Files|*.*", "Export SQLite Data");
+            SaveFile("xml", "XML Document|*.xml|All Files|*.*", "Export XML Document");
         }
 
         private void SaveFile(String format, String filter, String title)
