@@ -336,7 +336,9 @@ namespace HWTokenLicenseChecker
                 }
                 csvString += Environment.NewLine;
             }
-
+            // 
+            saveCSVFileDialog.Title = "Export data inta CSV file";
+            saveCSVFileDialog.Filter = "CSV Files|*.csv|All Files|*.*";
             if (saveCSVFileDialog.ShowDialog() == DialogResult.OK)
             {
                 //MessageBox.Show(csvString + Environment.NewLine + saveCSVFileDialog.FileName);
@@ -346,6 +348,32 @@ namespace HWTokenLicenseChecker
                 streamWriter.Close();
             }
 
+        }
+
+        private void sQLiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            String dest = String.Empty;
+            saveCSVFileDialog.Title = "Export SQLite Data";
+            saveCSVFileDialog.Filter = "SQLite3 Database|*.sqlite3|All Files|*.*";
+
+            if (saveCSVFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                dest = saveCSVFileDialog.FileName;
+                try
+                {
+                    File.Copy(sqlPath, dest);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+                finally
+                { 
+                
+                }
+            }
+
+            
         }
 
     }
