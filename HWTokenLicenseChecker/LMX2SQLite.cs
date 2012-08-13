@@ -149,7 +149,10 @@ namespace HWTokenLicenseChecker
             cnn = new SQLiteConnection("Data Source=" + _sqlitePath);
             cnn.Open();
 
-            ValidateDatabaseSchema();
+            if (ValidateDatabaseSchema() == false)
+            {
+                MessageBox.Show(@"Schema is wrong");
+            }
 
 
             String sqlStmt = @"CREATE TABLE IF NOT EXISTS license_path (server_version STRING,ip STRING,port INTEGER,type STRING,uptime STRING);";
@@ -339,11 +342,6 @@ namespace HWTokenLicenseChecker
             userData = null;
         }
 
-        private void CheckDatabaseSchema()
-        {
-
-        }
-
         private void DeleteContentsOfDatabase()
         {
             // Get the tables of the database;
@@ -370,9 +368,10 @@ namespace HWTokenLicenseChecker
 
         }
 
-        private void ValidateDatabaseSchema()
+        private bool ValidateDatabaseSchema()
         {
             // validate tables.
+            bool isValid = true;
             List<String> tablesList = new List<string>(new String[] { @"feature", @"license_path", @"user" });
             List<String> wrongTablesList = new List<string>();
             int numberOfTables = 0;
@@ -393,8 +392,9 @@ namespace HWTokenLicenseChecker
 
             if (wrongTablesList.Count > 0)
             {
-                MessageBox.Show(@"Dismatch in table name" + Environment.NewLine 
-                    + String.Join(Environment.NewLine,wrongTablesList.ToArray()));
+                //MessageBox.Show(@"Dismatch in table name" + Environment.NewLine
+                //    + String.Join(Environment.NewLine, wrongTablesList.ToArray())); 
+                isValid = false;
             }
 
             // Validate columns and types for each table.
@@ -502,10 +502,12 @@ namespace HWTokenLicenseChecker
 
             if (wrongColumnsList.Count>0)
             {
-                MessageBox.Show(String.Join(Environment.NewLine, wrongColumnsList.ToArray()));
+                //MessageBox.Show(String.Join(Environment.NewLine, wrongColumnsList.ToArray()));
+                isValid = false;
             }
             
             //MessageBox.Show(notMatching.ToString());
+            return isValid;
         }
     }
 }
