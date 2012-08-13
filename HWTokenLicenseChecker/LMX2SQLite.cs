@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
-
+using System.Collections;
 
 using System.Data;
 using System.Data.Common;
@@ -148,6 +148,9 @@ namespace HWTokenLicenseChecker
         {
             cnn = new SQLiteConnection("Data Source=" + _sqlitePath);
             cnn.Open();
+
+            ValidateDatabaseSchema();
+
 
             String sqlStmt = @"CREATE TABLE IF NOT EXISTS license_path (server_version STRING,ip STRING,port INTEGER,type STRING,uptime STRING);";
             sqlStmt += Environment.NewLine + Environment.NewLine;
@@ -365,6 +368,144 @@ namespace HWTokenLicenseChecker
             cmd.ExecuteNonQuery();
             cmd.Dispose();
 
+        }
+
+        private void ValidateDatabaseSchema()
+        {
+            // validate tables.
+            List<String> tablesList = new List<string>(new String[] { @"feature", @"license_path", @"user" });
+            List<String> wrongTablesList = new List<string>();
+            int numberOfTables = 0;
+
+            DataTable dt = cnn.GetSchema(SQLiteMetaDataCollectionNames.Tables);
+            foreach (DataRow dr in dt.Rows)
+            {
+                String tableName = dr.ItemArray[2].ToString();
+                if (tablesList.Contains(tableName.ToLower().Trim()))
+                {
+                    ++numberOfTables;
+                }
+                else
+                {
+                    wrongTablesList.Add(tableName);
+                }
+            }
+
+            if (wrongTablesList.Count > 0)
+            {
+                MessageBox.Show(@"Dismatch in table name" + Environment.NewLine 
+                    + String.Join(Environment.NewLine,wrongTablesList.ToArray()));
+            }
+
+            // Validate columns and types for each table.
+
+            Hashtable featureHash = new Hashtable();
+            featureHash.Add("feature_id", "INTEGER");
+            featureHash.Add("name", "STRING");
+            featureHash.Add("version", "REAL");
+            featureHash.Add("vendor", "STRING");
+            featureHash.Add("start", "STRING");
+            featureHash.Add("end", "STRING");
+            featureHash.Add("used_licenses", "INTEGER");
+            featureHash.Add("total_licenses", "INTEGER");
+            featureHash.Add("share", "STRING");
+            featureHash.Add("isPartner", "INTEGER");
+
+            Hashtable license_pathHash = new Hashtable();
+            license_pathHash.Add("server_version", "STRING");
+            license_pathHash.Add("ip", "STRING");
+            license_pathHash.Add("port", "INTEGER");
+            license_pathHash.Add("type", "STRING");
+            license_pathHash.Add("uptime", "STRING");
+
+            Hashtable userHash = new Hashtable();
+            userHash.Add("name", "STRING");
+            userHash.Add("host", "STRING");
+            userHash.Add("ip", "STRING");
+            userHash.Add("used_licenses", "INTEGER");
+            userHash.Add("login_time", "STRING");
+            userHash.Add("checkout_time", "STRING");
+            userHash.Add("share_custom", "STRING");
+            userHash.Add("feature_id", "INTEGER");
+
+            String checkNames = String.Empty;
+            String columnName = String.Empty;
+            String columnType = String.Empty;
+
+            List<String> wrongColumnsList = new List<string>();
+
+            foreach (String tableName in tablesList)
+            {
+
+                checkNames += tableName + "|";
+                DataTable dc = cnn.GetSchema(SQLiteMetaDataCollectionNames.Columns, new String[] { "", "", tableName });
+
+                foreach (DataRow dcr in dc.Rows)
+                {
+                    columnName = dcr.ItemArray[3].ToString().ToLower();
+                    columnType = dcr.ItemArray[11].ToString().ToUpper();
+                    String tmp1 = dcr.ItemArray[3].ToString() + ","+columnType + ":";
+                    checkNames += tmp1;
+                    
+                }
+                checkNames += Environment.NewLine;
+            }
+
+            String[] schemaArray = checkNames.Split('\n');
+            Hashtable hashtable = null;
+            int notMatching = 0;
+            foreach (String schemaStr in schemaArray)
+            {
+                if (schemaStr.Length != 0)
+                {
+                    String schema = schemaStr.Trim().Substring(0, schemaStr.Trim().Length - 1);
+                    String[] schemaList = schemaStr.Split('|');
+                    String tblName = schemaList[0].ToLower();
+                    String[] columnNames = schema.Substring(tblName.Length+1).Split(':');
+                    //MessageBox.Show(columnNames[2]);
+
+                    if (tblName == tablesList[0].ToLower())
+                    {
+                        hashtable = featureHash;
+                    }
+                    else if (tblName == tablesList[1].ToLower())
+                    {
+                        hashtable = license_pathHash;
+                    }
+                    else if (tblName == tablesList[2].ToLower())
+                    {
+                        hashtable = userHash;
+                    }
+
+                    foreach (String columnItem in columnNames)
+                    {
+                        String[] splitted = columnItem.Split(',');
+                        if (!hashtable.ContainsKey(splitted[0]))
+                        {
+                            ++notMatching;
+                            wrongColumnsList.Add("Table:" + tblName + " Column:" + splitted[0] + " Type:" + splitted[1]);
+                            continue;
+                        }
+                        if ((String)hashtable[splitted[0]] != splitted[1]) 
+                        {
+                            wrongColumnsList.Add("Table:" + tblName + " Column:" + splitted[0] + " Type:" + splitted[1]);
+                            ++notMatching;
+                            continue;
+                        }
+                    }
+
+                    
+
+                }
+
+            }
+
+            if (wrongColumnsList.Count>0)
+            {
+                MessageBox.Show(String.Join(Environment.NewLine, wrongColumnsList.ToArray()));
+            }
+            
+            //MessageBox.Show(notMatching.ToString());
         }
     }
 }
