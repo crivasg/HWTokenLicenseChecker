@@ -179,7 +179,7 @@ namespace HWTokenLicenseChecker
             cmd.Dispose();
 
 
-            DeleteContentsOfDatabase();
+            DeleteContentsOfDatabase(@"");
         }
 
         public void ImportToDatabase()
@@ -342,7 +342,7 @@ namespace HWTokenLicenseChecker
             userData = null;
         }
 
-        private void DeleteContentsOfDatabase()
+        private void DeleteContentsOfDatabase(String query)
         {
             // Get the tables of the database;
             const int _TABLE_INDEX_ = 2;
