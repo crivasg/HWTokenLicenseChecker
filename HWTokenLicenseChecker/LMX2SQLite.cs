@@ -372,7 +372,7 @@ namespace HWTokenLicenseChecker
         {
             // validate tables.
             bool isValid = true;
-            List<String> tablesList = new List<String>(new String[] { @"feature1", @"license_path", @"user", @"cesario"});
+            List<String> tablesList = new List<String>(new String[] { @"feature", @"license_path", @"user"});
             List<String> tablesInDatabase = new List<String>();
             List<String> wrongTablesList  = new List<String>();  //Tables that should be deleted
             List<String> missingTablesList = new List<String>(); //Tables that need to be created
@@ -398,16 +398,6 @@ namespace HWTokenLicenseChecker
                 }              
             }
 
-            if (wrongTablesList.Count > 0)
-            {
-                MessageBox.Show(String.Join(Environment.NewLine, wrongTablesList.ToArray()));
-                isValid = false;
-            }
-            if (missingTablesList.Count > 0)
-            {
-                MessageBox.Show(String.Join(Environment.NewLine, missingTablesList.ToArray()));
-                isValid = false;
-            }
             // Validate columns and types for each table.
             Hashtable featureHash = new Hashtable();
             featureHash.Add("feature_id", "INTEGER");
@@ -471,7 +461,6 @@ namespace HWTokenLicenseChecker
             // the columns and their type
             String[] schemaArray = checkNames.Split('\n');
             Hashtable hashtable = null;
-            int notMatching = 0;
             foreach (String schemaStr in schemaArray)
             {
                 if (schemaStr.Length != 0)
@@ -500,24 +489,38 @@ namespace HWTokenLicenseChecker
                         String[] splitted = columnItem.Split(',');
                         if (!hashtable.ContainsKey(splitted[0]))
                         {
-                            ++notMatching;
                             wrongColumnsList.Add("Table:" + tblName + " Column:" + splitted[0] + " Type:" + splitted[1]);
-                            continue;
+                            wrongTablesList.Add(tblName); // since the name of the column does not match, 
+                                                          // the table will be deleted
+                            break;
                         }
                         if ((String)hashtable[splitted[0]] != splitted[1]) 
                         {
                             wrongColumnsList.Add("Table:" + tblName + " Column:" + splitted[0] + " Type:" + splitted[1]);
-                            ++notMatching;
-                            continue;
+                            wrongTablesList.Add(tblName); // since the type of the column does not match, 
+                            // the table will be deleted
+
+                            break;
                         }
                     }
                 }
 
             }
 
+            if (wrongTablesList.Count > 0)
+            {
+                MessageBox.Show(String.Join(Environment.NewLine, wrongTablesList.ToArray()));
+                isValid = false;
+            }
+            if (missingTablesList.Count > 0)
+            {
+                MessageBox.Show(String.Join(Environment.NewLine, missingTablesList.ToArray()));
+                isValid = false;
+            }
+
             if (wrongColumnsList.Count>0)
             {
-                //MessageBox.Show(String.Join(Environment.NewLine, wrongColumnsList.ToArray()));
+                MessageBox.Show(String.Join(Environment.NewLine, wrongColumnsList.ToArray()));
                 isValid = false;
             }
             return isValid;
