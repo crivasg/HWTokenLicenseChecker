@@ -372,31 +372,42 @@ namespace HWTokenLicenseChecker
         {
             // validate tables.
             bool isValid = true;
-            List<String> tablesList = new List<string>(new String[] { @"feature", @"license_path", @"user" });
-            List<String> wrongTablesList = new List<string>();
+            List<String> tablesList = new List<String>(new String[] { @"feature1", @"license_path", @"user", @"cesario"});
+            List<String> tablesInDatabase = new List<String>();
+            List<String> wrongTablesList = new List<String>();
+            List<String> missingTablesList = new List<String>();
             int numberOfTables = 0;
 
             DataTable dt = cnn.GetSchema(SQLiteMetaDataCollectionNames.Tables);
             foreach (DataRow dr in dt.Rows)
             {
+                ++numberOfTables;
                 String tableName = dr.ItemArray[2].ToString();
-                if (tablesList.Contains(tableName.ToLower().Trim()))
-                {
-                    ++numberOfTables;
-                }
-                else
+                tablesInDatabase.Add(tableName);
+                if (!tablesList.Contains(tableName.ToLower().Trim()))
                 {
                     wrongTablesList.Add(tableName);
                 }
             }
 
-            if (wrongTablesList.Count > 0)
+            foreach (String tableName in tablesList)
             {
-                //MessageBox.Show(@"Dismatch in table name" + Environment.NewLine
-                //    + String.Join(Environment.NewLine, wrongTablesList.ToArray())); 
-                isValid = false;
+                if (!tablesInDatabase.Contains(tableName.ToLower().Trim()))
+                {
+                    missingTablesList.Add(tableName);
+                }              
             }
 
+            if (wrongTablesList.Count > 0)
+            {
+                MessageBox.Show(String.Join(Environment.NewLine, wrongTablesList.ToArray()));
+                isValid = false;
+            }
+            if (missingTablesList.Count > 0)
+            {
+                MessageBox.Show(String.Join(Environment.NewLine, missingTablesList.ToArray()));
+                isValid = false;
+            }
             // Validate columns and types for each table.
 
             Hashtable featureHash = new Hashtable();
