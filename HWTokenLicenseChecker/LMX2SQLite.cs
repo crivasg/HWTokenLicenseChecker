@@ -374,8 +374,8 @@ namespace HWTokenLicenseChecker
             bool isValid = true;
             List<String> tablesList = new List<String>(new String[] { @"feature1", @"license_path", @"user", @"cesario"});
             List<String> tablesInDatabase = new List<String>();
-            List<String> wrongTablesList = new List<String>();
-            List<String> missingTablesList = new List<String>();
+            List<String> wrongTablesList  = new List<String>();  //Tables that should be deleted
+            List<String> missingTablesList = new List<String>(); //Tables that need to be created
             int numberOfTables = 0;
 
             DataTable dt = cnn.GetSchema(SQLiteMetaDataCollectionNames.Tables);
@@ -409,7 +409,6 @@ namespace HWTokenLicenseChecker
                 isValid = false;
             }
             // Validate columns and types for each table.
-
             Hashtable featureHash = new Hashtable();
             featureHash.Add("feature_id", "INTEGER");
             featureHash.Add("name", "STRING");
@@ -439,6 +438,9 @@ namespace HWTokenLicenseChecker
             userHash.Add("share_custom", "STRING");
             userHash.Add("feature_id", "INTEGER");
 
+            //
+            // checkNames contains the table name plus
+            // the columns and their type
             String checkNames = String.Empty;
             String columnName = String.Empty;
             String columnType = String.Empty;
@@ -447,7 +449,6 @@ namespace HWTokenLicenseChecker
 
             foreach (String tableName in tablesList)
             {
-
                 checkNames += tableName + "|";
                 DataTable dc = cnn.GetSchema(SQLiteMetaDataCollectionNames.Columns, new String[] { "", "", tableName });
 
@@ -462,6 +463,12 @@ namespace HWTokenLicenseChecker
                 checkNames += Environment.NewLine;
             }
 
+            columnType = String.Empty;
+            columnName = String.Empty;
+            columnType = String.Empty;
+
+            // check names contains the table name plus
+            // the columns and their type
             String[] schemaArray = checkNames.Split('\n');
             Hashtable hashtable = null;
             int notMatching = 0;
@@ -504,9 +511,6 @@ namespace HWTokenLicenseChecker
                             continue;
                         }
                     }
-
-                    
-
                 }
 
             }
@@ -516,8 +520,6 @@ namespace HWTokenLicenseChecker
                 //MessageBox.Show(String.Join(Environment.NewLine, wrongColumnsList.ToArray()));
                 isValid = false;
             }
-            
-            //MessageBox.Show(notMatching.ToString());
             return isValid;
         }
     }
