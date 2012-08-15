@@ -400,7 +400,7 @@ namespace HWTokenLicenseChecker
 
             // Validate columns and types for each table.
             Hashtable featureHash = new Hashtable();
-            featureHash.Add("feature_id", "TEXT");
+            featureHash.Add("feature_id", "INTEGER");
             featureHash.Add("name", "STRING");
             featureHash.Add("version", "REAL");
             featureHash.Add("vendor", "STRING");
@@ -426,7 +426,7 @@ namespace HWTokenLicenseChecker
             userHash.Add("login_time", "STRING");
             userHash.Add("checkout_time", "STRING");
             userHash.Add("share_custom", "STRING");
-            userHash.Add("feature_id1", "INTEGER");
+            userHash.Add("feature_id", "INTEGER");
 
             //
             // checkNames contains the table name plus
@@ -543,9 +543,10 @@ namespace HWTokenLicenseChecker
                 }
                 sqlQueryString += Environment.NewLine + @");"; 
             }
-
-            MessageBox.Show(sqlQueryString);
-
+            if (!isValid)
+            {
+                MessageBox.Show(sqlQueryString);
+            }
             if (wrongTablesList.Count > 0)
             {
                 //MessageBox.Show(String.Join(Environment.NewLine, wrongTablesList.ToArray()));
