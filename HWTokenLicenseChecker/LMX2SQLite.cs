@@ -400,7 +400,7 @@ namespace HWTokenLicenseChecker
 
             // Validate columns and types for each table.
             Hashtable featureHash = new Hashtable();
-            featureHash.Add("feature_id", "INTEGER");
+            featureHash.Add("feature_id", "TEXT");
             featureHash.Add("name", "STRING");
             featureHash.Add("version", "REAL");
             featureHash.Add("vendor", "STRING");
@@ -426,7 +426,7 @@ namespace HWTokenLicenseChecker
             userHash.Add("login_time", "STRING");
             userHash.Add("checkout_time", "STRING");
             userHash.Add("share_custom", "STRING");
-            userHash.Add("feature_id", "INTEGER");
+            userHash.Add("feature_id1", "INTEGER");
 
             //
             // checkNames contains the table name plus
@@ -492,35 +492,74 @@ namespace HWTokenLicenseChecker
                             wrongColumnsList.Add("Table:" + tblName + " Column:" + splitted[0] + " Type:" + splitted[1]);
                             wrongTablesList.Add(tblName); // since the name of the column does not match, 
                                                           // the table will be deleted
+                            missingTablesList.Add(tblName);
                             break;
                         }
                         if ((String)hashtable[splitted[0]] != splitted[1]) 
                         {
                             wrongColumnsList.Add("Table:" + tblName + " Column:" + splitted[0] + " Type:" + splitted[1]);
                             wrongTablesList.Add(tblName); // since the type of the column does not match, 
-                            // the table will be deleted
-
+                                                            // the table will be deleted
+                            missingTablesList.Add(tblName);
                             break;
                         }
                     }
                 }
-
             }
+
+            String sqlQueryString = String.Empty;
+            foreach (String tblName in wrongTablesList)
+            {
+                sqlQueryString += String.Format(@"DROP TABLE {0};",tblName) + Environment.NewLine;
+            }
+
+            foreach (String tblName in missingTablesList)
+            {
+                sqlQueryString += Environment.NewLine+  String.Format(@"CREATE TABLE IF NOT EXISTS {0} (", tblName);
+
+                if (tblName == tablesList[0].ToLower())
+                {
+                    hashtable = featureHash;
+                }
+                else if (tblName == tablesList[1].ToLower())
+                {
+                    hashtable = license_pathHash;
+                }
+                else if (tblName == tablesList[2].ToLower())
+                {
+                    hashtable = userHash;
+                }
+                int entriesInHashTable = hashtable.Count;
+                int counterHashKeys = 0;
+                foreach (DictionaryEntry de in hashtable)
+                {
+                    sqlQueryString += Environment.NewLine + String.Format("\t{0} {1}", de.Key, de.Value);
+                    ++counterHashKeys;
+                    if (counterHashKeys < entriesInHashTable)
+                    {
+                        sqlQueryString += ",";   
+                    }
+
+                }
+                sqlQueryString += Environment.NewLine + @");"; 
+            }
+
+            MessageBox.Show(sqlQueryString);
 
             if (wrongTablesList.Count > 0)
             {
-                MessageBox.Show(String.Join(Environment.NewLine, wrongTablesList.ToArray()));
+                //MessageBox.Show(String.Join(Environment.NewLine, wrongTablesList.ToArray()));
                 isValid = false;
             }
             if (missingTablesList.Count > 0)
             {
-                MessageBox.Show(String.Join(Environment.NewLine, missingTablesList.ToArray()));
+                //MessageBox.Show(String.Join(Environment.NewLine, missingTablesList.ToArray()));
                 isValid = false;
             }
 
             if (wrongColumnsList.Count>0)
             {
-                MessageBox.Show(String.Join(Environment.NewLine, wrongColumnsList.ToArray()));
+                //MessageBox.Show(String.Join(Environment.NewLine, wrongColumnsList.ToArray()));
                 isValid = false;
             }
             return isValid;
