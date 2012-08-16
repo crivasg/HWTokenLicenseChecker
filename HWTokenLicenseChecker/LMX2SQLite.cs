@@ -150,32 +150,6 @@ namespace HWTokenLicenseChecker
             cnn.Open();
 
             bool isSchemaCorrect = ValidateDatabaseSchema();
-          
-            /*
-            String sqlStmt = @"CREATE TABLE IF NOT EXISTS license_path (server_version STRING,ip STRING,port INTEGER,type STRING,uptime STRING);";
-            sqlStmt += Environment.NewLine + Environment.NewLine;
-            //<LICENSE_PATH TYPE="xxxxxxx" HOST="####@###.###.###.###" SERVER_VERSION="#.##" 
-            // UPTIME="## day(s) ## hour(s) ## min(s) ## sec(s)">
-
-            sqlStmt += @"CREATE TABLE IF NOT EXISTS feature (feature_id INTEGER, name STRING,version REAL,vendor STRING,start STRING,end STRING,used_licenses INTEGER,total_licenses INTEGER,share STRING,isPartner INTEGER);";
-            sqlStmt += Environment.NewLine + Environment.NewLine;
-            //<FEATURE NAME="xxxxxxx" VERSION="##.#" VENDOR="xxxxxxx" START="yyyy-mm-dd"
-            // END="yyyy-mm-dd" USED_LICENSES="######" TOTAL_LICENSES="###" SHARE="xxxxxxx">
-
-            // ::TODO:: prepare the database for when licenses are borrowed
-            sqlStmt += @"CREATE TABLE IF NOT EXISTS user (name STRING, host STRING, ip STRING, used_licenses INTEGER, login_time STRING, checkout_time STRING,share_custom STRING, feature_id INTEGER);";
-            sqlStmt += Environment.NewLine + Environment.NewLine;
-
-            //<USER NAME="xxxxxxx" HOST="xxxxxxx" IP="###.###.###.###" USED_LICENSES="####"
-            // LOGIN_TIME="yyyy-mm-dd hh:mm" CHECKOUT_TIME="yyyy-mm-dd hh:min" SHARE_CUSTOM="xxxxxxx:xxxxxxx"/>
-            //>
-
-            SQLiteCommand cmd = new SQLiteCommand(cnn);
-            cmd.CommandText = sqlStmt;
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
-            */
-
             DeleteContentsOfDatabase(@"");
         }
 
