@@ -149,12 +149,9 @@ namespace HWTokenLicenseChecker
             cnn = new SQLiteConnection("Data Source=" + _sqlitePath);
             cnn.Open();
 
-            if (ValidateDatabaseSchema() == false)
-            {
-                MessageBox.Show(@"Schema is wrong");
-            }
-
-
+            bool isSchemaCorrect = ValidateDatabaseSchema();
+          
+            /*
             String sqlStmt = @"CREATE TABLE IF NOT EXISTS license_path (server_version STRING,ip STRING,port INTEGER,type STRING,uptime STRING);";
             sqlStmt += Environment.NewLine + Environment.NewLine;
             //<LICENSE_PATH TYPE="xxxxxxx" HOST="####@###.###.###.###" SERVER_VERSION="#.##" 
@@ -177,7 +174,7 @@ namespace HWTokenLicenseChecker
             cmd.CommandText = sqlStmt;
             cmd.ExecuteNonQuery();
             cmd.Dispose();
-
+            */
 
             DeleteContentsOfDatabase(@"");
         }
@@ -474,6 +471,12 @@ namespace HWTokenLicenseChecker
             Hashtable hashtable = null;
             foreach (String schemaStr in schemaArray)
             {
+
+                if (!schemaStr.Contains(':'))
+                {
+                    continue ;
+                }
+
                 if (schemaStr.Length != 0)
                 {
                     String schema = schemaStr.Trim().Substring(0, schemaStr.Trim().Length - 1);
