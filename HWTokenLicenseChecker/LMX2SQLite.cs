@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
-
+using System.Collections;
 
 using System.Data;
 using System.Data.Common;
@@ -149,31 +149,8 @@ namespace HWTokenLicenseChecker
             cnn = new SQLiteConnection("Data Source=" + _sqlitePath);
             cnn.Open();
 
-            String sqlStmt = @"CREATE TABLE IF NOT EXISTS license_path (server_version STRING,ip STRING,port INTEGER,type STRING,uptime STRING);";
-            sqlStmt += Environment.NewLine + Environment.NewLine;
-            //<LICENSE_PATH TYPE="xxxxxxx" HOST="####@###.###.###.###" SERVER_VERSION="#.##" 
-            // UPTIME="## day(s) ## hour(s) ## min(s) ## sec(s)">
-
-            sqlStmt += @"CREATE TABLE IF NOT EXISTS feature (feature_id INTEGER, name STRING,version REAL,vendor STRING,start STRING,end STRING,used_licenses INTEGER,total_licenses INTEGER,share STRING,isPartner INTEGER);";
-            sqlStmt += Environment.NewLine + Environment.NewLine;
-            //<FEATURE NAME="xxxxxxx" VERSION="##.#" VENDOR="xxxxxxx" START="yyyy-mm-dd"
-            // END="yyyy-mm-dd" USED_LICENSES="######" TOTAL_LICENSES="###" SHARE="xxxxxxx">
-
-            // ::TODO:: prepare the database for when licenses are borrowed
-            sqlStmt += @"CREATE TABLE IF NOT EXISTS user (name STRING, host STRING, ip STRING, used_licenses INTEGER, login_time STRING, checkout_time STRING,share_custom STRING, feature_id INTEGER);";
-            sqlStmt += Environment.NewLine + Environment.NewLine;
-
-            //<USER NAME="xxxxxxx" HOST="xxxxxxx" IP="###.###.###.###" USED_LICENSES="####"
-            // LOGIN_TIME="yyyy-mm-dd hh:mm" CHECKOUT_TIME="yyyy-mm-dd hh:min" SHARE_CUSTOM="xxxxxxx:xxxxxxx"/>
-            //>
-
-            SQLiteCommand cmd = new SQLiteCommand(cnn);
-            cmd.CommandText = sqlStmt;
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
-
-
-            DeleteContentsOfDatabase();
+            bool isSchemaCorrect = ValidateDatabaseSchema();
+            DeleteContentsOfDatabase(@"");
         }
 
         public void ImportToDatabase()
@@ -336,12 +313,7 @@ namespace HWTokenLicenseChecker
             userData = null;
         }
 
-        private void CheckDatabaseSchema()
-        {
-
-        }
-
-        private void DeleteContentsOfDatabase()
+        private void DeleteContentsOfDatabase(String query)
         {
             // Get the tables of the database;
             const int _TABLE_INDEX_ = 2;
@@ -365,6 +337,212 @@ namespace HWTokenLicenseChecker
             cmd.ExecuteNonQuery();
             cmd.Dispose();
 
+        }
+
+        private bool ValidateDatabaseSchema()
+        {
+            /* 
+             * Maybe this code is to much for this application, but I 
+             * want to learn how to validate a database schema.
+             */
+
+            // <--------------------------- DEFINE SCHEMA HERE --------------------->
+
+            List<String> tablesList = new List<String>(new String[] { @"feature", @"license_path", @"user" });
+
+            Hashtable featureHash = new Hashtable();
+            featureHash.Add("feature_id", "INTEGER");
+            featureHash.Add("name", "STRING");
+            featureHash.Add("version", "REAL");
+            featureHash.Add("vendor", "STRING");
+            featureHash.Add("start", "STRING");
+            featureHash.Add("end", "STRING");
+            featureHash.Add("used_licenses", "INTEGER");
+            featureHash.Add("total_licenses", "INTEGER");
+            featureHash.Add("share", "STRING");
+            featureHash.Add("isPartner", "INTEGER");
+
+            Hashtable license_pathHash = new Hashtable();
+            license_pathHash.Add("server_version", "STRING");
+            license_pathHash.Add("ip", "STRING");
+            license_pathHash.Add("port", "INTEGER");
+            license_pathHash.Add("type", "STRING");
+            license_pathHash.Add("uptime", "STRING");
+
+            Hashtable userHash = new Hashtable();
+            userHash.Add("name", "STRING");
+            userHash.Add("host", "STRING");
+            userHash.Add("ip", "STRING");
+            userHash.Add("used_licenses", "INTEGER");
+            userHash.Add("login_time", "STRING");
+            userHash.Add("checkout_time", "STRING");
+            userHash.Add("share_custom", "STRING");
+            userHash.Add("feature_id", "INTEGER");
+            // <--------------------------- END ------------------------------------>
+
+            // validate tables.
+            bool isValid = true;
+            
+            List<String> tablesInDatabase = new List<String>();
+            List<String> wrongTablesList  = new List<String>();  //Tables that should be deleted
+            List<String> missingTablesList = new List<String>(); //Tables that need to be created
+            int numberOfTables = 0;
+
+            DataTable dt = cnn.GetSchema(SQLiteMetaDataCollectionNames.Tables);
+            foreach (DataRow dr in dt.Rows)
+            {
+                ++numberOfTables;
+                String tableName = dr.ItemArray[2].ToString();
+                tablesInDatabase.Add(tableName);
+                if (!tablesList.Contains(tableName.ToLower().Trim()))
+                {
+                    wrongTablesList.Add(tableName);
+                    isValid = false;
+                }
+            }
+
+            foreach (String tableName in tablesList)
+            {
+                if (!tablesInDatabase.Contains(tableName.ToLower().Trim()))
+                {
+                    missingTablesList.Add(tableName);
+                    isValid = false;
+                }              
+            }
+
+            //
+            // checkNames contains the table name plus
+            // the columns and their type
+            String checkNames = String.Empty;
+            String columnName = String.Empty;
+            String columnType = String.Empty;
+
+            List<String> wrongColumnsList = new List<string>();
+
+            foreach (String tableName in tablesList)
+            {
+                checkNames += tableName + "|";
+                DataTable dc = cnn.GetSchema(SQLiteMetaDataCollectionNames.Columns, new String[] { "", "", tableName });
+
+                foreach (DataRow dcr in dc.Rows)
+                {
+                    columnName = dcr.ItemArray[3].ToString().ToLower();
+                    columnType = dcr.ItemArray[11].ToString().ToUpper();
+                    String tmp1 = dcr.ItemArray[3].ToString() + ","+columnType + ":";
+                    checkNames += tmp1;
+                    
+                }
+                checkNames += Environment.NewLine;
+            }
+
+            columnType = String.Empty;
+            columnName = String.Empty;
+            columnType = String.Empty;
+
+            // check names contains the table name plus
+            // the columns and their type
+            String[] schemaArray = checkNames.Split('\n');
+            Hashtable hashtable = null;
+            foreach (String schemaStr in schemaArray)
+            {
+
+                if (!schemaStr.Contains(':'))
+                {
+                    continue ;
+                }
+
+                if (schemaStr.Length != 0)
+                {
+                    String schema = schemaStr.Trim().Substring(0, schemaStr.Trim().Length - 1);
+                    String[] schemaList = schemaStr.Split('|');
+                    String tblName = schemaList[0].ToLower();
+                    String[] columnNames = schema.Substring(tblName.Length+1).Split(':');
+                    //MessageBox.Show(columnNames[2]);
+
+                    if (tblName == tablesList[0].ToLower())
+                    {
+                        hashtable = featureHash;
+                    }
+                    else if (tblName == tablesList[1].ToLower())
+                    {
+                        hashtable = license_pathHash;
+                    }
+                    else if (tblName == tablesList[2].ToLower())
+                    {
+                        hashtable = userHash;
+                    }
+
+                    foreach (String columnItem in columnNames)
+                    {
+                        String[] splitted = columnItem.Split(',');
+                        if (!hashtable.ContainsKey(splitted[0]))
+                        {
+                            wrongColumnsList.Add("Table:" + tblName + " Column:" + splitted[0] + " Type:" + splitted[1]);
+                            wrongTablesList.Add(tblName); // since the name of the column does not match, 
+                                                          // the table will be deleted
+                            missingTablesList.Add(tblName);
+                            isValid = false;
+                            break;
+                        }
+                        if ((String)hashtable[splitted[0]] != splitted[1]) 
+                        {
+                            wrongColumnsList.Add("Table:" + tblName + " Column:" + splitted[0] + " Type:" + splitted[1]);
+                            wrongTablesList.Add(tblName); // since the type of the column does not match, 
+                                                            // the table will be deleted
+                            missingTablesList.Add(tblName);
+                            isValid = false;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            String sqlQueryString = String.Empty;
+            foreach (String tblName in wrongTablesList)
+            {
+                sqlQueryString += String.Format(@"DROP TABLE {0};",tblName) + Environment.NewLine;
+            }
+
+            foreach (String tblName in missingTablesList)
+            {
+                sqlQueryString += Environment.NewLine+  String.Format(@"CREATE TABLE {0} (", tblName);
+
+                if (tblName == tablesList[0].ToLower())
+                {
+                    hashtable = featureHash;
+                }
+                else if (tblName == tablesList[1].ToLower())
+                {
+                    hashtable = license_pathHash;
+                }
+                else if (tblName == tablesList[2].ToLower())
+                {
+                    hashtable = userHash;
+                }
+                int entriesInHashTable = hashtable.Count;
+                int counterHashKeys = 0;
+                foreach (DictionaryEntry de in hashtable)
+                {
+                    sqlQueryString += Environment.NewLine + String.Format("\t{0} {1}", de.Key, de.Value);
+                    ++counterHashKeys;
+                    if (counterHashKeys < entriesInHashTable)
+                    {
+                        sqlQueryString += ",";   
+                    }
+
+                }
+                sqlQueryString += Environment.NewLine + @");"; 
+            }
+
+            if (!String.IsNullOrEmpty(sqlQueryString))
+            {
+                SQLiteCommand cmd = new SQLiteCommand(cnn);
+                cmd.CommandText = sqlQueryString;
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+            }
+
+            return isValid;
         }
     }
 }
