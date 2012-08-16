@@ -375,37 +375,10 @@ namespace HWTokenLicenseChecker
              * want to learn how to validate a database schema.
              */
 
-            // validate tables.
-            bool isValid = true;
-            List<String> tablesList = new List<String>(new String[] { @"feature", @"license_path", @"user"});
-            List<String> tablesInDatabase = new List<String>();
-            List<String> wrongTablesList  = new List<String>();  //Tables that should be deleted
-            List<String> missingTablesList = new List<String>(); //Tables that need to be created
-            int numberOfTables = 0;
-
-            DataTable dt = cnn.GetSchema(SQLiteMetaDataCollectionNames.Tables);
-            foreach (DataRow dr in dt.Rows)
-            {
-                ++numberOfTables;
-                String tableName = dr.ItemArray[2].ToString();
-                tablesInDatabase.Add(tableName);
-                if (!tablesList.Contains(tableName.ToLower().Trim()))
-                {
-                    wrongTablesList.Add(tableName);
-                    isValid = false;
-                }
-            }
-
-            foreach (String tableName in tablesList)
-            {
-                if (!tablesInDatabase.Contains(tableName.ToLower().Trim()))
-                {
-                    missingTablesList.Add(tableName);
-                    isValid = false;
-                }              
-            }
-
             // <--------------------------- DEFINE SCHEMA HERE --------------------->
+
+            List<String> tablesList = new List<String>(new String[] { @"feature", @"license_path", @"user" });
+
             Hashtable featureHash = new Hashtable();
             featureHash.Add("feature_id", "INTEGER");
             featureHash.Add("name", "STRING");
@@ -435,6 +408,36 @@ namespace HWTokenLicenseChecker
             userHash.Add("share_custom", "STRING");
             userHash.Add("feature_id", "INTEGER");
             // <--------------------------- END ------------------------------------>
+
+            // validate tables.
+            bool isValid = true;
+            
+            List<String> tablesInDatabase = new List<String>();
+            List<String> wrongTablesList  = new List<String>();  //Tables that should be deleted
+            List<String> missingTablesList = new List<String>(); //Tables that need to be created
+            int numberOfTables = 0;
+
+            DataTable dt = cnn.GetSchema(SQLiteMetaDataCollectionNames.Tables);
+            foreach (DataRow dr in dt.Rows)
+            {
+                ++numberOfTables;
+                String tableName = dr.ItemArray[2].ToString();
+                tablesInDatabase.Add(tableName);
+                if (!tablesList.Contains(tableName.ToLower().Trim()))
+                {
+                    wrongTablesList.Add(tableName);
+                    isValid = false;
+                }
+            }
+
+            foreach (String tableName in tablesList)
+            {
+                if (!tablesInDatabase.Contains(tableName.ToLower().Trim()))
+                {
+                    missingTablesList.Add(tableName);
+                    isValid = false;
+                }              
+            }
 
             //
             // checkNames contains the table name plus
