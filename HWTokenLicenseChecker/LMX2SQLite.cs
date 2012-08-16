@@ -370,6 +370,11 @@ namespace HWTokenLicenseChecker
 
         private bool ValidateDatabaseSchema()
         {
+            /* 
+             * Maybe this code is to much for this application, but I 
+             * want to learn how to validate a database schema.
+             */
+
             // validate tables.
             bool isValid = true;
             List<String> tablesList = new List<String>(new String[] { @"feature", @"license_path", @"user"});
@@ -387,6 +392,7 @@ namespace HWTokenLicenseChecker
                 if (!tablesList.Contains(tableName.ToLower().Trim()))
                 {
                     wrongTablesList.Add(tableName);
+                    isValid = false;
                 }
             }
 
@@ -395,10 +401,11 @@ namespace HWTokenLicenseChecker
                 if (!tablesInDatabase.Contains(tableName.ToLower().Trim()))
                 {
                     missingTablesList.Add(tableName);
+                    isValid = false;
                 }              
             }
 
-            // Validate columns and types for each table.
+            // <--------------------------- DEFINE SCHEMA HERE --------------------->
             Hashtable featureHash = new Hashtable();
             featureHash.Add("feature_id", "INTEGER");
             featureHash.Add("name", "STRING");
@@ -427,6 +434,7 @@ namespace HWTokenLicenseChecker
             userHash.Add("checkout_time", "STRING");
             userHash.Add("share_custom", "STRING");
             userHash.Add("feature_id", "INTEGER");
+            // <--------------------------- END ------------------------------------>
 
             //
             // checkNames contains the table name plus
@@ -493,6 +501,7 @@ namespace HWTokenLicenseChecker
                             wrongTablesList.Add(tblName); // since the name of the column does not match, 
                                                           // the table will be deleted
                             missingTablesList.Add(tblName);
+                            isValid = false;
                             break;
                         }
                         if ((String)hashtable[splitted[0]] != splitted[1]) 
@@ -501,6 +510,7 @@ namespace HWTokenLicenseChecker
                             wrongTablesList.Add(tblName); // since the type of the column does not match, 
                                                             // the table will be deleted
                             missingTablesList.Add(tblName);
+                            isValid = false;
                             break;
                         }
                     }
@@ -515,7 +525,7 @@ namespace HWTokenLicenseChecker
 
             foreach (String tblName in missingTablesList)
             {
-                sqlQueryString += Environment.NewLine+  String.Format(@"CREATE TABLE IF NOT EXISTS {0} (", tblName);
+                sqlQueryString += Environment.NewLine+  String.Format(@"CREATE TABLE {0} (", tblName);
 
                 if (tblName == tablesList[0].ToLower())
                 {
@@ -543,26 +553,15 @@ namespace HWTokenLicenseChecker
                 }
                 sqlQueryString += Environment.NewLine + @");"; 
             }
-            if (!isValid)
+
+            if (!String.IsNullOrEmpty(sqlQueryString))
             {
-                MessageBox.Show(sqlQueryString);
-            }
-            if (wrongTablesList.Count > 0)
-            {
-                //MessageBox.Show(String.Join(Environment.NewLine, wrongTablesList.ToArray()));
-                isValid = false;
-            }
-            if (missingTablesList.Count > 0)
-            {
-                //MessageBox.Show(String.Join(Environment.NewLine, missingTablesList.ToArray()));
-                isValid = false;
+                SQLiteCommand cmd = new SQLiteCommand(cnn);
+                cmd.CommandText = sqlQueryString;
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
             }
 
-            if (wrongColumnsList.Count>0)
-            {
-                //MessageBox.Show(String.Join(Environment.NewLine, wrongColumnsList.ToArray()));
-                isValid = false;
-            }
             return isValid;
         }
     }
