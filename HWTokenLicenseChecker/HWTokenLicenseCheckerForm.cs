@@ -223,12 +223,12 @@ namespace HWTokenLicenseChecker
             SQLiteCommand cmd = new SQLiteCommand(cnn);
 
             // get the features used
-            String sqlQuery = String.Format(@"SELECT DISTINCT feature.name,user.login_time,user.host||'|'||user.ip FROM user JOIN feature USING (feature_id) WHERE user.name = ""{0}"" AND user.host = ""{1}"" AND user.feature_id IN ({2});", user, host, featureQuery);
+            String sqlQuery = String.Format(@"SELECT DISTINCT feature.name,user.login_time,user.host||'/'||user.ip FROM user JOIN feature USING (feature_id) WHERE user.name = ""{0}"" AND user.host = ""{1}"" AND user.feature_id IN ({2});", user, host, featureQuery);
 
             cmd.CommandText = sqlQuery;
 
             String tmp = @"";
-            String logTmp = @"";
+            //String logTmp = @"";
             List<String> featureList = new List<String>();
             List<DateTime> dateList = new List<DateTime>();
             List<String> hostList = new List<String>();
