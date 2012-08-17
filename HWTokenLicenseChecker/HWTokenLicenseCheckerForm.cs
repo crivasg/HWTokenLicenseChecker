@@ -281,7 +281,7 @@ namespace HWTokenLicenseChecker
             int minutes = int.Parse(dateSplit[2]);
             int seconds = int.Parse(dateSplit[3]);
 
-            sessionTimeTextBox.Text = String.Format(@"{0}days {1}h:{2}m:{3}s",
+            sessionTimeTextBox.Text = String.Format(@"{0}days {1:00}h:{2:00}m:{3:00}s",
                 days, hours,minutes,seconds);
 
             hostTextBox.Text = hostList[0];
