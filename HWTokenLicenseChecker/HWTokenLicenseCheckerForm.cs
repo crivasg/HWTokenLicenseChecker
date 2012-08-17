@@ -275,8 +275,14 @@ namespace HWTokenLicenseChecker
             TimeSpan ts = DateTime.Now - loggingTime;
             logTmp = ts.ToString();
             String[] dateSplit = logTmp.Split(new Char[] {'.',':'});
+
+            int days = int.Parse(dateSplit[0]);
+            int hours = int.Parse(dateSplit[1]);
+            int minutes = int.Parse(dateSplit[2]);
+            int seconds = int.Parse(dateSplit[3]);
+
             sessionTimeTextBox.Text = String.Format(@"{0}days {1}h:{2}m:{3}s",
-                dateSplit[0], dateSplit[1], dateSplit[2], dateSplit[3]);
+                days, hours,minutes,seconds);
 
             hostTextBox.Text = hostList[0];
         
