@@ -273,7 +273,18 @@ namespace HWTokenLicenseChecker
             checkoutTextBox.Text = loggingTime.ToString();
 
             TimeSpan ts = DateTime.Now - loggingTime;
+            int days = ts.Days > -1 ? ts.Days : 0;
+            int hours = ts.Hours > -1 ? ts.Hours : 0;
+            int minutes = ts.Minutes > -1 ? ts.Minutes : 0;
+            int seconds = ts.Seconds > -1 ? ts.Seconds : 0;
+
+            String sessionDuration = String.Format(@"{0}days {1:00}hrs {2:00}min {3:00}secs", 
+                days, hours, minutes, seconds);
+
+            sessionTimeTextBox.Text = sessionDuration;
+            /*
             logTmp = ts.ToString();
+            
             String[] dateSplit = logTmp.Split(new Char[] {'.',':'});
 
             int days = int.Parse(dateSplit[0]);
@@ -281,8 +292,11 @@ namespace HWTokenLicenseChecker
             int minutes = int.Parse(dateSplit[2]);
             int seconds = int.Parse(dateSplit[3]);
 
+           
             sessionTimeTextBox.Text = String.Format(@"{0}days {1:00}h:{2:00}m:{3:00}s",
                 days, hours,minutes,seconds);
+             *  
+             */
 
             hostTextBox.Text = hostList[0];
         
