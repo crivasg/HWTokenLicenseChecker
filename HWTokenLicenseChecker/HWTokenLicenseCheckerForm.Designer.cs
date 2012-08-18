@@ -528,6 +528,9 @@
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.dataGridView);
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(800, 600);
+            this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "HWTokenLicenseCheckerForm";
             this.Text = "HW Token License Checker";
             this.ResizeEnd += new System.EventHandler(this.HWTokenLicenseCheckerForm_ResizeEnd);
