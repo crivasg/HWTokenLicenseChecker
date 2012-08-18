@@ -21,6 +21,8 @@ namespace HWTokenLicenseChecker
         private String folder = @"";
         private String lmxconfigtool = @"";
 
+        private const String POSITION_PREFS_FILE = @"position.prefs";
+
         private int minHWPAFeatureId = -1;
         private int maxHWPAFeatureId = -2;
 
@@ -36,6 +38,7 @@ namespace HWTokenLicenseChecker
 
         private void GetLMXLicenseData()
         {
+
             isRunning = true;
 
             Setup setup = new Setup();
@@ -43,6 +46,8 @@ namespace HWTokenLicenseChecker
             setup.RemoveTempFiles();
             sqlPath = setup.DatabasePath;
             folder = setup.DataPath;
+
+            UpdateLastPosition();
 
             lmxendutil lmx = new lmxendutil() { AppDataFolder = folder };
             lmx.ExecuteLMX();
@@ -419,6 +424,51 @@ namespace HWTokenLicenseChecker
 
                 }
             }       
+        }
+
+        private void HWTokenLicenseCheckerForm_ResizeEnd(object sender, EventArgs e)
+        {
+            StoreLastPosition();
+        }
+
+        private void StoreLastPosition()
+        {
+            // write of file
+            // %APPDATA%\HWTokenLicenseChecker\position.prefs
+            Point point = this.Location;
+            String position = String.Format(@"X:{0}:Y:{1}", point.X, point.Y);
+
+            String positionPrefFile = Path.Combine(folder,POSITION_PREFS_FILE );
+            using (StreamWriter output = new StreamWriter(positionPrefFile))
+            {
+                output.Write(position);
+                output.Close();
+            }
+        }
+
+        private void UpdateLastPosition()
+        {
+            // read contents of file
+            // %APPDATA%\HWTokenLicenseChecker\position.prefs
+            String positionPrefFile = Path.Combine(folder,POSITION_PREFS_FILE );
+            StreamReader myFile = new StreamReader(positionPrefFile);
+            String myString = myFile.ReadToEnd();
+            String[] lines = myString.Split('\n');
+            myFile.Close();
+
+            foreach (String line in lines)
+            {
+                if (line.Trim().Length == 0)
+                {
+                    continue;
+                }
+
+                String[] pointString = line.Trim().Split(':');
+                Point point = new Point(int.Parse(pointString[1]), int.Parse(pointString[3]));
+                this.StartPosition = FormStartPosition.Manual;
+                this.Location = point;
+                //MessageBox.Show(point.ToString() + " " + this.Location.ToString());
+            }
         }
 
     }

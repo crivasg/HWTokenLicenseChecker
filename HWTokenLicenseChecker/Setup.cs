@@ -59,7 +59,7 @@ namespace HWTokenLicenseChecker
              {
                  //String tmp = Path.Combine(dirname, fileName);
 
-                 if (File.Exists(fileName) && !Path.GetFileName(fileName).Equals(@"Licenses.sqlite3"))
+                 if (File.Exists(fileName) && Path.GetFileName(fileName).Equals(@"Licenses.xml"))
                  {
                      try
                      {
