@@ -451,25 +451,39 @@ namespace HWTokenLicenseChecker
             // read contents of file
             // %APPDATA%\HWTokenLicenseChecker\position.prefs
             String positionPrefFile = Path.Combine(folder,POSITION_PREFS_FILE );
-            StreamReader myFile = new StreamReader(positionPrefFile);
-            String myString = myFile.ReadToEnd();
-            String[] lines = myString.Split('\n');
-            myFile.Close();
 
-            foreach (String line in lines)
+            if (File.Exists(positionPrefFile))
             {
-                if (line.Trim().Length == 0)
-                {
-                    continue;
-                }
+                StreamReader myFile = new StreamReader(positionPrefFile);
+                String myString = myFile.ReadToEnd();
+                String[] lines = myString.Split('\n');
+                myFile.Close();
 
-                String[] pointString = line.Trim().Split(':');
-                Point point = new Point(int.Parse(pointString[1]), int.Parse(pointString[3]));
-                this.StartPosition = FormStartPosition.Manual;
-                this.Location = point;
-                //MessageBox.Show(point.ToString() + " " + this.Location.ToString());
+                foreach (String line in lines)
+                {
+                    if (line.Trim().Length == 0)
+                    {
+                        continue;
+                    }
+
+                    String[] pointString = line.Trim().Split(':');
+                    Point point = new Point(int.Parse(pointString[1]), int.Parse(pointString[3]));
+                    this.StartPosition = FormStartPosition.Manual;
+                    this.Location = point;
+                    //MessageBox.Show(point.ToString() + " " + this.Location.ToString());
+                }
             }
+            else
+            {
+                this.CenterToScreen();
+            }
+
+            StoreLastPosition();
+
         }
+
+
+        
 
     }
 }
