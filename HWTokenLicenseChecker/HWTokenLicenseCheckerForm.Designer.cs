@@ -530,6 +530,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "HWTokenLicenseCheckerForm";
             this.Text = "HW Token License Checker";
+            this.ResizeEnd += new System.EventHandler(this.HWTokenLicenseCheckerForm_ResizeEnd);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
