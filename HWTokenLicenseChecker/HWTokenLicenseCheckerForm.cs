@@ -21,6 +21,8 @@ namespace HWTokenLicenseChecker
         private String folder = @"";
         private String lmxconfigtool = @"";
 
+        private const String POSITION_PREFS_FILE = @"position.prefs";
+
         private int minHWPAFeatureId = -1;
         private int maxHWPAFeatureId = -2;
 
@@ -436,7 +438,7 @@ namespace HWTokenLicenseChecker
             Point point = this.Location;
             String position = String.Format(@"X:{0}:Y:{1}", point.X, point.Y);
 
-            String positionPrefFile = Path.Combine(folder, @"position.prefs");
+            String positionPrefFile = Path.Combine(folder,POSITION_PREFS_FILE );
             using (StreamWriter output = new StreamWriter(positionPrefFile))
             {
                 output.Write(position);
@@ -448,7 +450,7 @@ namespace HWTokenLicenseChecker
         {
             // read contents of file
             // %APPDATA%\HWTokenLicenseChecker\position.prefs
-            String positionPrefFile = Path.Combine(folder, @"position.prefs");
+            String positionPrefFile = Path.Combine(folder,POSITION_PREFS_FILE );
             StreamReader myFile = new StreamReader(positionPrefFile);
             String myString = myFile.ReadToEnd();
             String[] lines = myString.Split('\n');
