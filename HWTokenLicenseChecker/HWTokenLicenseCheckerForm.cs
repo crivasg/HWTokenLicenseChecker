@@ -484,7 +484,10 @@ namespace HWTokenLicenseChecker
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AboutForm aboutForm = new AboutForm();
+
+            String aboutText = @"";
+
+            AboutForm aboutForm = new AboutForm(aboutText);
             aboutForm.ShowDialog();
         }
 

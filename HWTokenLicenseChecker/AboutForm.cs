@@ -11,11 +11,10 @@ namespace HWTokenLicenseChecker
 {
     public partial class AboutForm : Form
     {
-        public AboutForm()
+        public AboutForm(String aboutText)
         {
             InitializeComponent();
-            textBox1.Text = @"This tool was created by Cesar A. Rivas (crivasg@gmail.com)";
-            
+            textBox1.Text = aboutText;   
         }
 
         private void dismissAboutButton_Click(object sender, EventArgs e)
