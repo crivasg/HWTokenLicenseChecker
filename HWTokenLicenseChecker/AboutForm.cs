@@ -14,11 +14,14 @@ namespace HWTokenLicenseChecker
         public AboutForm()
         {
             InitializeComponent();
+            textBox1.Text = @"This tool was created by Cesar A. Rivas (crivasg@gmail.com)";
+            
         }
 
         private void dismissAboutButton_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
     }
 }
