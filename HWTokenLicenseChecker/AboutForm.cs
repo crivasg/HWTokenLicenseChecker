@@ -14,7 +14,7 @@ namespace HWTokenLicenseChecker
         public AboutForm(String aboutText)
         {
             InitializeComponent();
-            textBox1.Text = aboutText;   
+            richTextBox1.Text = aboutText;   
         }
 
         private void dismissAboutButton_Click(object sender, EventArgs e)
