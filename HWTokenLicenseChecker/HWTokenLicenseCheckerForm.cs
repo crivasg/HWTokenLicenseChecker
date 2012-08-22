@@ -482,6 +482,37 @@ namespace HWTokenLicenseChecker
 
         }
 
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            String aboutText = @"This tool as created by Cesar A. Rivas ( crivasg@gmail.com ) to check and track the usage of the HyperWorks tokens by quering the LMX tools."
+                + Environment.NewLine + Environment.NewLine
+                + @"Inspried by LS-DYNA Program Manager. The code for this application is hosted at http://github.com/. Pull requsts with improvements are welcome! "
+                + @"Select Help> Visit project Github repository to browse the code"
+                + Environment.NewLine + Environment.NewLine 
+                + @"You are free to use and modify this application. If you modify the application, please send a pull request with your improvements." ;
+
+            AboutForm aboutForm = new AboutForm(aboutText);
+            aboutForm.ShowDialog();
+        }
+
+        private void githubToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                Process.Start(@"https://github.com/crivasg/HWTokenLicenseChecker");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(@"Failed to open the Github repo." + Environment.NewLine+ex.ToString());
+            }
+            finally
+            { 
+            
+            }
+        }
+
 
         
 
