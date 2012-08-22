@@ -498,7 +498,21 @@ namespace HWTokenLicenseChecker
 
         private void githubToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start(@"https://github.com/crivasg/HWTokenLicenseChecker");
+
+            try
+            {
+                Process.Start(@"https://github.com/crivasg/HWTokenLicenseChecker");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(@"Failed to open the Github repo." + Environment.NewLine+ex.ToString());
+            }
+            finally
+            { 
+            
+            }
+
+            
         }
 
 
