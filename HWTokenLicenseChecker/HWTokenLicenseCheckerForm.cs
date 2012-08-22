@@ -511,8 +511,6 @@ namespace HWTokenLicenseChecker
             { 
             
             }
-
-            
         }
 
 
