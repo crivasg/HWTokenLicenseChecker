@@ -266,7 +266,7 @@ namespace HWTokenLicenseChecker
             featureTextBox.Text = String.Join(Environment.NewLine, featureList.ToArray());
 
             DateTime loggingTime = DateTime.Now;
-
+           
             foreach (DateTime date in dateList)
             {
                 if (date.CompareTo(loggingTime) < 0)
@@ -278,13 +278,12 @@ namespace HWTokenLicenseChecker
             checkoutTextBox.Text = loggingTime.ToString();
 
             TimeSpan ts = DateTime.Now - loggingTime;
-            int days = ts.Days > -1 ? ts.Days : 0;
-            int hours = ts.Hours > -1 ? ts.Hours : 0;
-            int minutes = ts.Minutes > -1 ? ts.Minutes : 0;
-            int seconds = ts.Seconds > -1 ? ts.Seconds : 0;
+            int days = Math.Abs(ts.Days);
+            int hours = Math.Abs(ts.Hours );
+            int minutes = Math.Abs(ts.Minutes);
 
-            String sessionDuration = String.Format(@"{0}days {1:00}hrs {2:00}min {3:00}secs", 
-                days, hours, minutes, seconds);
+            String sessionDuration = String.Format(@"{0}days {1:00}hrs {2:00}min", 
+                days, hours, minutes);
 
             sessionTimeTextBox.Text = sessionDuration;
             hostTextBox.Text = hostList[0];
