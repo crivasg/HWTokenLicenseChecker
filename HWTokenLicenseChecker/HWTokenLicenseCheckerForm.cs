@@ -73,7 +73,7 @@ namespace HWTokenLicenseChecker
             SQLiteConnection cnn = new SQLiteConnection("Data Source=" + sqlPath);
             cnn.Open();
             SQLiteCommand cmd = new SQLiteCommand(cnn);
-            String sqlQuery = @"SELECT LOWER(name) AS Username, host AS Hostname, MAX(used_licenses) AS Tokens, share_custom AS ""Custom String"", feature_id as ""Feature Id"" FROM user WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner = 0) GROUP BY Username, Hostname UNION SELECT LOWER(name), host, MAX(used_licenses)||""-HWPA"", share_custom, feature_id FROM user WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner != 0) GROUP BY name, host, feature_id ORDER BY Tokens DESC, Username ASC, Hostname ASC";
+            String sqlQuery = @"SELECT LOWER(name) AS Username, host AS Hostname, MAX(used_licenses) AS Tokens, share_custom AS 'Custom String', feature_id as 'Feature Id' FROM user WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner = 0) AND isBorrow = 0 GROUP BY Username, Hostname UNION SELECT LOWER(name), host, MAX(used_licenses)||'-HWPA', share_custom, feature_id FROM user WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner != 0) AND isBorrow = 0 GROUP BY name, host, feature_id  UNION SELECT LOWER(name), host, MAX(used_licenses)||'-BRRW', share_custom, feature_id FROM user WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner = 0) AND isBorrow = 1 GROUP BY name, host ORDER BY Tokens DESC, Username ASC, Hostname ASC;";
 
             SQLiteDataAdapter db = new SQLiteDataAdapter(sqlQuery, cnn);
 
@@ -100,7 +100,7 @@ namespace HWTokenLicenseChecker
             int used_licenses = -1;
             int total_licenses = -1;
             String end_date = @"";
-            sqlQuery = @"SELECT used_licenses,total_licenses,end FROM feature WHERE name = ""HyperWorks"";";
+            sqlQuery = @"SELECT used_licenses,total_licenses,end FROM feature WHERE name = 'HyperWorks';";
 
             //
             cmd.CommandText = sqlQuery;
@@ -179,11 +179,20 @@ namespace HWTokenLicenseChecker
                 user = Convert.ToString(currentRow.Cells[0].Value).ToLower();
                 host = Convert.ToString(currentRow.Cells[1].Value).ToUpper();
                 String tmpTokens = Convert.ToString(currentRow.Cells[2].Value);
-
+                borrowHWPATextBox.Text = String.Empty;
                 if (tmpTokens.Contains(@"HWPA") || tmpTokens.Contains(@"BRRW"))
                 {
                     String[] tmpTokensArray = tmpTokens.Split(new Char[] {'-'});
                     tokens = int.Parse(tmpTokensArray[0]);
+
+                    if (tmpTokens.Contains(@"HWPA"))
+                    {
+                        borrowHWPATextBox.Text = @"HWPA";
+                    }
+                    if (tmpTokens.Contains(@"BRRW"))
+                    {
+                        borrowHWPATextBox.Text = @"BORROW";
+                    }
                 }
                 else
                 {
@@ -197,12 +206,12 @@ namespace HWTokenLicenseChecker
 
             userTextBox.Text = user;
             tokensTextBox.Text = tokens.ToString();
-            borrowHWPATextBox.Text = @"";
+            //borrowHWPATextBox.Text = @"";
 
             if (feature_id >= minHWPAFeatureId && feature_id <= minHWPAFeatureId)
             {
                 // feature is HWPartner
-                borrowHWPATextBox.Text = @"HWPA";
+                //borrowHWPATextBox.Text = @"HWPA";
                 ProcessTokens(user, host, feature_id, @"SELECT DISTINCT feature_id FROM feature WHERE isPartner != 0");
             }
             else
