@@ -23,6 +23,8 @@ namespace HWTokenLicenseChecker
         private String[] _licenseData;
         private String _sqlitePath;
 
+        private const String BORROW_EXPIRE_TIME = @"BORROW_EXPIRE_TIME";
+
         public String[] LicenseData { 
             get { return _licenseData; } 
             set { _licenseData = value;} 
@@ -118,17 +120,43 @@ namespace HWTokenLicenseChecker
                     if (textReader.Name == @"USER" && textReader.NodeType != XmlNodeType.EndElement)
                     {
                         ++userCounter;
-                        String userNameAttribute = textReader["NAME"].Trim().ToLower();
-                        String userHostAttribute = textReader["HOST"].Trim().ToUpper();
-                        String userIpAttribute = textReader["IP"].Trim();
-                        String userUsed_LicensesAttribute = textReader["USED_LICENSES"].Trim();
-                        String userLogin_TimeAttribute = textReader["LOGIN_TIME"].Trim();
-                        String userCheckout_TimeAttribute = textReader["CHECKOUT_TIME"].Trim();
-                        String userShare_CustomAttribute = textReader["SHARE_CUSTOM"].Trim();
+                        int isBorrow = 0;
+                        // get the list of attributes for the <USER> item
+                        List<String> attrList = new List<String>();
+                        if (textReader.AttributeCount > 0)
+                        {
+                            while (textReader.MoveToNextAttribute())
+                            {
+                                attrList.Add(textReader.Name);
+                            }   
+                            textReader.MoveToElement();                            
+                        }
 
-                        String tmp = String.Format(@"{0},{1},{2},{3},""{4}"",""{5}"",{6},{7}",
+                        //MessageBox.Show(String.Join(Environment.NewLine,attrList.ToArray()));
+
+                        String userNameAttribute = textReader[attrList[0]].Trim().ToLower();
+                        String userHostAttribute = textReader[attrList[1]].Trim().ToUpper();
+                        String userIpAttribute = textReader[attrList[2]].Trim();
+                        String userUsed_LicensesAttribute = textReader[attrList[3]].Trim();
+                        String userLogin_TimeAttribute = textReader[attrList[4]].Trim();
+                        String userCheckout_TimeAttribute = textReader[attrList[4]].Trim();
+                        String userShare_CustomAttribute = textReader[attrList[5]].Trim();
+
+                        if (attrList.Count == 7)
+                        {
+                            userCheckout_TimeAttribute = textReader[attrList[5]].Trim();
+                            userShare_CustomAttribute = textReader[attrList[6]].Trim();                           
+                        }
+
+                        if(attrList.Contains(BORROW_EXPIRE_TIME))
+                        {
+                            isBorrow = 1;
+                        }
+
+
+                        String tmp = String.Format(@"{0},{1},{2},{3},""{4}"",""{5}"",{6},{7},{8}",
                             userNameAttribute, userHostAttribute,userIpAttribute, userUsed_LicensesAttribute,
-                            userLogin_TimeAttribute, userCheckout_TimeAttribute, userShare_CustomAttribute, featureId);
+                            userLogin_TimeAttribute, userCheckout_TimeAttribute, userShare_CustomAttribute, featureId,isBorrow);
 
                         //<USER NAME="xxxxxxx" HOST="xxxxxxx" IP="###.###.###.###" USED_LICENSES="####"
                         // LOGIN_TIME="yyyy-mm-dd hh:mm" CHECKOUT_TIME="yyyy-mm-dd hh:min" SHARE_CUSTOM="xxxxxxx:xxxxxxx"/>
@@ -159,7 +187,7 @@ namespace HWTokenLicenseChecker
             String[] sqlStmtTextArray = {
                     @"INSERT INTO license_path (server_version, ip, port, type, uptime ) VALUES (?,?,?,?,?)",
                     @"INSERT INTO feature (feature_id, name, version ,vendor, start, end, used_licenses, total_licenses, share, isPartner ) VALUES (?,?,?,?,?,?,?,?,?,?)",
-                    @"INSERT INTO user (name, host, ip, used_licenses, login_time, checkout_time, share_custom, feature_id ) VALUES (?,?,?,?,?,?,?,?)"};
+                    @"INSERT INTO user (name, host, ip, used_licenses, login_time, checkout_time, share_custom, feature_id, isBorrow ) VALUES (?,?,?,?,?,?,?,?,?)"};
 
             // insert to LICENSE_PATH table
             using (SQLiteTransaction sqlTransaction = cnn.BeginTransaction())
@@ -265,6 +293,7 @@ namespace HWTokenLicenseChecker
                     SQLiteParameter checkoutParam = new SQLiteParameter();
                     SQLiteParameter userShareParam = new SQLiteParameter();
                     SQLiteParameter featureIdParam = new SQLiteParameter();
+                    SQLiteParameter isBorrowParam = new SQLiteParameter();
 
                     mycommand.CommandText = sqlStmtTextArray[2];
 
@@ -276,6 +305,7 @@ namespace HWTokenLicenseChecker
                     mycommand.Parameters.Add(checkoutParam);
                     mycommand.Parameters.Add(userShareParam);
                     mycommand.Parameters.Add(featureIdParam);
+                    mycommand.Parameters.Add(isBorrowParam);
 
                     foreach (String userStr in userData)
                     {
@@ -288,6 +318,7 @@ namespace HWTokenLicenseChecker
                         checkoutParam.Value = tmpArray[5];
                         userShareParam.Value = tmpArray[6];
                         featureIdParam.Value = int.Parse(tmpArray[7]);
+                        isBorrowParam.Value = int.Parse(tmpArray[8]);
 
                         mycommand.ExecuteNonQuery();
                     }
@@ -378,6 +409,7 @@ namespace HWTokenLicenseChecker
             userHash.Add("checkout_time", "STRING");
             userHash.Add("share_custom", "STRING");
             userHash.Add("feature_id", "INTEGER");
+            userHash.Add("isBorrow", "INTEGER");
             // <--------------------------- END ------------------------------------>
 
             // validate tables.
