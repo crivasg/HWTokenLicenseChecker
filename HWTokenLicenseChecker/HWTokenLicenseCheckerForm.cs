@@ -266,11 +266,16 @@ namespace HWTokenLicenseChecker
             featureTextBox.Text = String.Join(Environment.NewLine, featureList.ToArray());
 
             DateTime loggingTime = DateTime.Now;
+            double maxDiff = -99999999;
+            DateTime sessionDateTime = DateTime.Now;
            
             foreach (DateTime date in dateList)
             {
-                if (date.CompareTo(loggingTime) < 0)
+                double diff = Math.Abs((loggingTime - date).TotalSeconds);
+                
+                if ( diff > maxDiff)
                 {
+                    maxDiff = diff;
                     loggingTime = date;
                 }
             }
