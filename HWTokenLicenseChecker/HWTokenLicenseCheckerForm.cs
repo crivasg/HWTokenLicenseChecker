@@ -498,6 +498,7 @@ namespace HWTokenLicenseChecker
                 + @"You are free to use and modify this application. If you modify the application, please send a pull request with your improvements." ;
 
             AboutForm aboutForm = new AboutForm(aboutText);
+            aboutForm.StartPosition = FormStartPosition.CenterParent;
             aboutForm.ShowDialog();
         }
 
