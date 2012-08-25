@@ -274,10 +274,6 @@ namespace HWTokenLicenseChecker
 
             featureTextBox.Text = String.Join(Environment.NewLine, featureList.ToArray());
 
-            //DateTime loggingTime = DateTime.Now;
-            //double maxDiff = -99999999;
-            //DateTime sessionDateTime = DateTime.Now;
-
             //Sorts the date list
             dateList.Sort((x, y) => x.CompareTo(y));
             if ( borrowHWPATextBox.Text == @"BORROW")
@@ -285,7 +281,6 @@ namespace HWTokenLicenseChecker
                 dateList.Sort((x, y) => y.CompareTo(x));
             }
             
-
             checkoutTextBox.Text = dateList[0].ToString();
 
             TimeSpan ts = DateTime.Now - dateList[0];
