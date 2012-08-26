@@ -133,10 +133,14 @@ namespace HWTokenLicenseChecker
                 reader.Close();
             }
 
-            toolStripStatusLabel1.Text = String.Format(@"Uptime: {0}. {1} of {2} license(s) used. Expiration Date: {3}", 
-                uptime,used_licenses, total_licenses, end_date);
+            int numberOfUsers = dataGridView.RowCount;
 
-            this.Text += String.Format(@" {0}@{1}",port,ip);
+
+            toolStripStatusLabel1.Text = String.Format(@"{0} User(s). Uptime: {1}. {2} of {3} license(s) used. Expiration Date: {4}", 
+                numberOfUsers, uptime,used_licenses, total_licenses, end_date);
+
+           
+            this.Text += String.Format(@" {0}@{1} ",port,ip);
             // {0}@{1}.
 
             // Get range HWPartner's feature...
@@ -180,8 +184,12 @@ namespace HWTokenLicenseChecker
                 host = Convert.ToString(currentRow.Cells[1].Value).ToUpper();
                 String tmpTokens = Convert.ToString(currentRow.Cells[2].Value);
                 borrowHWPATextBox.Text = String.Empty;
+                borrowHWPATextBox.BackColor = Color.FromKnownColor(KnownColor.Window);
                 if (tmpTokens.Contains(@"HWPA") || tmpTokens.Contains(@"BRRW"))
                 {
+                   
+                    borrowHWPATextBox.BackColor = Color.MistyRose;
+
                     String[] tmpTokensArray = tmpTokens.Split(new Char[] {'-'});
                     tokens = int.Parse(tmpTokensArray[0]);
 
@@ -276,14 +284,16 @@ namespace HWTokenLicenseChecker
 
             //Sorts the date list
             dateList.Sort((x, y) => x.CompareTo(y));
+
+            int dateIndex = 0;
             if ( borrowHWPATextBox.Text == @"BORROW")
             {
-                dateList.Sort((x, y) => y.CompareTo(x));
+                dateIndex = dateList.Count - 1;
             }
-            
-            checkoutTextBox.Text = dateList[0].ToString();
 
-            TimeSpan ts = DateTime.Now - dateList[0];
+            checkoutTextBox.Text = dateList[dateIndex].ToString();
+
+            TimeSpan ts = DateTime.Now - dateList[dateIndex];
             int days = Math.Abs(ts.Days);
             int hours = Math.Abs(ts.Hours );
             int minutes = Math.Abs(ts.Minutes);

@@ -67,7 +67,7 @@ namespace HWTokenLicenseChecker
                         String license_PathHostAttribute = textReader["HOST"].Trim();
                         String license_PathServer_VersionAttribute = textReader["SERVER_VERSION"].Trim();
                         String license_PathUptimeAttribute = textReader["UPTIME"].Trim();
-                        license_PathUptimeAttribute = license_PathUptimeAttribute.Replace(' ','=');
+                        //license_PathUptimeAttribute = license_PathUptimeAttribute.Replace(' ','=');
 
                         String[] hostArray = license_PathHostAttribute.Split(new Char[] {'@'});
                         String license_PathHostAttribute_Port = hostArray[0];
@@ -96,7 +96,7 @@ namespace HWTokenLicenseChecker
                         String featureUsedLicensesAttribute = textReader["USED_LICENSES"].Trim();
                         String featureTotalLicensesAttribute = textReader["TOTAL_LICENSES"].Trim();
                         String featureShareAttribute = textReader["SHARE"].Trim();
-                        featureShareAttribute = featureShareAttribute.Replace(',', ' ');
+                        featureShareAttribute = featureShareAttribute.Replace(',', '_');
 
                         int isPartner = 0;
                         featureName = featureNameAttribute;
@@ -108,7 +108,7 @@ namespace HWTokenLicenseChecker
                         }
                         ++featureId;
 
-                        String tmp = String.Format(@"{0},{1},{2},{3},{4},{5},{6},{7},""{8}"",{9}",
+                        String tmp = String.Format(@"{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}",
                             featureId, featureNameAttribute, featureVersionAttribute,
                             featureVendorAttribute, featureStartAttribute, featureEndAttribute, 
                             featureUsedLicensesAttribute, featureTotalLicensesAttribute,featureShareAttribute,isPartner);
