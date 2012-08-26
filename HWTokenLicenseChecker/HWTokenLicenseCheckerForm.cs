@@ -480,7 +480,7 @@ namespace HWTokenLicenseChecker
             }
             else
             {
-                this.CenterToScreen();
+                this.StartPosition = FormStartPosition.CenterScreen;
             }
 
             StoreLastPosition();
