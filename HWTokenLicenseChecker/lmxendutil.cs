@@ -145,9 +145,14 @@ namespace HWTokenLicenseChecker
 
             foreach (String line in output)
             {
+                if (line.Trim().Length == 0)
+                {
+                    continue;
+                }
+
                 if (line.StartsWith(@">") || line.StartsWith(@"<"))
                 {
-                    sb.AppendLine(line);
+                    sb.AppendLine(line.Trim());
                 }            
             }
 
