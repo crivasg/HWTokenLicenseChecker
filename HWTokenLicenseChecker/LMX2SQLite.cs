@@ -96,7 +96,7 @@ namespace HWTokenLicenseChecker
                         String featureUsedLicensesAttribute = textReader["USED_LICENSES"].Trim();
                         String featureTotalLicensesAttribute = textReader["TOTAL_LICENSES"].Trim();
                         String featureShareAttribute = textReader["SHARE"].Trim();
-                        featureShareAttribute = featureShareAttribute.Replace(',', '_');
+                        //featureShareAttribute = featureShareAttribute.Replace(',', '_');
 
                         int isPartner = 0;
                         featureName = featureNameAttribute;
@@ -108,7 +108,7 @@ namespace HWTokenLicenseChecker
                         }
                         ++featureId;
 
-                        String tmp = String.Format(@"{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}",
+                        String tmp = String.Format(@"{0};{1};{2};{3};{4};{5};{6};{7};{8};{9}",
                             featureId, featureNameAttribute, featureVersionAttribute,
                             featureVendorAttribute, featureStartAttribute, featureEndAttribute, 
                             featureUsedLicensesAttribute, featureTotalLicensesAttribute,featureShareAttribute,isPartner);
@@ -259,7 +259,7 @@ namespace HWTokenLicenseChecker
 
                     foreach (String featureStr in featureData)
                     {
-                        String[] tmpArray = featureStr.Split(new Char[] { ',' });
+                        String[] tmpArray = featureStr.Split(new Char[] { ';' });
 
                         idParam.Value = int.Parse(tmpArray[0]);
                         nameParam.Value = tmpArray[1];
