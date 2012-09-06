@@ -515,42 +515,13 @@ namespace HWTokenLicenseChecker
 
         private void githubToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             LaunchURL(GITHUB_REPO_URL, @"Failed to open the Github repo.");
-
-            /*try
-            {
-                Process.Start(GITHUB_REPO_URL);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(@"Failed to open the Github repo." + Environment.NewLine+ex.ToString());
-            }
-            finally
-            { 
-            
-            }*/
         }
 
         private void addIssueStripMenuItem_Click(object sender, EventArgs e)
         {
-
             String issuesURL = String.Format(@"{0}/issues", GITHUB_REPO_URL);
             LaunchURL(issuesURL, @"Failed to open the Github Issues.");
-
-            /*try
-            {
-                
-                Process.Start(issuesURL);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(@"Failed to open the Github Issues." + Environment.NewLine + ex.ToString());
-            }
-            finally
-            {
-
-            }*/
         }
 
         private void copyRepoStripMenuItem1_Click(object sender, EventArgs e)
