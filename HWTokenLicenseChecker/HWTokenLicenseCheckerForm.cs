@@ -545,5 +545,42 @@ namespace HWTokenLicenseChecker
             }       
         }
 
+        private void processLogFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GetLogFromServer();
+           
+        }
+
+        private void GetLogFromServer()
+        {
+
+            openLogFileDialog.Filter = "Log Files|*.log|All Files|*.*";
+            openLogFileDialog.Multiselect = false;
+            openLogFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+            if (openLogFileDialog.ShowDialog() == DialogResult.OK)
+            {
+
+                ProcessLMXLogFile(openLogFileDialog.FileName);
+            }
+
+        
+        }
+
+        private void ProcessLMXLogFile(String logfile)
+        {
+            //MessageBox.Show(logfile);
+
+
+            // read the file contents.
+            StreamReader myFile = new StreamReader(logfile);
+            String myString = myFile.ReadToEnd();
+            String[] lines = myString.Split('\n');
+            myFile.Close();
+
+
+            MessageBox.Show(String.Join(Environment.NewLine,lines));
+        }
+
     }
 }

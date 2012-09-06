@@ -74,6 +74,7 @@
             this.addIssueStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyRepoStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.processLogFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openLogFileDialog = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -496,12 +497,12 @@
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(224, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(197, 6);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.aboutToolStripMenuItem.Text = "&About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -513,7 +514,7 @@
             // addIssueStripMenuItem
             // 
             this.addIssueStripMenuItem.Name = "addIssueStripMenuItem";
-            this.addIssueStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.addIssueStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.addIssueStripMenuItem.Text = "Add Issue";
             this.addIssueStripMenuItem.Click += new System.EventHandler(this.addIssueStripMenuItem_Click);
             // 
@@ -529,6 +530,11 @@
             this.processLogFileToolStripMenuItem.Name = "processLogFileToolStripMenuItem";
             this.processLogFileToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.processLogFileToolStripMenuItem.Text = "Process Log File";
+            this.processLogFileToolStripMenuItem.Click += new System.EventHandler(this.processLogFileToolStripMenuItem_Click);
+            // 
+            // openLogFileDialog
+            // 
+            this.openLogFileDialog.Title = "Select LMX log file";
             // 
             // HWTokenLicenseCheckerForm
             // 
@@ -608,6 +614,7 @@
         private System.Windows.Forms.ToolStripMenuItem processLogFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyRepoStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem addIssueStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog openLogFileDialog;
     }
 }
 
