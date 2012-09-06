@@ -571,15 +571,18 @@ namespace HWTokenLicenseChecker
         {
             //MessageBox.Show(logfile);
 
+            ProcessLMXLog log = new ProcessLMXLog() { Path = logfile };
+            log.ProcessLogFile();
+            //MessageBox.Show(log.Path);
 
-            // read the file contents.
+            /* read the file contents.
             StreamReader myFile = new StreamReader(logfile);
             String myString = myFile.ReadToEnd();
             String[] lines = myString.Split('\n');
             myFile.Close();
+            */
 
-
-            MessageBox.Show(String.Join(Environment.NewLine,lines));
+            //MessageBox.Show(String.Join(Environment.NewLine,lines));
         }
 
     }
