@@ -489,8 +489,8 @@
             // githubToolStripMenuItem
             // 
             this.githubToolStripMenuItem.Name = "githubToolStripMenuItem";
-            this.githubToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
-            this.githubToolStripMenuItem.Text = "&Visit project Github repository";
+            this.githubToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.githubToolStripMenuItem.Text = "&Visit project Github repo";
             this.githubToolStripMenuItem.Click += new System.EventHandler(this.githubToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
@@ -515,12 +515,14 @@
             this.addIssueStripMenuItem.Name = "addIssueStripMenuItem";
             this.addIssueStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.addIssueStripMenuItem.Text = "Add Issue";
+            this.addIssueStripMenuItem.Click += new System.EventHandler(this.addIssueStripMenuItem_Click);
             // 
             // copyRepoStripMenuItem1
             // 
             this.copyRepoStripMenuItem1.Name = "copyRepoStripMenuItem1";
-            this.copyRepoStripMenuItem1.Size = new System.Drawing.Size(227, 22);
+            this.copyRepoStripMenuItem1.Size = new System.Drawing.Size(200, 22);
             this.copyRepoStripMenuItem1.Text = "Copy Repo URL";
+            this.copyRepoStripMenuItem1.Click += new System.EventHandler(this.copyRepoStripMenuItem1_Click);
             // 
             // processLogFileToolStripMenuItem
             // 
