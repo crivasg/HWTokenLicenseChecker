@@ -71,6 +71,9 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveCSVFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.addIssueStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyRepoStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.processLogFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -450,7 +453,8 @@
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.refreshToolStripMenuItem,
-            this.lmxConfigToolStripMenuItem});
+            this.lmxConfigToolStripMenuItem,
+            this.processLogFileToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.toolsToolStripMenuItem.Text = "&Tools";
@@ -474,6 +478,8 @@
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.githubToolStripMenuItem,
+            this.copyRepoStripMenuItem1,
+            this.addIssueStripMenuItem,
             this.toolStripSeparator5,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
@@ -490,12 +496,12 @@
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(172, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(224, 6);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.aboutToolStripMenuItem.Text = "&About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -503,6 +509,24 @@
             // 
             this.saveCSVFileDialog.Filter = "CSV Files|*.csv";
             this.saveCSVFileDialog.Title = "Select CSV to export data";
+            // 
+            // addIssueStripMenuItem
+            // 
+            this.addIssueStripMenuItem.Name = "addIssueStripMenuItem";
+            this.addIssueStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.addIssueStripMenuItem.Text = "Add Issue";
+            // 
+            // copyRepoStripMenuItem1
+            // 
+            this.copyRepoStripMenuItem1.Name = "copyRepoStripMenuItem1";
+            this.copyRepoStripMenuItem1.Size = new System.Drawing.Size(227, 22);
+            this.copyRepoStripMenuItem1.Text = "Copy Repo URL";
+            // 
+            // processLogFileToolStripMenuItem
+            // 
+            this.processLogFileToolStripMenuItem.Name = "processLogFileToolStripMenuItem";
+            this.processLogFileToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.processLogFileToolStripMenuItem.Text = "Process Log File";
             // 
             // HWTokenLicenseCheckerForm
             // 
@@ -579,6 +603,9 @@
         private System.Windows.Forms.ToolStripMenuItem sQLiteToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveCSVFileDialog;
         private System.Windows.Forms.ToolStripMenuItem xMLToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem processLogFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyRepoStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem addIssueStripMenuItem;
     }
 }
 
