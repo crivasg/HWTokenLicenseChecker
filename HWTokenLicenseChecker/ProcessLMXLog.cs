@@ -14,6 +14,10 @@ namespace HWTokenLicenseChecker
         private String[] Lines { get; set; }
         private List<String> Usage { get; set; }
 
+        private const String READY_TO_SERVE = @"Ready to serve...";
+        private const String CHECKOUT_STR = @"CHECKOUT";
+        private const String CHECKIN_STR = @"CHECKIN";
+
         public ProcessLMXLog( )
         {
             
@@ -23,7 +27,12 @@ namespace HWTokenLicenseChecker
         {
             ReadFile();
             PrepareForDatabase();
-            MessageBox.Show(this.Lines.Length.ToString());
+            MessageBox.Show(this.Usage.Count.ToString());
+        
+        }
+
+        public void Close()
+        { 
         
         }
 
@@ -32,6 +41,7 @@ namespace HWTokenLicenseChecker
             StreamReader myFile = new StreamReader(this.Path);
             String myString = myFile.ReadToEnd();
             this.Lines = myString.Split('\n');
+            
             myFile.Close();
         }
 
@@ -39,13 +49,23 @@ namespace HWTokenLicenseChecker
         {
             this.Usage = new List<String>();
 
-            foreach (String line in this.Lines)
-            {
-                if (line.Trim().Length > 0 && (line.Contains(@"CHECKIN") || line.Contains(@"CHECKOUT")))
-                { 
-                    String[] splittedLine = line.Trim().Split(' ');
+            //int index = -1;
 
+            foreach (String line in this.Lines.Reverse<String>())
+            {
+                if (line.Trim().Contains(READY_TO_SERVE))
+                {
+                   break;
                 }
+
+                this.Usage.Add(line.Trim());
+                
+
+                //if (line.Trim().Length > 0 && (line.Contains(@"CHECKIN") || line.Contains(@"CHECKOUT")))
+                //{ 
+                //    String[] splittedLine = line.Trim().Split(' ');
+
+                //}
             }
         }
 
