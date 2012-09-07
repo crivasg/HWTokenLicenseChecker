@@ -17,6 +17,9 @@ namespace HWTokenLicenseChecker
         private const String READY_TO_SERVE = @"Ready to serve...";
         private const String CHECKOUT_STR = @"CHECKOUT";
         private const String CHECKIN_STR = @"CHECKIN";
+        private const String STATUS_STR = @"STATUS";
+        private const String USER_INACTIVE = @"USER INACTIVE";
+
 
         public ProcessLMXLog( )
         {
@@ -25,10 +28,10 @@ namespace HWTokenLicenseChecker
 
         public void ProcessLogFile()
         {
+    
             ReadFile();
             PrepareForDatabase();
-            MessageBox.Show(this.Usage.Count.ToString());
-        
+    
         }
 
         public void Close()
@@ -49,24 +52,32 @@ namespace HWTokenLicenseChecker
         {
             this.Usage = new List<String>();
 
-            //int index = -1;
-
             foreach (String line in this.Lines.Reverse<String>())
             {
-                if (line.Trim().Contains(READY_TO_SERVE))
+                if (line.Contains(READY_TO_SERVE))
                 {
                    break;
+                }
+                if (line.Contains(STATUS_STR) || line.Contains(USER_INACTIVE))
+                {
+                    continue;
                 }
 
                 this.Usage.Add(line.Trim());
                 
-
-                //if (line.Trim().Length > 0 && (line.Contains(@"CHECKIN") || line.Contains(@"CHECKOUT")))
-                //{ 
-                //    String[] splittedLine = line.Trim().Split(' ');
-
-                //}
             }
+            this.Lines = null;
+
+            MessageBox.Show(String.Join(Environment.NewLine,this.Usage.ToArray()));
+
+            //foreach (String item in this.Usage)
+            //{ 
+            //    if()
+            //    {
+                
+            //    }
+            //}
+
         }
 
     }
