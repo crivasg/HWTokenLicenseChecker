@@ -22,6 +22,7 @@ namespace HWTokenLicenseChecker
         private String lmxconfigtool = @"";
 
         private const String POSITION_PREFS_FILE = @"position.prefs";
+        private const String GITHUB_REPO_URL = @"https://github.com/crivasg/HWTokenLicenseChecker";
 
         private int minHWPAFeatureId = -1;
         private int maxHWPAFeatureId = -2;
@@ -503,7 +504,7 @@ namespace HWTokenLicenseChecker
             String aboutText = @"This tool as created by Cesar A. Rivas ( crivasg@gmail.com ) to check and track the usage of the HyperWorks tokens by quering the LMX tools."
                 + Environment.NewLine + Environment.NewLine
                 + @"Inspried by LS-DYNA Program Manager. The code for this application is hosted at http://github.com/. Pull requsts with improvements are welcome! "
-                + @"Select Help> Visit project Github repository to browse the code"
+                + @"Select Help> Visit project Github repo to browse the code"
                 + Environment.NewLine + Environment.NewLine 
                 + @"You are free to use and modify this application. If you modify the application, please send a pull request with your improvements." ;
 
@@ -514,23 +515,42 @@ namespace HWTokenLicenseChecker
 
         private void githubToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            LaunchURL(GITHUB_REPO_URL, @"Failed to open the Github repo.");
+        }
 
+        private void addIssueStripMenuItem_Click(object sender, EventArgs e)
+        {
+            String issuesURL = String.Format(@"{0}/issues", GITHUB_REPO_URL);
+            LaunchURL(issuesURL, @"Failed to open the Github Issues.");
+        }
+
+        private void copyRepoStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(GITHUB_REPO_URL);
+        }
+
+        private void LaunchURL(String url, String textMsg)
+        {
             try
             {
-                Process.Start(@"https://github.com/crivasg/HWTokenLicenseChecker");
+                Process.Start(url);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(@"Failed to open the Github repo." + Environment.NewLine+ex.ToString());
+                MessageBox.Show(textMsg+ Environment.NewLine + ex.ToString());
             }
             finally
-            { 
-            
-            }
+            {
+
+            }       
+        }
+
+        private void processLogFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           
         }
 
 
-        
 
     }
 }

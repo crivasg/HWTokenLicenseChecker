@@ -68,9 +68,12 @@
             this.lmxConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.githubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyRepoStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.addIssueStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveCSVFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.openLogFileDialog = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -474,6 +477,8 @@
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.githubToolStripMenuItem,
+            this.copyRepoStripMenuItem1,
+            this.addIssueStripMenuItem,
             this.toolStripSeparator5,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
@@ -483,19 +488,33 @@
             // githubToolStripMenuItem
             // 
             this.githubToolStripMenuItem.Name = "githubToolStripMenuItem";
-            this.githubToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
-            this.githubToolStripMenuItem.Text = "&Visit project Github repository";
+            this.githubToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.githubToolStripMenuItem.Text = "&Visit project Github repo";
             this.githubToolStripMenuItem.Click += new System.EventHandler(this.githubToolStripMenuItem_Click);
+            // 
+            // copyRepoStripMenuItem1
+            // 
+            this.copyRepoStripMenuItem1.Name = "copyRepoStripMenuItem1";
+            this.copyRepoStripMenuItem1.Size = new System.Drawing.Size(200, 22);
+            this.copyRepoStripMenuItem1.Text = "Copy Repo URL";
+            this.copyRepoStripMenuItem1.Click += new System.EventHandler(this.copyRepoStripMenuItem1_Click);
+            // 
+            // addIssueStripMenuItem
+            // 
+            this.addIssueStripMenuItem.Name = "addIssueStripMenuItem";
+            this.addIssueStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.addIssueStripMenuItem.Text = "Add Issue";
+            this.addIssueStripMenuItem.Click += new System.EventHandler(this.addIssueStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(172, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(197, 6);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.aboutToolStripMenuItem.Text = "&About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -503,6 +522,10 @@
             // 
             this.saveCSVFileDialog.Filter = "CSV Files|*.csv";
             this.saveCSVFileDialog.Title = "Select CSV to export data";
+            // 
+            // openLogFileDialog
+            // 
+            this.openLogFileDialog.Title = "Select LMX log file";
             // 
             // HWTokenLicenseCheckerForm
             // 
@@ -579,6 +602,9 @@
         private System.Windows.Forms.ToolStripMenuItem sQLiteToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveCSVFileDialog;
         private System.Windows.Forms.ToolStripMenuItem xMLToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyRepoStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem addIssueStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog openLogFileDialog;
     }
 }
 
