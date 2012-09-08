@@ -547,34 +547,10 @@ namespace HWTokenLicenseChecker
 
         private void processLogFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GetLogFromServer();
            
         }
 
-        private void GetLogFromServer()
-        {
 
-            openLogFileDialog.Filter = "Log Files|*.log|All Files|*.*";
-            openLogFileDialog.Multiselect = false;
-            openLogFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-
-            if (openLogFileDialog.ShowDialog() == DialogResult.OK)
-            {
-
-                ProcessLMXLogFile(openLogFileDialog.FileName);
-            }
-
-        
-        }
-
-        private void ProcessLMXLogFile(String logfile)
-        {
-            //MessageBox.Show(logfile);
-
-            ProcessLMXLog log = new ProcessLMXLog() { Path = logfile };
-            log.ProcessLogFile();
-
-        }
 
     }
 }
