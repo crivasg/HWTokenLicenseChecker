@@ -68,12 +68,11 @@
             this.lmxConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.githubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyRepoStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.addIssueStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveCSVFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.addIssueStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyRepoStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.processLogFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openLogFileDialog = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -454,8 +453,7 @@
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.refreshToolStripMenuItem,
-            this.lmxConfigToolStripMenuItem,
-            this.processLogFileToolStripMenuItem});
+            this.lmxConfigToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.toolsToolStripMenuItem.Text = "&Tools";
@@ -494,6 +492,20 @@
             this.githubToolStripMenuItem.Text = "&Visit project Github repo";
             this.githubToolStripMenuItem.Click += new System.EventHandler(this.githubToolStripMenuItem_Click);
             // 
+            // copyRepoStripMenuItem1
+            // 
+            this.copyRepoStripMenuItem1.Name = "copyRepoStripMenuItem1";
+            this.copyRepoStripMenuItem1.Size = new System.Drawing.Size(200, 22);
+            this.copyRepoStripMenuItem1.Text = "Copy Repo URL";
+            this.copyRepoStripMenuItem1.Click += new System.EventHandler(this.copyRepoStripMenuItem1_Click);
+            // 
+            // addIssueStripMenuItem
+            // 
+            this.addIssueStripMenuItem.Name = "addIssueStripMenuItem";
+            this.addIssueStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.addIssueStripMenuItem.Text = "Add Issue";
+            this.addIssueStripMenuItem.Click += new System.EventHandler(this.addIssueStripMenuItem_Click);
+            // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
@@ -510,27 +522,6 @@
             // 
             this.saveCSVFileDialog.Filter = "CSV Files|*.csv";
             this.saveCSVFileDialog.Title = "Select CSV to export data";
-            // 
-            // addIssueStripMenuItem
-            // 
-            this.addIssueStripMenuItem.Name = "addIssueStripMenuItem";
-            this.addIssueStripMenuItem.Size = new System.Drawing.Size(200, 22);
-            this.addIssueStripMenuItem.Text = "Add Issue";
-            this.addIssueStripMenuItem.Click += new System.EventHandler(this.addIssueStripMenuItem_Click);
-            // 
-            // copyRepoStripMenuItem1
-            // 
-            this.copyRepoStripMenuItem1.Name = "copyRepoStripMenuItem1";
-            this.copyRepoStripMenuItem1.Size = new System.Drawing.Size(200, 22);
-            this.copyRepoStripMenuItem1.Text = "Copy Repo URL";
-            this.copyRepoStripMenuItem1.Click += new System.EventHandler(this.copyRepoStripMenuItem1_Click);
-            // 
-            // processLogFileToolStripMenuItem
-            // 
-            this.processLogFileToolStripMenuItem.Name = "processLogFileToolStripMenuItem";
-            this.processLogFileToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-            this.processLogFileToolStripMenuItem.Text = "Process Log File";
-            this.processLogFileToolStripMenuItem.Click += new System.EventHandler(this.processLogFileToolStripMenuItem_Click);
             // 
             // openLogFileDialog
             // 
@@ -611,7 +602,6 @@
         private System.Windows.Forms.ToolStripMenuItem sQLiteToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveCSVFileDialog;
         private System.Windows.Forms.ToolStripMenuItem xMLToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem processLogFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyRepoStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem addIssueStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openLogFileDialog;
