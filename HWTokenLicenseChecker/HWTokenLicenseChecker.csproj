@@ -103,7 +103,6 @@
     </Compile>
     <Compile Include="LMX2SQLite.cs" />
     <Compile Include="lmxendutil.cs" />
-    <Compile Include="ProcessLMXLog.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Prompt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
