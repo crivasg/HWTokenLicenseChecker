@@ -62,30 +62,44 @@ namespace HWTokenLicenseChecker
             String args = String.Format(@"-licstatxml -port {0} -host {1} ", lmx_port, lmx_server);
 
             // http://www.dotnetperls.com/redirectstandardoutput
-            ProcessStartInfo start = new ProcessStartInfo();
-            start.FileName = lmxendutilPath;
-            start.Arguments = args;
-            String result = @"";
 
-            start.RedirectStandardOutput = true;
-            start.UseShellExecute = false;
-            start.CreateNoWindow = true;
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            
-
-            using (Process process = Process.Start(start))
+            try
             {
-                //
-                // Read in all the text from the process with the StreamReader.
-                //
-                using (StreamReader reader = process.StandardOutput)
+                ProcessStartInfo start = new ProcessStartInfo();
+                start.FileName = lmxendutilPath;
+                start.Arguments = args;
+                String result = @"";
+
+                start.RedirectStandardOutput = true;
+                start.UseShellExecute = false;
+                start.CreateNoWindow = true;
+                start.WindowStyle = ProcessWindowStyle.Hidden;
+
+
+                using (Process process = Process.Start(start))
                 {
-                    result = reader.ReadToEnd();
-                    
+                    using (StreamReader reader = process.StandardOutput)
+                    {
+                        result = reader.ReadToEnd();
+
+                    }
                 }
+                output = result.Split('\n');
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(@"Error while executing the LMX End User Utility (lmxendutil.exe)." +
+                    Environment.NewLine + @"The Application will quit" + Environment.NewLine + ex.ToString());
+                output = null;
+
+                throw new System.ArgumentNullException(lmxendutilPath, @"Error while executing the LMX End User Utility ");
+            }
+            finally
+            {
+
             }
 
-            output = result.Split('\n');
         }
 	    
 
