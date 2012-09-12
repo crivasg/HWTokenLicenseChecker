@@ -11,6 +11,16 @@ using System.Net.NetworkInformation;
 
 namespace HWTokenLicenseChecker
 {
+    enum Status
+    { 
+        OK = 0,
+        ServerOffline,
+        LicenseServerOfflie,
+        LmxExecuteError,
+        EndUserUtilityNotFound,
+        ConfigToolNotFound
+    };
+
     class lmxendutil
     {
         
@@ -208,6 +218,8 @@ namespace HWTokenLicenseChecker
 
         private void PingLMXServer()
         {
+            //http://msdn.microsoft.com/en-us/library/system.net.networkinformation.ping(v=vs.90).aspx 
+
             Ping pingSender = new Ping();
             PingOptions options = new PingOptions();
 
@@ -216,7 +228,7 @@ namespace HWTokenLicenseChecker
             options.DontFragment = true;
 
             // Create a buffer of 32 bytes of data to be transmitted.
-            string data = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+            String data = new String('a', 32);
             byte[] buffer = Encoding.ASCII.GetBytes(data);
             int timeout = 120;
 
@@ -230,6 +242,10 @@ namespace HWTokenLicenseChecker
                 response += String.Format("Don't fragment: {0}\n", reply.Options.DontFragment);
                 response += String.Format("Buffer size: {0}\n", reply.Buffer.Length);
                 MessageBox.Show(response);
+            }
+            else 
+            {
+                MessageBox.Show(reply.Status.ToString());
             }
             
             
