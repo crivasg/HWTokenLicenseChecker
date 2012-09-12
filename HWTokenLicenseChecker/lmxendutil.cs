@@ -21,7 +21,8 @@ namespace HWTokenLicenseChecker
         LicenseServerOfflie,
         LmxExecuteError,
         EndUserUtilityNotFound,
-        ConfigToolNotFound
+        ConfigToolNotFound,
+        LmxToolsNotFound
     };
 
     class lmxendutil
@@ -156,6 +157,23 @@ namespace HWTokenLicenseChecker
                 }
             }
 
+            // checks...
+            if (String.IsNullOrEmpty(lmxendutilPath) &&
+                 String.IsNullOrEmpty(lmxconfigtoolPath))
+            {
+                this.AppStatus = Status.LmxToolsNotFound;
+            }
+            else if (String.IsNullOrEmpty(lmxendutilPath))
+            {
+                this.AppStatus = Status.EndUserUtilityNotFound;
+            }
+            else if (String.IsNullOrEmpty(lmxconfigtoolPath))
+            {
+                this.AppStatus = Status.ConfigToolNotFound;
+            }
+
+
+            /*
             if (String.IsNullOrEmpty(lmxendutilPath))
             {
                 MessageBox.Show(@"LMX End user utility not found!");
@@ -167,6 +185,8 @@ namespace HWTokenLicenseChecker
                 MessageBox.Show(@"LMX Config Tool not found!");
                 throw new System.ArgumentNullException(lmxendutilPath, @"LMX End user utility not found!");
             }
+             * 
+             */
 	    }
 
         private void FixXMLFile()
@@ -236,7 +256,6 @@ namespace HWTokenLicenseChecker
                 result += lv1.ServerVersion.ToString();
             }
 
-            
             double sVersion = -9999.9;
             bool parseResult = double.TryParse(result, out sVersion);
 
