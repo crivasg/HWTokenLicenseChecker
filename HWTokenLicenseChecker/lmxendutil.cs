@@ -233,10 +233,20 @@ namespace HWTokenLicenseChecker
             //Loop through results
             foreach (var lv1 in lv1s)
             {
-                result += lv1.ServerVersion.ToString() + ";";
+                result += lv1.ServerVersion.ToString();
             }
 
-            MessageBox.Show(result);
+            
+            double sVersion = -9999.9;
+            bool parseResult = double.TryParse(result, out sVersion);
+
+            if (!parseResult)
+            {
+                this.AppStatus = Status.LicenseServerOfflie;
+            }
+
+            // if results is empty, the license server may not be running.
+            MessageBox.Show(result + Environment.NewLine + parseResult.ToString() + " " + this.AppStatus.ToString());
         }
 
         private void PingLMXServer()
