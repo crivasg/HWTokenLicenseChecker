@@ -6,6 +6,8 @@ using System.IO;
 using System.Windows.Forms;
 
 using System.Diagnostics;
+using System.Net;
+using System.Net.NetworkInformation;
 
 namespace HWTokenLicenseChecker
 {
@@ -53,7 +55,8 @@ namespace HWTokenLicenseChecker
         {
             this.GetLmxEndUtilPath();
             this.GetData();
-            this.FixXMLFile();       
+            this.FixXMLFile();
+            this.PingLMXServer();
         }
 
 	    private void GetData()
@@ -99,10 +102,8 @@ namespace HWTokenLicenseChecker
             {
 
             }
-
         }
 	    
-
 	    private void GetLmxEndUtilPath()
 	    {
 
@@ -198,6 +199,41 @@ namespace HWTokenLicenseChecker
                 //Console.WriteLine(excpt.Message);
             }
 
+        }
+
+        private void CheckIfLMXServerIsRunning()
+        {
+        
+        }
+
+        private void PingLMXServer()
+        {
+            Ping pingSender = new Ping();
+            PingOptions options = new PingOptions();
+
+            // Use the default Ttl value which is 128, 
+            // but change the fragmentation behavior.
+            options.DontFragment = true;
+
+            // Create a buffer of 32 bytes of data to be transmitted.
+            string data = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+            byte[] buffer = Encoding.ASCII.GetBytes(data);
+            int timeout = 120;
+
+            PingReply reply = pingSender.Send(lmx_server, timeout, buffer, options);
+            String response = String.Empty;
+            if (reply.Status == IPStatus.Success)
+            {
+                response += String.Format("Address: {0}\n", reply.Address.ToString());
+                response += String.Format("RoundTrip time: {0}\n", reply.RoundtripTime);
+                response += String.Format("Time to live: {0}\n", reply.Options.Ttl);
+                response += String.Format("Don't fragment: {0}\n", reply.Options.DontFragment);
+                response += String.Format("Buffer size: {0}\n", reply.Buffer.Length);
+                MessageBox.Show(response);
+            }
+            
+            
+            
         }
     }
 }
