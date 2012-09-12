@@ -242,23 +242,21 @@ namespace HWTokenLicenseChecker
                 this.AppStatus = Status.ServerOffline;
             }
 
-            if (reply.Status == IPStatus.Success)
-            {
-                response += String.Format("Address: {0}\n", reply.Address.ToString());
-                response += String.Format("RoundTrip time: {0}\n", reply.RoundtripTime);
-                response += String.Format("Time to live: {0}\n", reply.Options.Ttl);
-                response += String.Format("Don't fragment: {0}\n", reply.Options.DontFragment);
-                response += String.Format("Buffer size: {0}\n", reply.Buffer.Length);
-                response += String.Format("Status: {0}\n", reply.Status.ToString());
-                MessageBox.Show(response);
-            }
-            else 
-            {
-                MessageBox.Show(reply.Status.ToString());
-            }
-            
-            
-            
+            //if (reply.Status == IPStatus.Success)
+            //{
+            //    response += String.Format("Address: {0}\n", reply.Address.ToString());
+            //    response += String.Format("RoundTrip time: {0}\n", reply.RoundtripTime);
+            //    response += String.Format("Time to live: {0}\n", reply.Options.Ttl);
+            //    response += String.Format("Don't fragment: {0}\n", reply.Options.DontFragment);
+            //    response += String.Format("Buffer size: {0}\n", reply.Buffer.Length);
+            //    response += String.Format("Status: {0}\n", reply.Status.ToString());
+            //    MessageBox.Show(response);
+            //}
+            //else 
+            //{
+            //    MessageBox.Show(reply.Status.ToString());
+            //}
+          
         }
     }
 }
