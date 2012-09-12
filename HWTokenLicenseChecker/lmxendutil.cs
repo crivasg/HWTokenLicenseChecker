@@ -23,7 +23,9 @@ namespace HWTokenLicenseChecker
 
     class lmxendutil
     {
-        
+
+        public Status AppStatus { get ; private set; }
+
         private const String ALTAIR_HOME_ENV_VAR = @"ALTAIR_HOME";
         private const String LMX_LICENSE_PATH_ENV_VAR = @"LMX_LICENSE_PATH";
         private const String LMX_END_USER_UTIL_NAME = @"lmxendutil";
@@ -42,7 +44,7 @@ namespace HWTokenLicenseChecker
 
 	    public lmxendutil ()
 	    {
-
+            this.AppStatus = Status.OK;
 	    }
 
         public String LmxPath
@@ -234,6 +236,12 @@ namespace HWTokenLicenseChecker
 
             PingReply reply = pingSender.Send(lmx_server, timeout, buffer, options);
             String response = String.Empty;
+
+            if( reply.Status != IPStatus.Success)
+            {
+                this.AppStatus = Status.ServerOffline;
+            }
+
             if (reply.Status == IPStatus.Success)
             {
                 response += String.Format("Address: {0}\n", reply.Address.ToString());
@@ -241,6 +249,7 @@ namespace HWTokenLicenseChecker
                 response += String.Format("Time to live: {0}\n", reply.Options.Ttl);
                 response += String.Format("Don't fragment: {0}\n", reply.Options.DontFragment);
                 response += String.Format("Buffer size: {0}\n", reply.Buffer.Length);
+                response += String.Format("Status: {0}\n", reply.Status.ToString());
                 MessageBox.Show(response);
             }
             else 
