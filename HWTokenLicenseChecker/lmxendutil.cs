@@ -8,6 +8,9 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Xml;
+using System.Xml.Linq;
+
 
 namespace HWTokenLicenseChecker
 {
@@ -66,9 +69,11 @@ namespace HWTokenLicenseChecker
         public void ExecuteLMX()
         {
             this.GetLmxEndUtilPath();
+            this.PingLMXServer();
             this.GetData();
             this.FixXMLFile();
-            this.PingLMXServer();
+            this.CheckIfLMXServerIsRunning();
+            
         }
 
 	    private void GetData()
@@ -215,7 +220,23 @@ namespace HWTokenLicenseChecker
 
         private void CheckIfLMXServerIsRunning()
         {
-        
+
+            XDocument xdoc = XDocument.Load(Path.Combine(folder, @"Licenses.xml"));
+            String result = String.Empty;
+            //Run query
+            var lv1s = from lv1 in xdoc.Descendants("LM-X")
+                       select new
+                       {
+                           ServerVersion = lv1.Element("LICENSE_PATH").Attribute("SERVER_VERSION").Value,
+                       };
+
+            //Loop through results
+            foreach (var lv1 in lv1s)
+            {
+                result += lv1.ServerVersion.ToString() + ";";
+            }
+
+            MessageBox.Show(result);
         }
 
         private void PingLMXServer()
