@@ -27,6 +27,11 @@ namespace HWTokenLicenseChecker
         //private String description = @"";
         //private EnvVarType type;
 
+        private String[] regexStrings = {
+				@"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b",              // IP
+				@"\b\d{1,100}\@\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b"    //PORT@IP
+		    };
+        private Char[] splitters = new Char[] { '@', '.' };
 
         public String Name { private get; set; }
         public String Value { get; private set; }
@@ -35,7 +40,7 @@ namespace HWTokenLicenseChecker
 
         public EnvVariable()
         { 
-        
+            
         }
 
         public void GetEnviromentVariableData()
@@ -70,19 +75,19 @@ namespace HWTokenLicenseChecker
 				    GetFilePath();
 				    break;
 			    case EnvVarType.IntegerValue :
-				    GetIntegerValue();
+                    this.Value = ((int)this.ParseStringValueToNumeric(typeof(int))).ToString();
 				    break;
 			    case EnvVarType.FloatValue :
-                    GetFloatValue();
+                    this.Value = ((float)this.ParseStringValueToNumeric(typeof(float))).ToString();
 				    break;
 			    case EnvVarType.StringValue :
                     GetStringValue();
 				    break;
 			    case EnvVarType.HostIp :
-				    GetHostIp();
+				    GetHostPortAndIp(0);
 				    break;
 			    case EnvVarType.HostPortAndIp :
-				    GetHostPortAndIp();
+                    GetHostPortAndIp(1);
 				    break;
 		    }        
         }
@@ -144,6 +149,28 @@ namespace HWTokenLicenseChecker
             
         }
 
+        private Object ParseStringValueToNumeric(Type type)
+        {
+            bool flag = false;
+            Object tmp = null;
+
+            while (!flag)
+            {
+                GetStringValue();
+                try
+                {
+                    tmp = Convert.ChangeType(this.Value, type);
+                    flag = true;
+                }
+                catch
+                {
+                    flag = false;
+                }
+            }
+
+            return tmp;
+        }
+
         private void GetFloatValue()
         {
             bool flag = false;
@@ -181,7 +208,7 @@ namespace HWTokenLicenseChecker
             {
                 GetStringValue();
 
-                String[] tmpArray = this.Value.Split(new Char[] { '@', '.' });
+                String[] tmpArray = this.Value.Split(splitters);
 
                 if (tmpArray.Length == 4)
                 { 
@@ -210,12 +237,39 @@ namespace HWTokenLicenseChecker
             {
                 GetStringValue();
 
-                String[] tmpArray = this.Value.Split(new Char[] { '@', '.' });
+                String[] tmpArray = this.Value.Split(splitters);
                 if (tmpArray.Length == 5)
                 {
                     Regex ip = new Regex(@"\b\d{1,100}\@\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b");
                     MatchCollection result = ip.Matches(this.Value);
                     tmp1 = this.Value;
+                    if (result.Count > 0)
+                    {
+                        this.Value = result[0].ToString();
+                        //MessageBox.Show(String.Format(@"{0} {1}", tmp1, this.Value));
+                        flag = false;
+                    }
+                }
+
+            }
+        }
+
+        private void GetHostPortAndIp(int indexOfRegex)
+        {
+            bool flag = true;
+            String[] tmpStr = regexStrings[indexOfRegex].Split(splitters);
+            int length = tmpStr.Length;
+
+            while (flag)
+            {
+                GetStringValue();
+
+                String[] tmpArray = this.Value.Split(splitters);
+                if (tmpArray.Length == length)
+                {
+                    Regex ip = new Regex(regexStrings[indexOfRegex]);
+                    MatchCollection result = ip.Matches(this.Value);
+                    //tmp1 = this.Value;
                     if (result.Count > 0)
                     {
                         this.Value = result[0].ToString();
