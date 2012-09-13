@@ -17,9 +17,10 @@ namespace HWTokenLicenseChecker
 {
     public partial class HWTokenLicenseCheckerForm : Form
     {
-        private String sqlPath = @"";
-        private String folder = @"";
-        private String lmxconfigtool = @"";
+        private String databasePath = String.Empty;
+        private String xmlFile = String.Empty;
+        private String folder = String.Empty;
+        private String lmxconfigtool = String.Empty;
 
         private const String POSITION_PREFS_FILE = @"position.prefs";
         private const String GITHUB_REPO_URL = @"https://github.com/crivasg/HWTokenLicenseChecker";
@@ -81,12 +82,16 @@ namespace HWTokenLicenseChecker
             Setup setup = new Setup();
             setup.CheckAndCreateAppData();
             setup.RemoveTempFiles();
-            sqlPath = setup.DatabasePath;
-            folder = setup.DataPath;
+            databasePath = setup.DatabasePath;
+            folder = setup.AppDataPath;
+            xmlFile = setup.XMLPath;
 
             UpdateLastPosition();
 
-            lmxendutil lmx = new lmxendutil() { AppDataFolder = folder };
+            lmxendutil lmx = new lmxendutil() { 
+                XMLFile = xmlFile
+            };
+
             lmx.ExecuteLMX();
             lmxconfigtool = lmx.LMXConfigTool;
 
@@ -100,7 +105,10 @@ namespace HWTokenLicenseChecker
            
             //Clipboard.SetText(sqlPath);
 
-            LMX2SQLite lmx2Sqlite = new LMX2SQLite {SqlitePath = sqlPath };
+            LMX2SQLite lmx2Sqlite = new LMX2SQLite {
+                DatabasePath = databasePath,
+                XMLFile = xmlFile
+            };
             lmx2Sqlite.CreateDatabase();
             lmx2Sqlite.ReadXMLLicenseData();
             lmx2Sqlite.ImportToDatabase();
@@ -115,7 +123,7 @@ namespace HWTokenLicenseChecker
         private void LoadToDataGridView()
         {
 
-            SQLiteConnection cnn = new SQLiteConnection("Data Source=" + sqlPath);
+            SQLiteConnection cnn = new SQLiteConnection("Data Source=" + databasePath);
             cnn.Open();
             SQLiteCommand cmd = new SQLiteCommand(cnn);
             String sqlQuery = @"SELECT LOWER(name) AS Username, host AS Hostname, MAX(used_licenses) AS Tokens, share_custom AS 'Custom String', feature_id as 'Feature Id' FROM user WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner = 0) AND isBorrow = 0 GROUP BY Username, Hostname UNION SELECT LOWER(name), host, MAX(used_licenses)||'-HWPA', share_custom, feature_id FROM user WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner != 0) AND isBorrow = 0 GROUP BY name, host, feature_id  UNION SELECT LOWER(name), host, MAX(used_licenses)||'-BRRW', share_custom, feature_id FROM user WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner = 0) AND isBorrow = 1 GROUP BY name, host ORDER BY Tokens DESC, Username ASC, Hostname ASC;";
@@ -144,7 +152,7 @@ namespace HWTokenLicenseChecker
             // update the string in the status bar.
             int used_licenses = -1;
             int total_licenses = -1;
-            String end_date = @"";
+            String end_date = String.Empty;
             sqlQuery = @"SELECT used_licenses,total_licenses,end FROM feature WHERE name = 'HyperWorks';";
 
             //
@@ -164,8 +172,8 @@ namespace HWTokenLicenseChecker
             cmd.CommandText = sqlQuery;
 
             int port = -1;
-            String ip = @"";
-            String uptime = @"";
+            String ip = String.Empty;
+            String uptime = String.Empty;
             using (DbDataReader reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
@@ -216,8 +224,8 @@ namespace HWTokenLicenseChecker
                 return;
             }
 
-            String user = @"";
-            String host = @"";
+            String user = String.Empty;
+            String host = String.Empty;
             int feature_id = -1;
             int tokens = -1;
             DataGridViewRow currentRow = dataGridView.CurrentRow;
@@ -259,7 +267,7 @@ namespace HWTokenLicenseChecker
 
             userTextBox.Text = user;
             tokensTextBox.Text = tokens.ToString();
-            //borrowHWPATextBox.Text = @"";
+            //borrowHWPATextBox.Text = String.Empty;
 
             if (feature_id >= minHWPAFeatureId && feature_id <= minHWPAFeatureId)
             {
@@ -285,7 +293,7 @@ namespace HWTokenLicenseChecker
 
         private void ProcessTokens(String user, String host, int feature_id, String featureQuery)
         {
-            SQLiteConnection cnn = new SQLiteConnection("Data Source=" + sqlPath);
+            SQLiteConnection cnn = new SQLiteConnection("Data Source=" + databasePath);
             cnn.Open();
             SQLiteCommand cmd = new SQLiteCommand(cnn);
 
@@ -294,8 +302,8 @@ namespace HWTokenLicenseChecker
 
             cmd.CommandText = sqlQuery;
 
-            String tmp = @"";
-            //String logTmp = @"";
+            String tmp = String.Empty;
+            //String logTmp = String.Empty;
             List<String> featureList = new List<String>();
             List<DateTime> dateList = new List<DateTime>();
             List<String> hostList = new List<String>();
@@ -381,7 +389,7 @@ namespace HWTokenLicenseChecker
 
             DataGridViewRow currentRow = dataGridView.CurrentRow;
             int numCells = currentRow.Cells.Count;
-            String textToCopy = @"";
+            String textToCopy = String.Empty;
             for (int ii = 0; ii < numCells; ++ii)
             {
                 textToCopy += String.Format("{0}\t", currentRow.Cells[ii].Value);
@@ -459,7 +467,7 @@ namespace HWTokenLicenseChecker
         {
 
             String destination = String.Empty;
-            String source = sqlPath;
+            String source = databasePath;
             saveCSVFileDialog.Title = title;
             saveCSVFileDialog.Filter = filter;
 

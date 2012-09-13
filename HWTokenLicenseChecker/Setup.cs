@@ -10,22 +10,19 @@ namespace HWTokenLicenseChecker
     class Setup
     {
 
-        private String dirname = @"";
-        private String dbPath = @"";
+        public String AppDataPath { get; private set; }
+        public String DatabasePath { get; private set; }
+        public String XMLPath { get; private set; }
+
+        private const String SQLITE_FILE_NAME = @"Licenses.sqlite3";
+        private const String XML_FILE_NAME = @"Licenses.xml";
+
 
         public Setup()
         {
-        
-        }
-
-        public String DataPath
-        {
-            get { return dirname; }
-        }
-
-        public String DatabasePath
-        {
-            get { return dbPath; }
+            this.AppDataPath = String.Empty;
+            this.DatabasePath = String.Empty;
+            this.XMLPath = String.Empty;
         }
 
         /// <summary>
@@ -34,16 +31,17 @@ namespace HWTokenLicenseChecker
         /// </summary>
          public void CheckAndCreateAppData()
 	     {
-            String appDataDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            String exeName = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
-            dirname = Path.Combine(appDataDir, exeName);
+             this.AppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+             String exeName = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
+             this.AppDataPath = Path.Combine(this.AppDataPath, exeName);
 
-            if (!Directory.Exists(dirname))
-            {
-                Directory.CreateDirectory(dirname);
-            }
+             if (!Directory.Exists(this.AppDataPath))
+             {
+                 Directory.CreateDirectory(this.AppDataPath);
+             }
 
-            dbPath = Path.Combine(dirname, @"Licenses.sqlite3");
+             this.DatabasePath = Path.Combine(this.AppDataPath, SQLITE_FILE_NAME);
+             this.XMLPath = Path.Combine(this.AppDataPath, XML_FILE_NAME);
 
          }
 
@@ -54,23 +52,21 @@ namespace HWTokenLicenseChecker
          public void RemoveTempFiles()
          {
 
-             String[] fileNames = Directory.GetFiles(dirname);
-             foreach (String fileName in fileNames)
+             try
              {
-                 //String tmp = Path.Combine(dirname, fileName);
-
-                 if (File.Exists(fileName) && Path.GetFileName(fileName).Equals(@"Licenses.xml"))
+                 if (File.Exists(this.XMLPath))
                  {
-                     try
-                     {
-                         File.Delete(fileName);
-                     }
-                     catch (IOException deleteError)
-                     {
-                         MessageBox.Show(deleteError.ToString());
-                     }
+                     File.Delete(this.XMLPath);
                  }
-
+             }
+             catch (IOException deleteError)
+             {
+                 String tmp = String.Format(@"Error while deleting the file: {0}",
+                     this.XMLPath);
+                 MessageBox.Show(deleteError.ToString());
+             }
+             finally
+             {
              }
          }
 

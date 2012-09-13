@@ -48,13 +48,13 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 78.53881F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.46119F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(316, 219);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(316, 329);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // dismissAboutButton
             // 
             this.dismissAboutButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.dismissAboutButton.Location = new System.Drawing.Point(120, 183);
+            this.dismissAboutButton.Location = new System.Drawing.Point(120, 282);
             this.dismissAboutButton.Name = "dismissAboutButton";
             this.dismissAboutButton.Size = new System.Drawing.Size(75, 23);
             this.dismissAboutButton.TabIndex = 0;
@@ -68,7 +68,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(310, 165);
+            this.groupBox1.Size = new System.Drawing.Size(310, 252);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "About";
@@ -80,7 +80,7 @@
             this.richTextBox1.Location = new System.Drawing.Point(7, 20);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(297, 139);
+            this.richTextBox1.Size = new System.Drawing.Size(297, 226);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
@@ -88,7 +88,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(341, 244);
+            this.ClientSize = new System.Drawing.Size(341, 354);
             this.Controls.Add(this.tableLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "AboutForm";
