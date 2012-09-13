@@ -22,10 +22,6 @@ namespace HWTokenLicenseChecker
 
     class EnvVariable
     {
-        //private String envName = @"";
-        //private String envValue = @"";
-        //private String description = @"";
-        //private EnvVarType type;
 
         private String[] regexStrings = {
 				@"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b",              // IP
@@ -45,7 +41,6 @@ namespace HWTokenLicenseChecker
 
         public void GetEnviromentVariableData()
         {
-            //GetHostPortAndIp();
 
             if (!String.IsNullOrEmpty(this.Name))
             {
@@ -192,7 +187,6 @@ namespace HWTokenLicenseChecker
                     if (result.Count > 0)
                     {
                         this.Value = result[0].ToString();
-                        //MessageBox.Show(String.Format(@"{0} {1}", tmp1, envValue));
                         flag = false;
                     }
                 }
@@ -219,7 +213,6 @@ namespace HWTokenLicenseChecker
                     if (result.Count > 0)
                     {
                         this.Value = result[0].ToString();
-                        //MessageBox.Show(String.Format(@"{0} {1}", tmp1, this.Value));
                         flag = false;
                     }
                 }
@@ -242,11 +235,10 @@ namespace HWTokenLicenseChecker
                 {
                     Regex ip = new Regex(regexStrings[indexOfRegex]);
                     MatchCollection result = ip.Matches(this.Value);
-                    //tmp1 = this.Value;
+                   
                     if (result.Count > 0)
                     {
                         this.Value = result[0].ToString();
-                        //MessageBox.Show(String.Format(@"{0} {1}", tmp1, this.Value));
                         flag = false;
                     }
                 }
