@@ -18,7 +18,7 @@ namespace HWTokenLicenseChecker
     { 
         OK = 0,
         ServerOffline,
-        LicenseServerOfflie,
+        LicenseServerOffline,
         LmxExecuteError,
         EndUserUtilityNotFound,
         ConfigToolNotFound,
@@ -33,8 +33,8 @@ namespace HWTokenLicenseChecker
 
         private const String ALTAIR_HOME_ENV_VAR = @"ALTAIR_HOME";
         private const String LMX_LICENSE_PATH_ENV_VAR = @"LMX_LICENSE_PATH";
-        private const String LMX_END_USER_UTIL_NAME = @"lmxendutil";
-        private const String LMX_CONFIG_TOOL_NAME = @"lmxconfigtool";
+        private const String LMX_END_USER_UTIL_NAME = @"lmxendutil.exe";
+        private const String LMX_CONFIG_TOOL_NAME = @"lmxconfigtool.exe";
 
 	    private String lmxendutilPath = @"";
         private String lmxconfigtoolPath = @"";
@@ -159,11 +159,13 @@ namespace HWTokenLicenseChecker
 
             foreach (String fileFound in lstFilesFound)
             {
-                if (fileFound.Contains(LMX_END_USER_UTIL_NAME))
+                String fname = Path.GetFileName(fileFound);
+
+                if (fname.Equals(LMX_END_USER_UTIL_NAME, StringComparison.OrdinalIgnoreCase))
                 {
                     lmxendutilPath = fileFound;
                 }
-                if (fileFound.Contains(LMX_CONFIG_TOOL_NAME))
+                if (fname.Equals(LMX_CONFIG_TOOL_NAME, StringComparison.OrdinalIgnoreCase))
                 {
                     lmxconfigtoolPath = fileFound;
                 }
@@ -292,7 +294,7 @@ namespace HWTokenLicenseChecker
 
             if (!parseResult)
             {
-                this.AppStatus = Status.LicenseServerOfflie;
+                this.AppStatus = Status.LicenseServerOffline;
             }
 
             // if results is empty, the license server may not be running.

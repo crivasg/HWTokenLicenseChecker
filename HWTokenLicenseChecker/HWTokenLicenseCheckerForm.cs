@@ -37,6 +37,42 @@ namespace HWTokenLicenseChecker
             GetLMXLicenseData();
         }
 
+        private void CheckApplicationStatus(Status status)
+        {
+            String msg = String.Empty;
+
+            switch (status)
+            {
+                case Status.ServerOffline:
+                    msg = @"Server may be offline.";
+                    break;
+                case Status.LicenseServerOffline:
+                    msg = @"LMX license server not running on server.";
+                    break;
+                case Status.LmxExecuteError:
+                    msg = @"Error while executing the LMX end user utilities.";
+                    break;
+                case Status.EndUserUtilityNotFound:
+                    msg = @"LMX end user utility not found.";
+                    break;
+                case Status.ConfigToolNotFound:
+                    msg = @"LMX configuration tool not found.";
+                    break;
+                case Status.LmxToolsNotFound:
+                    msg = @"LMX tools not found.";
+                    break;
+                case Status.FailedToFixXMLFile:
+                    msg = @"Failed to fix the XML file.";
+                    break;
+            }
+            msg += @" Contact your network administrator.";
+
+            MessageBox.Show(msg, @"LMX Error");
+
+            toolStripStatusLabel1.Text = msg;
+
+        }
+
         private void GetLMXLicenseData()
         {
 
@@ -53,6 +89,14 @@ namespace HWTokenLicenseChecker
             lmxendutil lmx = new lmxendutil() { AppDataFolder = folder };
             lmx.ExecuteLMX();
             lmxconfigtool = lmx.LMXConfigTool;
+
+            Status status = lmx.AppStatus;
+
+            if (status != Status.OK)
+            {
+                CheckApplicationStatus(status);
+                return;
+            }
            
             //Clipboard.SetText(sqlPath);
 
