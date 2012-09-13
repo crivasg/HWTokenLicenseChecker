@@ -22,74 +22,35 @@ namespace HWTokenLicenseChecker
 
     class EnvVariable
     {
-        private String envName = @"";
-        private String envValue = @"";
-        private String description = @"";
-        private EnvVarType type;
+        //private String envName = @"";
+        //private String envValue = @"";
+        //private String description = @"";
+        //private EnvVarType type;
+
+
+        public String Name { private get; set; }
+        public String Value { get; private set; }
+        public String Description { private get; set; }
+        public EnvVarType Type { private get; set; }
 
         public EnvVariable()
         { 
         
         }
 
-        public String Name
-        {
-            set
-            {
-                envName = value;
-            }
-            get
-            {
-                return envName;
-            }
-        }
-
-        public String Value
-        {
-            set
-            {
-                envValue = value;
-            }
-            get
-            {
-                return envValue;
-            }
-        }
-
-        public String Description
-        {
-            set
-            {
-                description = value;
-            }
-            get
-            {
-                return description;
-            }
-        }
-
-        public EnvVarType Type
-        {
-            set
-            {
-                type = value;
-            }        
-        }
-
-
         public void GetEnviromentVariableData()
         {
             //GetHostPortAndIp();
 
-            if (!String.IsNullOrEmpty(envName))
+            if (!String.IsNullOrEmpty(this.Name))
             {
-                envValue = Environment.GetEnvironmentVariable(envName, EnvironmentVariableTarget.Machine);
-                if (String.IsNullOrEmpty(envValue))
+                this.Value = Environment.GetEnvironmentVariable(this.Name, EnvironmentVariableTarget.Machine);
+                if (String.IsNullOrEmpty(this.Value))
                 {
-                    envValue = Environment.GetEnvironmentVariable(envName, EnvironmentVariableTarget.User);
+                    this.Value = Environment.GetEnvironmentVariable(this.Name, EnvironmentVariableTarget.User);
                 }
 
-                if (String.IsNullOrEmpty(envValue))
+                if (String.IsNullOrEmpty(this.Value))
                 {
                     SetEnviromentVariableData();
                     QuestionToSetEnviromentVariable();
@@ -100,7 +61,7 @@ namespace HWTokenLicenseChecker
         private void SetEnviromentVariableData()
         { 
 
-		    switch (type)
+		    switch (this.Type)
 		    {
 			    case EnvVarType.FolderPath :
 				    GetFolderPath();
@@ -129,14 +90,14 @@ namespace HWTokenLicenseChecker
         private void QuestionToSetEnviromentVariable()
         {
 
-            String question = String.Format(@"Set environment variable '{0}' to '{1}'", envName, envValue);
+            String question = String.Format(@"Set environment variable '{0}' to '{1}'", this.Name, this.Value);
 
-            var result = MessageBox.Show(question, @"Env. Variable " + envName,
+            var result = MessageBox.Show(question, @"Env. Variable " + this.Name,
             MessageBoxButtons.YesNo,MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
-                Environment.SetEnvironmentVariable(envName, envValue, EnvironmentVariableTarget.User);
+                Environment.SetEnvironmentVariable(this.Name, this.Value, EnvironmentVariableTarget.User);
             }
 
         }
@@ -144,13 +105,13 @@ namespace HWTokenLicenseChecker
         private void GetFolderPath()
         {
             FolderBrowserDialog browserDialog = new FolderBrowserDialog();
-            browserDialog.Description = description;
+            browserDialog.Description = this.Description;
             browserDialog.ShowNewFolderButton = false;
             browserDialog.RootFolder = Environment.SpecialFolder.MyComputer;
 
             if (browserDialog.ShowDialog() == DialogResult.OK)
             {
-                envValue = browserDialog.SelectedPath;
+                this.Value = browserDialog.SelectedPath;
             }
         }
 
@@ -158,14 +119,14 @@ namespace HWTokenLicenseChecker
         {
             // change to openFileBrowserDialog
             OpenFileDialog browserDialog = new OpenFileDialog();
-            browserDialog.Title = description;
+            browserDialog.Title = this.Description;
             browserDialog.CheckFileExists = true;
             browserDialog.Multiselect = false;
             browserDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
             if (browserDialog.ShowDialog() == DialogResult.OK)
             {
-                envValue = browserDialog.FileName;
+                this.Value = browserDialog.FileName;
             }
         }
 
@@ -177,7 +138,7 @@ namespace HWTokenLicenseChecker
             while (!flag)
             {
                 GetStringValue();
-                flag = int.TryParse(envValue, out number);
+                flag = int.TryParse(this.Value, out number);
                 //MessageBox.Show(String.Format(@"{0} {1} {2}", envValue,number, flag));
             }
             
@@ -191,7 +152,7 @@ namespace HWTokenLicenseChecker
             while (!flag)
             {
                 GetStringValue();
-                flag = float.TryParse(envValue, out number);
+                flag = float.TryParse(this.Value, out number);
                 //MessageBox.Show(String.Format(@"{0} {1} {2}", envValue,number, flag));
             }
         }
@@ -202,8 +163,8 @@ namespace HWTokenLicenseChecker
             bool flag = true;
             while (flag)
             {
-                envValue = Prompt.ShowDialog("Value", String.Format(@"Enter value for {0}",envName) );
-                if (!String.IsNullOrEmpty(envValue))
+                this.Value = Prompt.ShowDialog("Value", String.Format(@"Enter value for {0}",this.Name) );
+                if (!String.IsNullOrEmpty(this.Value))
                 {
                     flag = false;
                 }
@@ -220,17 +181,17 @@ namespace HWTokenLicenseChecker
             {
                 GetStringValue();
 
-                String[] tmpArray = envValue.Split(new Char[] { '@', '.' });
+                String[] tmpArray = this.Value.Split(new Char[] { '@', '.' });
 
                 if (tmpArray.Length == 4)
                 { 
 
                     Regex ip = new Regex(@"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b");
-                    MatchCollection result = ip.Matches(envValue);
-                    tmp1 = envValue;
+                    MatchCollection result = ip.Matches(this.Value);
+                    tmp1 = this.Value;
                     if (result.Count > 0)
                     {
-                        envValue = result[0].ToString();
+                        this.Value = result[0].ToString();
                         //MessageBox.Show(String.Format(@"{0} {1}", tmp1, envValue));
                         flag = false;
                     }
@@ -249,16 +210,16 @@ namespace HWTokenLicenseChecker
             {
                 GetStringValue();
 
-                String[] tmpArray = envValue.Split(new Char[] { '@', '.' });
+                String[] tmpArray = this.Value.Split(new Char[] { '@', '.' });
                 if (tmpArray.Length == 5)
                 {
                     Regex ip = new Regex(@"\b\d{1,100}\@\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b");
-                    MatchCollection result = ip.Matches(envValue);
-                    tmp1 = envValue;
+                    MatchCollection result = ip.Matches(this.Value);
+                    tmp1 = this.Value;
                     if (result.Count > 0)
                     {
-                        envValue = result[0].ToString();
-                        //MessageBox.Show(String.Format(@"{0} {1}", tmp1, envValue));
+                        this.Value = result[0].ToString();
+                        //MessageBox.Show(String.Format(@"{0} {1}", tmp1, this.Value));
                         flag = false;
                     }
                 }
