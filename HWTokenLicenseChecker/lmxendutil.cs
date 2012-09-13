@@ -39,8 +39,8 @@ namespace HWTokenLicenseChecker
         private const String LMX_END_USER_UTIL_NAME = @"lmxendutil.exe";
         private const String LMX_CONFIG_TOOL_NAME = @"lmxconfigtool.exe";
 
-        private String lmx_port = @"";
-        private String lmx_server = @"";
+        private String lmx_port = String.Empty;
+        private String lmx_server = String.Empty;
 
         private String[] output = null;
 
@@ -76,7 +76,7 @@ namespace HWTokenLicenseChecker
                 ProcessStartInfo start = new ProcessStartInfo();
                 start.FileName = this.LmxPath;
                 start.Arguments = args;
-                String result = @"";
+                String result = String.Empty;
 
                 start.RedirectStandardOutput = true;
                 start.UseShellExecute = false;

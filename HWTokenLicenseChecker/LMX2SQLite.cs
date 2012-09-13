@@ -42,7 +42,7 @@ namespace HWTokenLicenseChecker
 
             int featureCounter = 0;
             int userCounter = 0;
-            String featureName = @"";
+            String featureName = String.Empty;
             int featureId = 0;
 
             XmlTextReader textReader = new XmlTextReader(this.XMLFile);
@@ -168,7 +168,7 @@ namespace HWTokenLicenseChecker
             cnn.Open();
 
             bool isSchemaCorrect = ValidateDatabaseSchema();
-            DeleteContentsOfDatabase(@"");
+            DeleteContentsOfDatabase(String.Empty);
         }
 
         public void ImportToDatabase()
@@ -346,7 +346,7 @@ namespace HWTokenLicenseChecker
                 sqlTables.Add(dr.ItemArray[_TABLE_INDEX_].ToString());
             }
 
-            String sqlStmt = @"";
+            String sqlStmt = String.Empty;
 
             foreach (String sqlTable in sqlTables)
             {

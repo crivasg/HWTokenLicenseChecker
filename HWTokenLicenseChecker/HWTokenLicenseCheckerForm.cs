@@ -17,10 +17,10 @@ namespace HWTokenLicenseChecker
 {
     public partial class HWTokenLicenseCheckerForm : Form
     {
-        private String databasePath = @"";
+        private String databasePath = String.Empty;
         private String xmlFile = String.Empty;
-        private String folder = @"";
-        private String lmxconfigtool = @"";
+        private String folder = String.Empty;
+        private String lmxconfigtool = String.Empty;
 
         private const String POSITION_PREFS_FILE = @"position.prefs";
         private const String GITHUB_REPO_URL = @"https://github.com/crivasg/HWTokenLicenseChecker";
@@ -152,7 +152,7 @@ namespace HWTokenLicenseChecker
             // update the string in the status bar.
             int used_licenses = -1;
             int total_licenses = -1;
-            String end_date = @"";
+            String end_date = String.Empty;
             sqlQuery = @"SELECT used_licenses,total_licenses,end FROM feature WHERE name = 'HyperWorks';";
 
             //
@@ -172,8 +172,8 @@ namespace HWTokenLicenseChecker
             cmd.CommandText = sqlQuery;
 
             int port = -1;
-            String ip = @"";
-            String uptime = @"";
+            String ip = String.Empty;
+            String uptime = String.Empty;
             using (DbDataReader reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
@@ -224,8 +224,8 @@ namespace HWTokenLicenseChecker
                 return;
             }
 
-            String user = @"";
-            String host = @"";
+            String user = String.Empty;
+            String host = String.Empty;
             int feature_id = -1;
             int tokens = -1;
             DataGridViewRow currentRow = dataGridView.CurrentRow;
@@ -267,7 +267,7 @@ namespace HWTokenLicenseChecker
 
             userTextBox.Text = user;
             tokensTextBox.Text = tokens.ToString();
-            //borrowHWPATextBox.Text = @"";
+            //borrowHWPATextBox.Text = String.Empty;
 
             if (feature_id >= minHWPAFeatureId && feature_id <= minHWPAFeatureId)
             {
@@ -302,8 +302,8 @@ namespace HWTokenLicenseChecker
 
             cmd.CommandText = sqlQuery;
 
-            String tmp = @"";
-            //String logTmp = @"";
+            String tmp = String.Empty;
+            //String logTmp = String.Empty;
             List<String> featureList = new List<String>();
             List<DateTime> dateList = new List<DateTime>();
             List<String> hostList = new List<String>();
@@ -389,7 +389,7 @@ namespace HWTokenLicenseChecker
 
             DataGridViewRow currentRow = dataGridView.CurrentRow;
             int numCells = currentRow.Cells.Count;
-            String textToCopy = @"";
+            String textToCopy = String.Empty;
             for (int ii = 0; ii < numCells; ++ii)
             {
                 textToCopy += String.Format("{0}\t", currentRow.Cells[ii].Value);
