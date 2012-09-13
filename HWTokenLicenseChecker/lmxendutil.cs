@@ -39,10 +39,6 @@ namespace HWTokenLicenseChecker
         private const String LMX_END_USER_UTIL_NAME = @"lmxendutil.exe";
         private const String LMX_CONFIG_TOOL_NAME = @"lmxconfigtool.exe";
 
-	    //private String lmxendutilPath = @"";
-        //private String lmxconfigtoolPath = @"";
-        //private String folder = @"";
-
         private String lmx_port = @"";
         private String lmx_server = @"";
 
@@ -170,21 +166,6 @@ namespace HWTokenLicenseChecker
                 this.AppStatus = Status.ConfigToolNotFound;
             }
 
-
-            /*
-            if (String.IsNullOrEmpty(lmxendutilPath))
-            {
-                MessageBox.Show(@"LMX End user utility not found!");
-                throw new System.ArgumentNullException(lmxendutilPath, @"LMX End user utility not found!");
-            }
-
-            if (String.IsNullOrEmpty(lmxconfigtoolPath))
-            {
-                MessageBox.Show(@"LMX Config Tool not found!");
-                throw new System.ArgumentNullException(lmxendutilPath, @"LMX End user utility not found!");
-            }
-             * 
-             */
 	    }
 
         private void FixXMLFile()
