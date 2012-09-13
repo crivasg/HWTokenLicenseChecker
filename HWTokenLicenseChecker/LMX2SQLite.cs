@@ -20,19 +20,10 @@ namespace HWTokenLicenseChecker
         List<String> featureData = null;
         List<String> userData = null;
 
-        private String[] _licenseData;
-        private String _sqlitePath;
-
         private const String BORROW_EXPIRE_TIME = @"BORROW_EXPIRE_TIME";
 
-        public String[] LicenseData { 
-            get { return _licenseData; } 
-            set { _licenseData = value;} 
-        }
-        public String SqlitePath { 
-            get {return _sqlitePath; }
-            set {_sqlitePath = value; }
-        }
+        public String DatabasePath { private get; set ; }
+        public String XMLFile { private get; set; }
 
         private SQLiteConnection cnn;
 
@@ -51,11 +42,10 @@ namespace HWTokenLicenseChecker
 
             int featureCounter = 0;
             int userCounter = 0;
-            String xmlFile = Path.ChangeExtension(_sqlitePath, @"xml");
             String featureName = @"";
             int featureId = 0;
 
-            XmlTextReader textReader = new XmlTextReader(xmlFile);
+            XmlTextReader textReader = new XmlTextReader(this.XMLFile);
             
             while (textReader.Read())
             {
@@ -174,7 +164,7 @@ namespace HWTokenLicenseChecker
 
         public void CreateDatabase()
         {
-            cnn = new SQLiteConnection("Data Source=" + _sqlitePath);
+            cnn = new SQLiteConnection("Data Source=" + this.DatabasePath);
             cnn.Open();
 
             bool isSchemaCorrect = ValidateDatabaseSchema();

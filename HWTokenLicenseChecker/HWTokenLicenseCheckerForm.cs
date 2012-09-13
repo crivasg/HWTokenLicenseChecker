@@ -17,7 +17,7 @@ namespace HWTokenLicenseChecker
 {
     public partial class HWTokenLicenseCheckerForm : Form
     {
-        private String sqlPath = @"";
+        private String databasePath = @"";
         private String xmlFile = String.Empty;
         private String folder = @"";
         private String lmxconfigtool = @"";
@@ -82,7 +82,7 @@ namespace HWTokenLicenseChecker
             Setup setup = new Setup();
             setup.CheckAndCreateAppData();
             setup.RemoveTempFiles();
-            sqlPath = setup.DatabasePath;
+            databasePath = setup.DatabasePath;
             folder = setup.AppDataPath;
             xmlFile = setup.XMLPath;
 
@@ -105,7 +105,10 @@ namespace HWTokenLicenseChecker
            
             //Clipboard.SetText(sqlPath);
 
-            LMX2SQLite lmx2Sqlite = new LMX2SQLite {SqlitePath = sqlPath };
+            LMX2SQLite lmx2Sqlite = new LMX2SQLite {
+                DatabasePath = databasePath,
+                XMLFile = xmlFile
+            };
             lmx2Sqlite.CreateDatabase();
             lmx2Sqlite.ReadXMLLicenseData();
             lmx2Sqlite.ImportToDatabase();
@@ -120,7 +123,7 @@ namespace HWTokenLicenseChecker
         private void LoadToDataGridView()
         {
 
-            SQLiteConnection cnn = new SQLiteConnection("Data Source=" + sqlPath);
+            SQLiteConnection cnn = new SQLiteConnection("Data Source=" + databasePath);
             cnn.Open();
             SQLiteCommand cmd = new SQLiteCommand(cnn);
             String sqlQuery = @"SELECT LOWER(name) AS Username, host AS Hostname, MAX(used_licenses) AS Tokens, share_custom AS 'Custom String', feature_id as 'Feature Id' FROM user WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner = 0) AND isBorrow = 0 GROUP BY Username, Hostname UNION SELECT LOWER(name), host, MAX(used_licenses)||'-HWPA', share_custom, feature_id FROM user WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner != 0) AND isBorrow = 0 GROUP BY name, host, feature_id  UNION SELECT LOWER(name), host, MAX(used_licenses)||'-BRRW', share_custom, feature_id FROM user WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner = 0) AND isBorrow = 1 GROUP BY name, host ORDER BY Tokens DESC, Username ASC, Hostname ASC;";
@@ -290,7 +293,7 @@ namespace HWTokenLicenseChecker
 
         private void ProcessTokens(String user, String host, int feature_id, String featureQuery)
         {
-            SQLiteConnection cnn = new SQLiteConnection("Data Source=" + sqlPath);
+            SQLiteConnection cnn = new SQLiteConnection("Data Source=" + databasePath);
             cnn.Open();
             SQLiteCommand cmd = new SQLiteCommand(cnn);
 
@@ -464,7 +467,7 @@ namespace HWTokenLicenseChecker
         {
 
             String destination = String.Empty;
-            String source = sqlPath;
+            String source = databasePath;
             saveCSVFileDialog.Title = title;
             saveCSVFileDialog.Filter = filter;
 
