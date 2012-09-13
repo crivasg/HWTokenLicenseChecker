@@ -170,7 +170,7 @@ namespace HWTokenLicenseChecker
         {
 
             bool flag = true;
-            String tmp1 = @"";
+            String tmp1 = String.Empty;
 
             while (flag)
             {
@@ -198,7 +198,7 @@ namespace HWTokenLicenseChecker
         private void GetHostPortAndIp()
         {
             bool flag = true;
-            String tmp1 = @"";
+            String tmp1 = String.Empty;
 
             while (flag)
             {
