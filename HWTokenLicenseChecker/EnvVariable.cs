@@ -135,20 +135,6 @@ namespace HWTokenLicenseChecker
             }
         }
 
-        private void GetIntegerValue()
-        {
-            bool flag = false;
-            int number = -9999999;
-
-            while (!flag)
-            {
-                GetStringValue();
-                flag = int.TryParse(this.Value, out number);
-                //MessageBox.Show(String.Format(@"{0} {1} {2}", envValue,number, flag));
-            }
-            
-        }
-
         private Object ParseStringValueToNumeric(Type type)
         {
             bool flag = false;
@@ -169,19 +155,6 @@ namespace HWTokenLicenseChecker
             }
 
             return tmp;
-        }
-
-        private void GetFloatValue()
-        {
-            bool flag = false;
-            float number = -9999999;
-
-            while (!flag)
-            {
-                GetStringValue();
-                flag = float.TryParse(this.Value, out number);
-                //MessageBox.Show(String.Format(@"{0} {1} {2}", envValue,number, flag));
-            }
         }
 
         private void GetStringValue()
