@@ -22,7 +22,8 @@ namespace HWTokenLicenseChecker
         LmxExecuteError,
         EndUserUtilityNotFound,
         ConfigToolNotFound,
-        LmxToolsNotFound
+        LmxToolsNotFound,
+        FailedToFixXMLFile
     };
 
     class lmxendutil
@@ -110,11 +111,13 @@ namespace HWTokenLicenseChecker
             }
             catch (Exception ex)
             {
-                MessageBox.Show(@"Error while executing the LMX End User Utility (lmxendutil.exe)." +
-                    Environment.NewLine + @"The Application will quit" + Environment.NewLine + ex.ToString());
-                output = null;
+                //MessageBox.Show(@"Error while executing the LMX End User Utility (lmxendutil.exe)." +
+                //    Environment.NewLine + @"The Application will quit" + Environment.NewLine + ex.ToString());
+                //output = null;
 
-                throw new System.ArgumentNullException(lmxendutilPath, @"Error while executing the LMX End User Utility ");
+                this.AppStatus = Status.LmxExecuteError;
+
+                //throw new System.ArgumentNullException(lmxendutilPath, @"Error while executing the LMX End User Utility ");
             }
             finally
             {
@@ -191,28 +194,38 @@ namespace HWTokenLicenseChecker
 
         private void FixXMLFile()
         {
-
-            String xmlFile = Path.Combine(folder, @"Licenses.xml");
-            StringBuilder sb = new StringBuilder();
-
-            foreach (String line in output)
+            try 
             {
-                if (line.Trim().Length == 0)
+                String xmlFile = Path.Combine(folder, @"Licenses.xml");
+                StringBuilder sb = new StringBuilder();
+
+                foreach (String line in output)
                 {
-                    continue;
+                    if (line.Trim().Length == 0)
+                    {
+                        continue;
+                    }
+
+                    if (line.StartsWith(@">") || line.StartsWith(@"<"))
+                    {
+                        sb.AppendLine(line.Trim());
+                    }
                 }
 
-                if (line.StartsWith(@">") || line.StartsWith(@"<"))
+                using (StreamWriter outfile = new StreamWriter(xmlFile))
                 {
-                    sb.AppendLine(line.Trim());
-                }            
+                    outfile.Write(sb.ToString());
+                    outfile.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                this.AppStatus = Status.FailedToFixXMLFile;
+            }
+            finally 
+            { 
             }
 
-            using (StreamWriter outfile = new StreamWriter(xmlFile))
-            {
-                outfile.Write(sb.ToString());
-                outfile.Close();
-            }
 
         }
 
