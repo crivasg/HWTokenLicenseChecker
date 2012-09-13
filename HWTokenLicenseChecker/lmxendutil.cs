@@ -30,15 +30,18 @@ namespace HWTokenLicenseChecker
     {
 
         public Status AppStatus { get ; private set; }
-
+        public String XMLFile { private get; set; }
+        public String LmxPath { get; set; }
+        public String LMXConfigTool { get; private set; }
+        
         private const String ALTAIR_HOME_ENV_VAR = @"ALTAIR_HOME";
         private const String LMX_LICENSE_PATH_ENV_VAR = @"LMX_LICENSE_PATH";
         private const String LMX_END_USER_UTIL_NAME = @"lmxendutil.exe";
         private const String LMX_CONFIG_TOOL_NAME = @"lmxconfigtool.exe";
 
-	    private String lmxendutilPath = @"";
-        private String lmxconfigtoolPath = @"";
-        private String folder = @"";
+	    //private String lmxendutilPath = @"";
+        //private String lmxconfigtoolPath = @"";
+        //private String folder = @"";
 
         private String lmx_port = @"";
         private String lmx_server = @"";
@@ -51,22 +54,6 @@ namespace HWTokenLicenseChecker
 	    {
             this.AppStatus = Status.OK;
 	    }
-
-        public String LmxPath
-        {
-            get { return this.lmxendutilPath; }
-        }
-
-        public String AppDataFolder
-        {
-            set { folder = value; }
-            get { return this.folder; }
-        }
-
-        public String LMXConfigTool
-        {
-            get { return lmxconfigtoolPath;  }
-        }
 
         public void ExecuteLMX()
         {
@@ -85,15 +72,13 @@ namespace HWTokenLicenseChecker
                 return;
             }
 
-
             String args = String.Format(@"-licstatxml -port {0} -host {1} ", lmx_port, lmx_server);
-
             // http://www.dotnetperls.com/redirectstandardoutput
 
             try
             {
                 ProcessStartInfo start = new ProcessStartInfo();
-                start.FileName = lmxendutilPath;
+                start.FileName = this.LmxPath;
                 start.Arguments = args;
                 String result = @"";
 
@@ -101,7 +86,6 @@ namespace HWTokenLicenseChecker
                 start.UseShellExecute = false;
                 start.CreateNoWindow = true;
                 start.WindowStyle = ProcessWindowStyle.Hidden;
-
 
                 using (Process process = Process.Start(start))
                 {
@@ -163,25 +147,25 @@ namespace HWTokenLicenseChecker
 
                 if (fname.Equals(LMX_END_USER_UTIL_NAME, StringComparison.OrdinalIgnoreCase))
                 {
-                    lmxendutilPath = fileFound;
+                    this.LmxPath = fileFound;
                 }
                 if (fname.Equals(LMX_CONFIG_TOOL_NAME, StringComparison.OrdinalIgnoreCase))
                 {
-                    lmxconfigtoolPath = fileFound;
+                    this.LMXConfigTool = fileFound;
                 }
             }
 
             // checks...
-            if (String.IsNullOrEmpty(lmxendutilPath) &&
-                 String.IsNullOrEmpty(lmxconfigtoolPath))
+            if (String.IsNullOrEmpty(this.LmxPath) &&
+                 String.IsNullOrEmpty(this.LMXConfigTool))
             {
                 this.AppStatus = Status.LmxToolsNotFound;
             }
-            else if (String.IsNullOrEmpty(lmxendutilPath))
+            else if (String.IsNullOrEmpty(this.LmxPath))
             {
                 this.AppStatus = Status.EndUserUtilityNotFound;
             }
-            else if (String.IsNullOrEmpty(lmxconfigtoolPath))
+            else if (String.IsNullOrEmpty(this.LMXConfigTool))
             {
                 this.AppStatus = Status.ConfigToolNotFound;
             }
@@ -212,7 +196,7 @@ namespace HWTokenLicenseChecker
 
             try 
             {
-                String xmlFile = Path.Combine(folder, @"Licenses.xml");
+                //String xmlFile = Path.Combine(folder, @"Licenses.xml");
                 StringBuilder sb = new StringBuilder();
 
                 foreach (String line in output)
@@ -228,7 +212,7 @@ namespace HWTokenLicenseChecker
                     }
                 }
 
-                using (StreamWriter outfile = new StreamWriter(xmlFile))
+                using (StreamWriter outfile = new StreamWriter(this.XMLFile))
                 {
                     outfile.Write(sb.ToString());
                     outfile.Close();
@@ -274,7 +258,7 @@ namespace HWTokenLicenseChecker
                 return;
             }
 
-            XDocument xdoc = XDocument.Load(Path.Combine(folder, @"Licenses.xml"));
+            XDocument xdoc = XDocument.Load(this.XMLFile);
             String result = String.Empty;
             //Run query
             var lv1s = from lv1 in xdoc.Descendants("LM-X")

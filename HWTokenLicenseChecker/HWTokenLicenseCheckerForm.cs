@@ -88,7 +88,10 @@ namespace HWTokenLicenseChecker
 
             UpdateLastPosition();
 
-            lmxendutil lmx = new lmxendutil() { AppDataFolder = folder };
+            lmxendutil lmx = new lmxendutil() { 
+                XMLFile = xmlFile
+            };
+
             lmx.ExecuteLMX();
             lmxconfigtool = lmx.LMXConfigTool;
 
