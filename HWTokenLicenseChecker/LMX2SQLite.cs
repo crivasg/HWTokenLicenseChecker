@@ -63,7 +63,7 @@ namespace HWTokenLicenseChecker
                         String license_PathHostAttribute_Port = hostArray[0];
                         String license_PathHostAttribute_IP = hostArray[1];
 
-                        String tmp = String.Format(@"{0},{1},{2},{3},{4}", 
+                        String tmp = String.Format(@"{0};{1};{2};{3};{4}", 
                             license_PathServer_VersionAttribute, license_PathHostAttribute_IP,
                             license_PathHostAttribute_Port,license_PathTypeAttribute,
                             license_PathUptimeAttribute);
@@ -144,7 +144,7 @@ namespace HWTokenLicenseChecker
                         }
 
 
-                        String tmp = String.Format(@"{0},{1},{2},{3},""{4}"",""{5}"",{6},{7},{8}",
+                        String tmp = String.Format(@"{0};{1};{2};{3};""{4}"";""{5}"";{6};{7};{8}",
                             userNameAttribute, userHostAttribute,userIpAttribute, userUsed_LicensesAttribute,
                             userLogin_TimeAttribute, userCheckout_TimeAttribute, userShare_CustomAttribute, featureId,isBorrow);
 
@@ -202,7 +202,7 @@ namespace HWTokenLicenseChecker
 
                     foreach (String licPath in licensePathData)
                     {
-                        String[] tmpArray = licPath.Split(new Char[] { ',' });
+                        String[] tmpArray = licPath.Split(new Char[] { ';' });
                         typeParam.Value = tmpArray[3]; //
                         ipParam.Value = tmpArray[1];
                         portParam.Value = int.Parse(tmpArray[2]);
@@ -299,7 +299,7 @@ namespace HWTokenLicenseChecker
 
                     foreach (String userStr in userData)
                     {
-                        String[] tmpArray = userStr.Split(new Char[] { ',' });
+                        String[] tmpArray = userStr.Split(new Char[] { ';' });
                         nameParam.Value = tmpArray[0];
                         hostParam.Value = tmpArray[1];
                         iPParam.Value = tmpArray[2];
