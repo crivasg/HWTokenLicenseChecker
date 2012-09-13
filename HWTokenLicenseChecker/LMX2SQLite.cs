@@ -20,19 +20,10 @@ namespace HWTokenLicenseChecker
         List<String> featureData = null;
         List<String> userData = null;
 
-        private String[] _licenseData;
-        private String _sqlitePath;
-
         private const String BORROW_EXPIRE_TIME = @"BORROW_EXPIRE_TIME";
 
-        public String[] LicenseData { 
-            get { return _licenseData; } 
-            set { _licenseData = value;} 
-        }
-        public String SqlitePath { 
-            get {return _sqlitePath; }
-            set {_sqlitePath = value; }
-        }
+        public String DatabasePath { private get; set ; }
+        public String XMLFile { private get; set; }
 
         private SQLiteConnection cnn;
 
@@ -51,11 +42,10 @@ namespace HWTokenLicenseChecker
 
             int featureCounter = 0;
             int userCounter = 0;
-            String xmlFile = Path.ChangeExtension(_sqlitePath, @"xml");
-            String featureName = @"";
+            String featureName = String.Empty;
             int featureId = 0;
 
-            XmlTextReader textReader = new XmlTextReader(xmlFile);
+            XmlTextReader textReader = new XmlTextReader(this.XMLFile);
             
             while (textReader.Read())
             {
@@ -73,7 +63,7 @@ namespace HWTokenLicenseChecker
                         String license_PathHostAttribute_Port = hostArray[0];
                         String license_PathHostAttribute_IP = hostArray[1];
 
-                        String tmp = String.Format(@"{0},{1},{2},{3},{4}", 
+                        String tmp = String.Format(@"{0};{1};{2};{3};{4}", 
                             license_PathServer_VersionAttribute, license_PathHostAttribute_IP,
                             license_PathHostAttribute_Port,license_PathTypeAttribute,
                             license_PathUptimeAttribute);
@@ -154,7 +144,7 @@ namespace HWTokenLicenseChecker
                         }
 
 
-                        String tmp = String.Format(@"{0},{1},{2},{3},""{4}"",""{5}"",{6},{7},{8}",
+                        String tmp = String.Format(@"{0};{1};{2};{3};""{4}"";""{5}"";{6};{7};{8}",
                             userNameAttribute, userHostAttribute,userIpAttribute, userUsed_LicensesAttribute,
                             userLogin_TimeAttribute, userCheckout_TimeAttribute, userShare_CustomAttribute, featureId,isBorrow);
 
@@ -174,11 +164,11 @@ namespace HWTokenLicenseChecker
 
         public void CreateDatabase()
         {
-            cnn = new SQLiteConnection("Data Source=" + _sqlitePath);
+            cnn = new SQLiteConnection("Data Source=" + this.DatabasePath);
             cnn.Open();
 
             bool isSchemaCorrect = ValidateDatabaseSchema();
-            DeleteContentsOfDatabase(@"");
+            DeleteContentsOfDatabase(String.Empty);
         }
 
         public void ImportToDatabase()
@@ -212,7 +202,7 @@ namespace HWTokenLicenseChecker
 
                     foreach (String licPath in licensePathData)
                     {
-                        String[] tmpArray = licPath.Split(new Char[] { ',' });
+                        String[] tmpArray = licPath.Split(new Char[] { ';' });
                         typeParam.Value = tmpArray[3]; //
                         ipParam.Value = tmpArray[1];
                         portParam.Value = int.Parse(tmpArray[2]);
@@ -309,7 +299,7 @@ namespace HWTokenLicenseChecker
 
                     foreach (String userStr in userData)
                     {
-                        String[] tmpArray = userStr.Split(new Char[] { ',' });
+                        String[] tmpArray = userStr.Split(new Char[] { ';' });
                         nameParam.Value = tmpArray[0];
                         hostParam.Value = tmpArray[1];
                         iPParam.Value = tmpArray[2];
@@ -356,7 +346,7 @@ namespace HWTokenLicenseChecker
                 sqlTables.Add(dr.ItemArray[_TABLE_INDEX_].ToString());
             }
 
-            String sqlStmt = @"";
+            String sqlStmt = String.Empty;
 
             foreach (String sqlTable in sqlTables)
             {
