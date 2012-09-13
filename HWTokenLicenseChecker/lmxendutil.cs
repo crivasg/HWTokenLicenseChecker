@@ -80,6 +80,11 @@ namespace HWTokenLicenseChecker
 
 	    private void GetData()
 	    {
+            if (this.AppStatus != Status.OK)
+            {
+                return;
+            }
+
 
             String args = String.Format(@"-licstatxml -port {0} -host {1} ", lmx_port, lmx_server);
 
@@ -127,6 +132,10 @@ namespace HWTokenLicenseChecker
 	    
 	    private void GetLmxEndUtilPath()
 	    {
+            if (this.AppStatus != Status.OK)
+            {
+                return;
+            }
 
             // Get the server info using the LMX_LICENSE_PATH enviroment variable
             EnvVariable lmxEnvVar = new EnvVariable() { Name = LMX_LICENSE_PATH_ENV_VAR, Type = EnvVarType.HostPortAndIp };
@@ -194,6 +203,11 @@ namespace HWTokenLicenseChecker
 
         private void FixXMLFile()
         {
+            if (this.AppStatus != Status.OK)
+            {
+                return;
+            }
+
             try 
             {
                 String xmlFile = Path.Combine(folder, @"Licenses.xml");
@@ -253,6 +267,10 @@ namespace HWTokenLicenseChecker
 
         private void CheckIfLMXServerIsRunning()
         {
+            if (this.AppStatus != Status.OK)
+            {
+                return;
+            }
 
             XDocument xdoc = XDocument.Load(Path.Combine(folder, @"Licenses.xml"));
             String result = String.Empty;
@@ -278,11 +296,17 @@ namespace HWTokenLicenseChecker
             }
 
             // if results is empty, the license server may not be running.
-            MessageBox.Show(result + Environment.NewLine + parseResult.ToString() + " " + this.AppStatus.ToString());
+            //MessageBox.Show(result + Environment.NewLine + parseResult.ToString() + " " + this.AppStatus.ToString());
         }
 
         private void PingLMXServer()
         {
+
+            if (this.AppStatus != Status.OK)
+            {
+                return;
+            }
+
             //http://msdn.microsoft.com/en-us/library/system.net.networkinformation.ping(v=vs.90).aspx 
 
             Ping pingSender = new Ping();
