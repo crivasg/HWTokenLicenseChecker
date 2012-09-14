@@ -608,35 +608,35 @@ namespace HWTokenLicenseChecker
 
         private void CheckForLockedTokens()
         { 
-   		    String sqlQuery = @"SELECT share_custom FROM user WHERE feature_id = 1;";
+            String sqlQuery = @"SELECT share_custom FROM user WHERE feature_id = 1;";
 
-		    SQLiteConnection cnn = new SQLiteConnection("Data Source=" + databasePath);
-		    cnn.Open();
-		    SQLiteCommand cmd = new SQLiteCommand(cnn);
-		    cmd.CommandText = sqlQuery;
+            SQLiteConnection cnn = new SQLiteConnection("Data Source=" + databasePath);
+            cnn.Open();
+            SQLiteCommand cmd = new SQLiteCommand(cnn);
+            cmd.CommandText = sqlQuery;
 
-		    String share_custom = String.Empty;
-		    List<String> usersWithProblems =  new List<String> ();
+            String share_custom = String.Empty;
+            List<String> usersWithProblems =  new List<String> ();
 
-		    using (DbDataReader reader = cmd.ExecuteReader())
-		    {
-			    while (reader.Read())
-			    {
+            using (DbDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
                     share_custom = reader[0].ToString();
-				    String[] tmpArray = share_custom.Split(':');
+                    String[] tmpArray = share_custom.Split(':');
 
                     String userString = String.Format(@"{0}:{1}",
-                            tmpArray[0], tmpArray[1]);
+                    tmpArray[0], tmpArray[1]);
 
                     if (tmpArray.Length == 3 && !usersWithProblems.Contains(userString))
-				    {
+                    {
                         usersWithProblems.Add(userString);
-				    }
-			    }
-			    reader.Close();
-		    }
-		    cmd.Dispose();
-		    cnn.Close();     
+                    }
+                }
+                reader.Close();
+            }
+            cmd.Dispose();
+            cnn.Close();     
         
         }
 
