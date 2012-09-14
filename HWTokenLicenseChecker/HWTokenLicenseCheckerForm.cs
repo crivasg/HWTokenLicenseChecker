@@ -117,7 +117,7 @@ namespace HWTokenLicenseChecker
             LoadToDataGridView();
 
 
-            CheckForLockedTokens();
+            //CheckForLockedTokens();
 
             isRunning = false;
 
@@ -637,7 +637,41 @@ namespace HWTokenLicenseChecker
             }
             cmd.Dispose();
             cnn.Close();     
-        
+ 
+            // http://blog.csharphelper.com/2010/05/31/calculate-a-datagridview-columns-value-and-highlight-specific-values-in-c.aspx
+
+            // Make a style for user with locked tooekns
+            DataGridViewCellStyle highlight_style = new DataGridViewCellStyle()
+            {
+                ForeColor = Color.Red,
+                BackColor = Color.Yellow,
+                Font = new Font(dataGridView.Font, FontStyle.Bold)
+            };
+
+            foreach (DataGridViewRow row in dataGridView.Rows)
+            {
+                dataGridView.ReadOnly = false;
+                String userData = (String)row.Cells["Username"].Value + @":" +
+                    (String)row.Cells["Hostname"].Value;
+
+                if (usersWithProblems.Contains(userData))
+                {
+
+
+                    foreach (DataGridViewCell cell in row.Cells)
+                    {
+                        cell.Style.BackColor = Color.MistyRose;
+                    }
+                }
+                this.Update();
+                dataGridView.ReadOnly = true;
+            }
+
+        }
+
+        private void dataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            CheckForLockedTokens();
         }
 
 
