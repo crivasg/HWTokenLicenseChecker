@@ -22,6 +22,8 @@ namespace HWTokenLicenseChecker
         private String folder = String.Empty;
         private String lmxconfigtool = String.Empty;
 
+        private List<String> usersWithProblems = new List<String>();
+
         private const String POSITION_PREFS_FILE = @"position.prefs";
         private const String GITHUB_REPO_URL = @"https://github.com/crivasg/HWTokenLicenseChecker";
 
@@ -116,7 +118,11 @@ namespace HWTokenLicenseChecker
             lmx2Sqlite.CloseDatabase();
             LoadToDataGridView();
 
+            // checks if there is user with locked tokens.
+            CheckForLockedTokens();
+
             isRunning = false;
+
   
         }
 
@@ -602,6 +608,68 @@ namespace HWTokenLicenseChecker
            
         }
 
+        private void CheckForLockedTokens()
+        {
+            String sqlQuery = @"SELECT user.share_custom FROM user JOIN feature USING (feature_id) WHERE feature.name = 'HyperWorks';";
+
+            SQLiteConnection cnn = new SQLiteConnection("Data Source=" + databasePath);
+            cnn.Open();
+            SQLiteCommand cmd = new SQLiteCommand(cnn);
+            cmd.CommandText = sqlQuery;
+
+            String share_custom = String.Empty;
+            
+
+            using (DbDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    share_custom = reader[0].ToString();
+                    String[] tmpArray = share_custom.Split(':');
+
+                    String userString = String.Format(@"{0}:{1}",
+                    tmpArray[0], tmpArray[1]);
+
+                    if (tmpArray.Length == 3 && !usersWithProblems.Contains(userString))
+                    {
+                        usersWithProblems.Add(userString);
+                    }
+                }
+                reader.Close();
+            }
+            cmd.Dispose();
+            cnn.Close();     
+
+        }
+
+        private void ApplyStyleToCells()
+        {
+            // http://blog.csharphelper.com/2010/05/31/calculate-a-datagridview-columns-value-and-highlight-specific-values-in-c.asp
+
+            foreach (DataGridViewRow row in dataGridView.Rows)
+            {
+                dataGridView.ReadOnly = false;
+                String userData = (String)row.Cells["Username"].Value + @":" +
+                    (String)row.Cells["Hostname"].Value;
+
+                if (usersWithProblems.Contains(userData))
+                {
+
+
+                    foreach (DataGridViewCell cell in row.Cells)
+                    {
+                        cell.Style.BackColor = Color.MistyRose;
+                    }
+                }
+                this.Update();
+                dataGridView.ReadOnly = true;
+            }       
+        }
+
+        private void dataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            ApplyStyleToCells();
+        }
 
 
     }
