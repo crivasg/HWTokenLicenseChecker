@@ -144,7 +144,7 @@ namespace HWTokenLicenseChecker
                         }
 
 
-                        String tmp = String.Format(@"{0};{1};{2};{3};""{4}"";""{5}"";{6};{7};{8}",
+                        String tmp = String.Format(@"{0};{1};{2};{3};{4};{5};{6};{7};{8}",
                             userNameAttribute, userHostAttribute,userIpAttribute, userUsed_LicensesAttribute,
                             userLogin_TimeAttribute, userCheckout_TimeAttribute, userShare_CustomAttribute, featureId,isBorrow);
 
