@@ -607,8 +607,8 @@ namespace HWTokenLicenseChecker
         }
 
         private void CheckForLockedTokens()
-        { 
-            String sqlQuery = @"SELECT share_custom FROM user WHERE feature_id = 1;";
+        {
+            String sqlQuery = @"SELECT user.share_custom FROM user JOIN feature USING (feature_id) WHERE feature.name = 'HyperWorks';";
 
             SQLiteConnection cnn = new SQLiteConnection("Data Source=" + databasePath);
             cnn.Open();
@@ -638,15 +638,7 @@ namespace HWTokenLicenseChecker
             cmd.Dispose();
             cnn.Close();     
  
-            // http://blog.csharphelper.com/2010/05/31/calculate-a-datagridview-columns-value-and-highlight-specific-values-in-c.aspx
-
-            // Make a style for user with locked tooekns
-            DataGridViewCellStyle highlight_style = new DataGridViewCellStyle()
-            {
-                ForeColor = Color.Red,
-                BackColor = Color.Yellow,
-                Font = new Font(dataGridView.Font, FontStyle.Bold)
-            };
+            // http://blog.csharphelper.com/2010/05/31/calculate-a-datagridview-columns-value-and-highlight-specific-values-in-c.asp
 
             foreach (DataGridViewRow row in dataGridView.Rows)
             {
