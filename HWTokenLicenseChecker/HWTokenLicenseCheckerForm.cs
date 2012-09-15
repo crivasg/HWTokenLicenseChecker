@@ -22,6 +22,8 @@ namespace HWTokenLicenseChecker
         private String folder = String.Empty;
         private String lmxconfigtool = String.Empty;
 
+        private List<String> usersWithProblems = new List<String>();
+
         private const String POSITION_PREFS_FILE = @"position.prefs";
         private const String GITHUB_REPO_URL = @"https://github.com/crivasg/HWTokenLicenseChecker";
 
@@ -116,8 +118,8 @@ namespace HWTokenLicenseChecker
             lmx2Sqlite.CloseDatabase();
             LoadToDataGridView();
 
-
-            //CheckForLockedTokens();
+            // checks if there is user with locked tokens.
+            CheckForLockedTokens();
 
             isRunning = false;
 
@@ -616,7 +618,7 @@ namespace HWTokenLicenseChecker
             cmd.CommandText = sqlQuery;
 
             String share_custom = String.Empty;
-            List<String> usersWithProblems =  new List<String> ();
+            
 
             using (DbDataReader reader = cmd.ExecuteReader())
             {
@@ -637,7 +639,11 @@ namespace HWTokenLicenseChecker
             }
             cmd.Dispose();
             cnn.Close();     
- 
+
+        }
+
+        private void ApplyStyleToCells()
+        {
             // http://blog.csharphelper.com/2010/05/31/calculate-a-datagridview-columns-value-and-highlight-specific-values-in-c.asp
 
             foreach (DataGridViewRow row in dataGridView.Rows)
@@ -657,13 +663,12 @@ namespace HWTokenLicenseChecker
                 }
                 this.Update();
                 dataGridView.ReadOnly = true;
-            }
-
+            }       
         }
 
         private void dataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            CheckForLockedTokens();
+            ApplyStyleToCells();
         }
 
 
