@@ -24,7 +24,6 @@ namespace HWTokenLicenseChecker
 
         private List<String> usersWithProblems = new List<String>();
 
-        private const String POSITION_PREFS_FILE = @"position.prefs";
         private const String GITHUB_REPO_URL = @"https://github.com/crivasg/HWTokenLicenseChecker";
 
         private int minHWPAFeatureId = -1;
@@ -506,58 +505,6 @@ namespace HWTokenLicenseChecker
         {
             Properties.Settings.Default.FormLocation = this.Location;
             Properties.Settings.Default.Save();
-
-            //StoreLastPosition();
-        }
-
-        private void StoreLastPosition()
-        {
-            // write of file
-            // %APPDATA%\HWTokenLicenseChecker\position.prefs
-            Point point = this.Location;
-            String position = String.Format(@"X:{0}:Y:{1}", point.X, point.Y);
-
-            String positionPrefFile = Path.Combine(folder,POSITION_PREFS_FILE );
-            using (StreamWriter output = new StreamWriter(positionPrefFile))
-            {
-                output.Write(position);
-                output.Close();
-            }
-        }
-
-        private void UpdateLastPosition()
-        {
-            // read contents of file
-            // %APPDATA%\HWTokenLicenseChecker\position.prefs
-            String positionPrefFile = Path.Combine(folder,POSITION_PREFS_FILE );
-
-            if (File.Exists(positionPrefFile))
-            {
-                StreamReader myFile = new StreamReader(positionPrefFile);
-                String myString = myFile.ReadToEnd();
-                String[] lines = myString.Split('\n');
-                myFile.Close();
-
-                foreach (String line in lines)
-                {
-                    if (line.Trim().Length == 0)
-                    {
-                        continue;
-                    }
-
-                    String[] pointString = line.Trim().Split(':');
-                    Point point = new Point(int.Parse(pointString[1]), int.Parse(pointString[3]));
-                    //this.StartPosition = FormStartPosition.Manual;
-                    this.Location = point;
-                    //MessageBox.Show(point.ToString() + " " + this.Location.ToString());
-                }
-            }
-            else
-            {
-                this.StartPosition = FormStartPosition.CenterScreen;
-            }
-
-            StoreLastPosition();
 
         }
 
