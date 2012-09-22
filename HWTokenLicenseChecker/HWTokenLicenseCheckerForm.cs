@@ -138,11 +138,11 @@ namespace HWTokenLicenseChecker
     FROM user 
     WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner = 0) AND isBorrow = 0 GROUP BY Username, Hostname 
     UNION 
-    SELECT LOWER(name), host, MAX(used_licenses)||'-HWPA', share_custom,'HWPA',login_time AS Date, feature_id 
+    SELECT LOWER(name), host, MAX(used_licenses), share_custom,'HWPA',login_time AS Date, feature_id 
     FROM user 
     WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner != 0) AND isBorrow = 0 GROUP BY name, host, feature_id  
     UNION 
-    SELECT LOWER(name), host, MAX(used_licenses)||'-BRRW', share_custom, 'BRRW', login_time AS Date, feature_id 
+    SELECT LOWER(name), host, MAX(used_licenses), share_custom, 'BRRW', login_time AS Date, feature_id 
     FROM user 
     WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner = 0) AND isBorrow = 1 GROUP BY name, host 
     ORDER BY Tokens DESC, Username ASC, Hostname ASC;";
@@ -245,6 +245,7 @@ namespace HWTokenLicenseChecker
 
             String user = String.Empty;
             String host = String.Empty;
+            String tokenType = String.Empty;
             int feature_id = -1;
             int tokens = -1;
             DataGridViewRow currentRow = dataGridView.CurrentRow;
@@ -254,22 +255,23 @@ namespace HWTokenLicenseChecker
             {
                 user = Convert.ToString(currentRow.Cells[0].Value).ToLower();
                 host = Convert.ToString(currentRow.Cells[1].Value).ToUpper();
-                String tmpTokens = Convert.ToString(currentRow.Cells[2].Value);
+                tokenType = Convert.ToString(currentRow.Cells[4].Value).ToUpper();
+                tokens = int.Parse(currentRow.Cells[2].Value.ToString());
                 borrowHWPATextBox.Text = String.Empty;
                 borrowHWPATextBox.BackColor = Color.FromKnownColor(KnownColor.Window);
-                if (tmpTokens.Contains(@"HWPA") || tmpTokens.Contains(@"BRRW"))
+                if (tokenType.Contains(@"HWPA") || tokenType.Contains(@"BRRW"))
                 {
                    
                     borrowHWPATextBox.BackColor = Color.MistyRose;
 
-                    String[] tmpTokensArray = tmpTokens.Split(new Char[] {'-'});
-                    tokens = int.Parse(tmpTokensArray[0]);
+                    //String[] tmpTokensArray = tmpTokens.Split(new Char[] {'-'});
+                    //tokens = int.Parse(tmpTokensArray[0]);
 
-                    if (tmpTokens.Contains(@"HWPA"))
+                    if (tokenType.Contains(@"HWPA"))
                     {
                         borrowHWPATextBox.Text = @"HWPA";
                     }
-                    if (tmpTokens.Contains(@"BRRW"))
+                    if (tokenType.Contains(@"BRRW"))
                     {
                         borrowHWPATextBox.Text = @"BORROW";
                     }
