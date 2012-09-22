@@ -279,8 +279,8 @@ namespace HWTokenLicenseChecker
                     tokens = Convert.ToInt32(currentRow.Cells[2].Value);;
                 }
 
-                
-                feature_id = Convert.ToInt32(currentRow.Cells[4].Value);
+                int numOfCellsInRow = currentRow.Cells.Count;
+                feature_id = Convert.ToInt32(currentRow.Cells[numOfCellsInRow-1].Value);
             }
             catch { return; }
 
