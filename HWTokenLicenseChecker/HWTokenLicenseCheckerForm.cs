@@ -36,7 +36,7 @@ namespace HWTokenLicenseChecker
         public HWTokenLicenseCheckerForm()
         {
 
-            this.Location = Properties.Settings.Default.FormLocation;
+            this.UpgradeSettings();
             InitializeComponent();
 
             GetLMXLicenseData();
@@ -676,6 +676,16 @@ namespace HWTokenLicenseChecker
             ApplyStyleToCells();
         }
 
+        private void UpgradeSettings()
+        {
+            if (!Properties.Settings.Default.Upgraded)
+            {
+                Properties.Settings.Default.Upgrade();
+                Properties.Settings.Default.Upgraded = true;
+                Properties.Settings.Default.Save();
+            }
+            this.Location = Properties.Settings.Default.FormLocation;
+        }
 
     }
 }
