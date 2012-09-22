@@ -133,7 +133,19 @@ namespace HWTokenLicenseChecker
             SQLiteConnection cnn = new SQLiteConnection("Data Source=" + databasePath);
             cnn.Open();
             SQLiteCommand cmd = new SQLiteCommand(cnn);
-            String sqlQuery = @"SELECT LOWER(name) AS Username, host AS Hostname, MAX(used_licenses) AS Tokens, share_custom AS 'Custom String', feature_id as 'Feature Id' FROM user WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner = 0) AND isBorrow = 0 GROUP BY Username, Hostname UNION SELECT LOWER(name), host, MAX(used_licenses)||'-HWPA', share_custom, feature_id FROM user WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner != 0) AND isBorrow = 0 GROUP BY name, host, feature_id  UNION SELECT LOWER(name), host, MAX(used_licenses)||'-BRRW', share_custom, feature_id FROM user WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner = 0) AND isBorrow = 1 GROUP BY name, host ORDER BY Tokens DESC, Username ASC, Hostname ASC;";
+            String sqlQuery =
+        @"SELECT LOWER(name) AS Username, host AS Hostname, MAX(used_licenses) AS Tokens, share_custom AS 'Custom String','' AS Type, login_time AS Date, feature_id as 'Feature Id' 
+    FROM user 
+    WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner = 0) AND isBorrow = 0 GROUP BY Username, Hostname 
+    UNION 
+    SELECT LOWER(name), host, MAX(used_licenses), share_custom,'HWPA',login_time AS Date, feature_id 
+    FROM user 
+    WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner != 0) AND isBorrow = 0 GROUP BY name, host, feature_id  
+    UNION 
+    SELECT LOWER(name), host, MAX(used_licenses), share_custom, 'BRRW', login_time AS Date, feature_id 
+    FROM user 
+    WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner = 0) AND isBorrow = 1 GROUP BY name, host 
+    ORDER BY Tokens DESC, Username ASC, Hostname ASC;";
 
             SQLiteDataAdapter db = new SQLiteDataAdapter(sqlQuery, cnn);
 
@@ -147,7 +159,7 @@ namespace HWTokenLicenseChecker
 
             for (int i = 0; i < dataGridView.ColumnCount; ++i )
             {
-                if (i != 1)
+                if (i != 3)
                 {
                     dataGridView.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                 }
@@ -233,6 +245,7 @@ namespace HWTokenLicenseChecker
 
             String user = String.Empty;
             String host = String.Empty;
+            String tokenType = String.Empty;
             int feature_id = -1;
             int tokens = -1;
             DataGridViewRow currentRow = dataGridView.CurrentRow;
@@ -242,22 +255,23 @@ namespace HWTokenLicenseChecker
             {
                 user = Convert.ToString(currentRow.Cells[0].Value).ToLower();
                 host = Convert.ToString(currentRow.Cells[1].Value).ToUpper();
-                String tmpTokens = Convert.ToString(currentRow.Cells[2].Value);
+                tokenType = Convert.ToString(currentRow.Cells[4].Value).ToUpper();
+                tokens = int.Parse(currentRow.Cells[2].Value.ToString());
                 borrowHWPATextBox.Text = String.Empty;
                 borrowHWPATextBox.BackColor = Color.FromKnownColor(KnownColor.Window);
-                if (tmpTokens.Contains(@"HWPA") || tmpTokens.Contains(@"BRRW"))
+                if (tokenType.Contains(@"HWPA") || tokenType.Contains(@"BRRW"))
                 {
                    
                     borrowHWPATextBox.BackColor = Color.MistyRose;
 
-                    String[] tmpTokensArray = tmpTokens.Split(new Char[] {'-'});
-                    tokens = int.Parse(tmpTokensArray[0]);
+                    //String[] tmpTokensArray = tmpTokens.Split(new Char[] {'-'});
+                    //tokens = int.Parse(tmpTokensArray[0]);
 
-                    if (tmpTokens.Contains(@"HWPA"))
+                    if (tokenType.Contains(@"HWPA"))
                     {
                         borrowHWPATextBox.Text = @"HWPA";
                     }
-                    if (tmpTokens.Contains(@"BRRW"))
+                    if (tokenType.Contains(@"BRRW"))
                     {
                         borrowHWPATextBox.Text = @"BORROW";
                     }
@@ -267,8 +281,8 @@ namespace HWTokenLicenseChecker
                     tokens = Convert.ToInt32(currentRow.Cells[2].Value);;
                 }
 
-                
-                feature_id = Convert.ToInt32(currentRow.Cells[4].Value);
+                int numOfCellsInRow = currentRow.Cells.Count;
+                feature_id = Convert.ToInt32(currentRow.Cells[numOfCellsInRow-1].Value);
             }
             catch { return; }
 
@@ -606,13 +620,19 @@ namespace HWTokenLicenseChecker
 
                 if (usersWithProblems.Contains(userData))
                 {
-
-
                     foreach (DataGridViewCell cell in row.Cells)
                     {
                         cell.Style.BackColor = Color.MistyRose;
                     }
                 }
+                else
+                {
+                    foreach (DataGridViewCell cell in row.Cells)
+                    {
+                        cell.Style.BackColor = Color.White;
+                    }
+                }
+
                 this.Update();
                 dataGridView.ReadOnly = true;
             }       
@@ -632,6 +652,11 @@ namespace HWTokenLicenseChecker
                 Properties.Settings.Default.Save();
             }
             this.Location = Properties.Settings.Default.FormLocation;
+        }
+
+        private void dataGridView_Sorted(object sender, EventArgs e)
+        {
+            ApplyStyleToCells();
         }
 
     }
