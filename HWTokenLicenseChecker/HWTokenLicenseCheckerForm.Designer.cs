@@ -542,6 +542,7 @@
             this.MaximumSize = new System.Drawing.Size(800, 600);
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "HWTokenLicenseCheckerForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "HW Token License Checker";
             this.ResizeEnd += new System.EventHandler(this.HWTokenLicenseCheckerForm_ResizeEnd);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();

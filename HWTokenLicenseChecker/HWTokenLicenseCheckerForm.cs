@@ -88,7 +88,7 @@ namespace HWTokenLicenseChecker
             folder = setup.AppDataPath;
             xmlFile = setup.XMLPath;
 
-            UpdateLastPosition();
+            //UpdateLastPosition();
 
             lmxendutil lmx = new lmxendutil() { 
                 XMLFile = xmlFile
@@ -502,7 +502,7 @@ namespace HWTokenLicenseChecker
 
         private void HWTokenLicenseCheckerForm_ResizeEnd(object sender, EventArgs e)
         {
-            StoreLastPosition();
+            //StoreLastPosition();
         }
 
         private void StoreLastPosition()
@@ -542,7 +542,7 @@ namespace HWTokenLicenseChecker
 
                     String[] pointString = line.Trim().Split(':');
                     Point point = new Point(int.Parse(pointString[1]), int.Parse(pointString[3]));
-                    this.StartPosition = FormStartPosition.Manual;
+                    //this.StartPosition = FormStartPosition.Manual;
                     this.Location = point;
                     //MessageBox.Show(point.ToString() + " " + this.Location.ToString());
                 }
