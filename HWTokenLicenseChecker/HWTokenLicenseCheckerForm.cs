@@ -195,9 +195,9 @@ namespace HWTokenLicenseChecker
 
             int numberOfUsers = dataGridView.RowCount;
 
-
-            toolStripStatusLabel1.Text = String.Format(@"{0} User(s). Uptime: {1}. {2} of {3} license(s) used. Expiration Date: {4}", 
-                numberOfUsers, uptime,used_licenses, total_licenses, end_date);
+            String numberOfUsersStr = numberOfUsers != 1 ? @"Users" : @"User";
+            toolStripStatusLabel1.Text = String.Format(@"{0} {1}. Uptime: {2}. {3} of {4} license(s) used. Expiration Date: {5}", 
+                numberOfUsers,numberOfUsersStr, uptime,used_licenses, total_licenses, end_date);
 
            
             this.Text += String.Format(@" {0}@{1} ",port,ip);
