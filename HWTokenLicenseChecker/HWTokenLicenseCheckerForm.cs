@@ -159,7 +159,7 @@ namespace HWTokenLicenseChecker
 
             for (int i = 0; i < dataGridView.ColumnCount; ++i )
             {
-                if (i != 1)
+                if (i != 3)
                 {
                     dataGridView.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                 }
@@ -620,13 +620,19 @@ namespace HWTokenLicenseChecker
 
                 if (usersWithProblems.Contains(userData))
                 {
-
-
                     foreach (DataGridViewCell cell in row.Cells)
                     {
                         cell.Style.BackColor = Color.MistyRose;
                     }
                 }
+                else
+                {
+                    foreach (DataGridViewCell cell in row.Cells)
+                    {
+                        cell.Style.BackColor = Color.White;
+                    }
+                }
+
                 this.Update();
                 dataGridView.ReadOnly = true;
             }       
@@ -646,6 +652,11 @@ namespace HWTokenLicenseChecker
                 Properties.Settings.Default.Save();
             }
             this.Location = Properties.Settings.Default.FormLocation;
+        }
+
+        private void dataGridView_Sorted(object sender, EventArgs e)
+        {
+            ApplyStyleToCells();
         }
 
     }
