@@ -35,6 +35,8 @@ namespace HWTokenLicenseChecker
 
         public HWTokenLicenseCheckerForm()
         {
+
+            this.Location = Properties.Settings.Default.FormLocation;
             InitializeComponent();
 
             GetLMXLicenseData();
@@ -502,6 +504,9 @@ namespace HWTokenLicenseChecker
 
         private void HWTokenLicenseCheckerForm_ResizeEnd(object sender, EventArgs e)
         {
+            Properties.Settings.Default.FormLocation = this.Location;
+            Properties.Settings.Default.Save();
+
             //StoreLastPosition();
         }
 
