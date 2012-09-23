@@ -127,7 +127,7 @@ namespace HWTokenLicenseChecker
                 output = result.Split('\n');
                 
             }
-            catch (Exception ex)
+            catch
             {
                 //MessageBox.Show(@"Error while executing the LMX End User Utility (lmxendutil.exe)." +
                 //    Environment.NewLine + @"The Application will quit" + Environment.NewLine + ex.ToString());
@@ -232,7 +232,7 @@ namespace HWTokenLicenseChecker
                     outfile.Close();
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 this.AppStatus = Status.FailedToFixXMLFile;
             }
