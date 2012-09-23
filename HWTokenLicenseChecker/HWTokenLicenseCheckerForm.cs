@@ -26,6 +26,20 @@ namespace HWTokenLicenseChecker
 
         private const String GITHUB_REPO_URL = @"https://github.com/crivasg/HWTokenLicenseChecker";
 
+        private const String SQL_QUERY_FOR_GRIDDATAVIEW =
+        @"SELECT LOWER(name) AS Username, host AS Hostname, MAX(used_licenses) AS Tokens, share_custom AS 'Custom String','' AS Type, login_time AS Date, feature_id as 'Feature Id' 
+    FROM user 
+    WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner = 0) AND isBorrow = 0 GROUP BY Username, Hostname 
+    UNION 
+    SELECT LOWER(name), host, MAX(used_licenses), share_custom,'HWPA',login_time AS Date, feature_id 
+    FROM user 
+    WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner != 0) AND isBorrow = 0 GROUP BY name, host, feature_id  
+    UNION 
+    SELECT LOWER(name), host, MAX(used_licenses), share_custom, 'BRRW', login_time AS Date, feature_id 
+    FROM user 
+    WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner = 0) AND isBorrow = 1 GROUP BY name, host 
+    ORDER BY Tokens DESC, Username ASC, Hostname ASC;";
+
         private int minHWPAFeatureId = -1;
         private int maxHWPAFeatureId = -2;
 
@@ -93,25 +107,12 @@ namespace HWTokenLicenseChecker
 
         private void LoadToDataGridView()
         {
+            String sqlQuery = String.Empty;
 
             SQLiteConnection cnn = new SQLiteConnection("Data Source=" + databasePath);
             cnn.Open();
             SQLiteCommand cmd = new SQLiteCommand(cnn);
-            String sqlQuery =
-        @"SELECT LOWER(name) AS Username, host AS Hostname, MAX(used_licenses) AS Tokens, share_custom AS 'Custom String','' AS Type, login_time AS Date, feature_id as 'Feature Id' 
-    FROM user 
-    WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner = 0) AND isBorrow = 0 GROUP BY Username, Hostname 
-    UNION 
-    SELECT LOWER(name), host, MAX(used_licenses), share_custom,'HWPA',login_time AS Date, feature_id 
-    FROM user 
-    WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner != 0) AND isBorrow = 0 GROUP BY name, host, feature_id  
-    UNION 
-    SELECT LOWER(name), host, MAX(used_licenses), share_custom, 'BRRW', login_time AS Date, feature_id 
-    FROM user 
-    WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner = 0) AND isBorrow = 1 GROUP BY name, host 
-    ORDER BY Tokens DESC, Username ASC, Hostname ASC;";
-
-            SQLiteDataAdapter db = new SQLiteDataAdapter(sqlQuery, cnn);
+            SQLiteDataAdapter db = new SQLiteDataAdapter(SQL_QUERY_FOR_GRIDDATAVIEW, cnn);
 
             DataSet ds = new DataSet();
             ds.Reset();
