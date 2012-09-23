@@ -351,7 +351,11 @@ namespace HWTokenLicenseChecker
             foreach (DataRow dr in dt.Rows)
             {
                 // 2 for tables....
-                sqlStmt += String.Format(@"DELETE FROM {0};", dr.ItemArray[_TABLE_INDEX_].ToString()) + Environment.NewLine;
+                String tableName = dr.ItemArray[_TABLE_INDEX_].ToString();
+                if( !tableName.StartsWith(@"view_")) // when I create a view it always start with the word 'view_'
+                {
+                    sqlStmt += String.Format(@"DELETE FROM {0};", tableName) + Environment.NewLine;
+                }   
             }
 
             SQLiteCommand cmd = new SQLiteCommand(cnn);
