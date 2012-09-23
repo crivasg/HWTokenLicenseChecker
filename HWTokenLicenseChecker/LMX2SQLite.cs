@@ -175,7 +175,7 @@ namespace HWTokenLicenseChecker
             cnn.Open();
 
             bool isSchemaCorrect = ValidateDatabaseSchema();
-            DeleteContentsOfDatabase(String.Empty);
+            DeleteContentsOfDatabase();
         }
 
         private void ImportToDatabase()
@@ -341,23 +341,17 @@ namespace HWTokenLicenseChecker
             userData = null;
         }
 
-        private void DeleteContentsOfDatabase(String query)
+        private void DeleteContentsOfDatabase()
         {
             // Get the tables of the database;
+            String sqlStmt = String.Empty;
             const int _TABLE_INDEX_ = 2;
+
             DataTable dt = cnn.GetSchema(SQLiteMetaDataCollectionNames.Tables);
-            List<String> sqlTables = new List<String>();
             foreach (DataRow dr in dt.Rows)
             {
                 // 2 for tables....
-                sqlTables.Add(dr.ItemArray[_TABLE_INDEX_].ToString());
-            }
-
-            String sqlStmt = String.Empty;
-
-            foreach (String sqlTable in sqlTables)
-            {
-                sqlStmt += String.Format(@"DELETE FROM {0};", sqlTable) + Environment.NewLine;
+                sqlStmt += String.Format(@"DELETE FROM {0};", dr.ItemArray[_TABLE_INDEX_].ToString()) + Environment.NewLine;
             }
 
             SQLiteCommand cmd = new SQLiteCommand(cnn);
