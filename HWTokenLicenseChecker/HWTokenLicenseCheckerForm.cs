@@ -218,10 +218,10 @@ namespace HWTokenLicenseChecker
 
             try
             {
-                user = Convert.ToString(currentRow.Cells[0].Value).ToLower();
-                host = Convert.ToString(currentRow.Cells[1].Value).ToUpper();
-                tokenType = Convert.ToString(currentRow.Cells[4].Value).ToUpper();
-                tokens = int.Parse(currentRow.Cells[2].Value.ToString());
+                user = Convert.ToString(currentRow.Cells["Username"].Value).ToLower();
+                host = Convert.ToString(currentRow.Cells["Hostname"].Value).ToUpper();
+                tokenType = Convert.ToString(currentRow.Cells["Type"].Value).ToUpper();
+                tokens = int.Parse(currentRow.Cells["Tokens"].Value.ToString());
                 borrowHWPATextBox.Text = String.Empty;
                 borrowHWPATextBox.BackColor = Color.FromKnownColor(KnownColor.Window);
                 if (tokenType.Contains(@"HWPA") || tokenType.Contains(@"BRRW"))
@@ -241,13 +241,9 @@ namespace HWTokenLicenseChecker
                         borrowHWPATextBox.Text = @"BORROW";
                     }
                 }
-                else
-                {
-                    tokens = Convert.ToInt32(currentRow.Cells[2].Value);;
-                }
 
                 int numOfCellsInRow = currentRow.Cells.Count;
-                feature_id = Convert.ToInt32(currentRow.Cells[numOfCellsInRow-1].Value);
+                feature_id = Convert.ToInt32(currentRow.Cells["Feature Id"].Value);
             }
             catch { return; }
 
