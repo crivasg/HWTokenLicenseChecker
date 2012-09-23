@@ -32,7 +32,14 @@ namespace HWTokenLicenseChecker
 
         }
 
-        public void ReadXMLLicenseData()
+        public void Run()
+        {
+            CreateDatabase();
+            ReadXMLLicenseData();
+            ImportToDatabase();       
+        }
+
+        private void ReadXMLLicenseData()
         {
             String[] xmlNodes = {@"LICENSE_PATH",@"FEATURE","USER"};
 
@@ -162,7 +169,7 @@ namespace HWTokenLicenseChecker
             
         }
 
-        public void CreateDatabase()
+        private void CreateDatabase()
         {
             cnn = new SQLiteConnection("Data Source=" + this.DatabasePath);
             cnn.Open();
@@ -171,7 +178,7 @@ namespace HWTokenLicenseChecker
             DeleteContentsOfDatabase(String.Empty);
         }
 
-        public void ImportToDatabase()
+        private void ImportToDatabase()
         {
 
             String[] sqlStmtTextArray = {
