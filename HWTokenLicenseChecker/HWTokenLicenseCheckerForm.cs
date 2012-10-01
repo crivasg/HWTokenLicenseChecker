@@ -539,6 +539,10 @@ namespace HWTokenLicenseChecker
         {
             String sqlQuery = @"SELECT user.share_custom FROM user JOIN feature USING (feature_id) WHERE feature.name = 'HyperWorks';";
 
+            sqlQuery = @"SELECT DISTINCT  user.name||':'||user.host 
+                    FROM user JOIN feature USING (feature_id) 
+                    WHERE user.share_custom LIKE '%:%:%' AND feature.name = 'HyperWorks';";
+
             SQLiteConnection cnn = new SQLiteConnection("Data Source=" + databasePath);
             cnn.Open();
             SQLiteCommand cmd = new SQLiteCommand(cnn);
@@ -551,8 +555,12 @@ namespace HWTokenLicenseChecker
             {
                 while (reader.Read())
                 {
+
+
                     share_custom = reader[0].ToString();
-                    String[] tmpArray = share_custom.Split(':');
+                    usersWithProblems.Add(share_custom);
+
+                    /*String[] tmpArray = share_custom.Split(':');
 
                     String userString = String.Format(@"{0}:{1}",
                     tmpArray[0], tmpArray[1]);
@@ -561,6 +569,8 @@ namespace HWTokenLicenseChecker
                     {
                         usersWithProblems.Add(userString);
                     }
+                     * 
+                     */
                 }
                 reader.Close();
             }
