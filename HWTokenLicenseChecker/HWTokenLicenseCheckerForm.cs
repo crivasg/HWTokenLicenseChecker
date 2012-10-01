@@ -537,9 +537,7 @@ namespace HWTokenLicenseChecker
 
         private void CheckForLockedTokens()
         {
-            String sqlQuery = @"SELECT user.share_custom FROM user JOIN feature USING (feature_id) WHERE feature.name = 'HyperWorks';";
-
-            sqlQuery = @"SELECT DISTINCT  user.name||':'||user.host 
+            String sqlQuery = @"SELECT DISTINCT  user.name||':'||user.host 
                     FROM user JOIN feature USING (feature_id) 
                     WHERE user.share_custom LIKE '%:%:%' AND feature.name = 'HyperWorks';";
 
@@ -550,27 +548,14 @@ namespace HWTokenLicenseChecker
 
             String share_custom = String.Empty;
             
-
             using (DbDataReader reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
                 {
 
-
                     share_custom = reader[0].ToString();
                     usersWithProblems.Add(share_custom);
 
-                    /*String[] tmpArray = share_custom.Split(':');
-
-                    String userString = String.Format(@"{0}:{1}",
-                    tmpArray[0], tmpArray[1]);
-
-                    if (tmpArray.Length == 3 && !usersWithProblems.Contains(userString))
-                    {
-                        usersWithProblems.Add(userString);
-                    }
-                     * 
-                     */
                 }
                 reader.Close();
             }
