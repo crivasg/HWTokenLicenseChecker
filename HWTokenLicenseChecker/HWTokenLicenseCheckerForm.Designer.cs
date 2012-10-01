@@ -284,6 +284,7 @@
             this.featureTextBox.Name = "featureTextBox";
             this.featureTextBox.ReadOnly = true;
             this.tableLayoutPanel1.SetRowSpan(this.featureTextBox, 2);
+            this.featureTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.featureTextBox.Size = new System.Drawing.Size(275, 116);
             this.featureTextBox.TabIndex = 6;
             this.featureTextBox.Enter += new System.EventHandler(this.userTextBox_Enter);
