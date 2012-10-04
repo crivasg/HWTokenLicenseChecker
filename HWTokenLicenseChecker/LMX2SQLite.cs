@@ -97,12 +97,12 @@ namespace HWTokenLicenseChecker
 
                         int isPartner = 0;
                         featureName = featureNameAttribute;
-                        if (featureNameAttribute.StartsWith("HWPartner"))
-                        {
-                            String tmp1 = featureNameAttribute.Substring(@"HWPartner".Length);
+                        //if (featureNameAttribute.StartsWith("HWPartner"))
+                        //{
+                        //    String tmp1 = featureNameAttribute.Substring(@"HWPartner".Length);
 
-                            isPartner = int.Parse(tmp1);
-                        }
+                        //    isPartner = int.Parse(tmp1);
+                        //}
                         ++featureId;
 
                         String tmp = String.Format(@"{0};{1};{2};{3};{4};{5};{6};{7};{8};{9}",
@@ -329,6 +329,11 @@ namespace HWTokenLicenseChecker
             featureData.Clear();
             userData.Clear();
 
+            // -- set isPartner = 1 where the feature name starts with 'HWPartner'
+            SQLiteCommand cmd = new SQLiteCommand(cnn);
+            cmd.CommandText = @"UPDATE feature SET isPartner=1 WHERE name LIKE 'HWPartner%';";
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
 
         }
 
