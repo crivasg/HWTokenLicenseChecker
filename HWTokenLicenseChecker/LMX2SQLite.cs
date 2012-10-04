@@ -381,35 +381,41 @@ namespace HWTokenLicenseChecker
 
             List<String> tablesList = new List<String>(new String[] { @"feature", @"license_path", @"user" });
 
-            Hashtable featureHash = new Hashtable();
-            featureHash.Add("feature_id", "INTEGER");
-            featureHash.Add("name", "STRING");
-            featureHash.Add("version", "REAL");
-            featureHash.Add("vendor", "STRING");
-            featureHash.Add("start", "STRING");
-            featureHash.Add("end", "STRING");
-            featureHash.Add("used_licenses", "INTEGER");
-            featureHash.Add("total_licenses", "INTEGER");
-            featureHash.Add("share", "STRING");
-            featureHash.Add("isPartner", "INTEGER");
+            Hashtable featureHash = new Hashtable()
+            {
+                {"feature_id", "INTEGER"},
+                {"name", "STRING"},
+                {"version", "REAL"},
+                {"vendor", "STRING"},
+                {"start", "STRING"},
+                {"end", "STRING"},
+                {"used_licenses", "INTEGER"},
+                {"total_licenses", "INTEGER"},
+                {"share", "STRING"},
+                {"isPartner", "INTEGER"}
+            };
 
-            Hashtable license_pathHash = new Hashtable();
-            license_pathHash.Add("server_version", "STRING");
-            license_pathHash.Add("ip", "STRING");
-            license_pathHash.Add("port", "INTEGER");
-            license_pathHash.Add("type", "STRING");
-            license_pathHash.Add("uptime", "STRING");
+            Hashtable license_pathHash = new Hashtable()  
+            {
+                {"server_version", "STRING"},
+                {"ip", "STRING"},
+                {"port", "INTEGER"},
+                {"type", "STRING"},
+                {"uptime", "STRING"}
+            };
 
-            Hashtable userHash = new Hashtable();
-            userHash.Add("name", "STRING");
-            userHash.Add("host", "STRING");
-            userHash.Add("ip", "STRING");
-            userHash.Add("used_licenses", "INTEGER");
-            userHash.Add("login_time", "STRING");
-            userHash.Add("checkout_time", "STRING");
-            userHash.Add("share_custom", "STRING");
-            userHash.Add("feature_id", "INTEGER");
-            userHash.Add("isBorrow", "INTEGER");
+            Hashtable userHash = new Hashtable()
+            {
+                {"name", "STRING"},
+                {"host", "STRING"},
+                {"ip", "STRING"},
+                {"used_licenses", "INTEGER"},
+                {"login_time", "STRING"},
+                {"checkout_time", "STRING"},
+                {"share_custom", "STRING"},
+                {"feature_id", "INTEGER"},
+                {"isBorrow", "INTEGER"}
+            };
             // <--------------------------- END ------------------------------------>
 
             // validate tables.
