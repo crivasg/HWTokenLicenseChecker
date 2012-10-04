@@ -181,7 +181,7 @@ namespace HWTokenLicenseChecker
             // {0}@{1}.
 
             // Get range HWPartner's feature...
-            sqlQuery = @"SELECT MIN(feature_id),MAX(feature_id) FROM feature WHERE isPartner != 0;";
+            sqlQuery = @"SELECT MIN(feature_id),MAX(feature_id) FROM feature WHERE isPartner = 1;";
             cmd.CommandText = sqlQuery;
 
             using (DbDataReader reader = cmd.ExecuteReader())
@@ -255,12 +255,12 @@ namespace HWTokenLicenseChecker
             {
                 // feature is HWPartner
                 //borrowHWPATextBox.Text = @"HWPA";
-                ProcessTokens(user, host, feature_id, @"SELECT DISTINCT feature_id FROM feature WHERE isPartner != 0");
+                ProcessTokens(user, host, feature_id, 1);
             }
             else
             {
                 // feature normal
-                ProcessTokens(user, host, feature_id, @"SELECT DISTINCT feature_id FROM feature WHERE isPartner = 0");
+                ProcessTokens(user, host, feature_id, 0);
             }
 
             //MessageBox.Show(@"Hello!");
@@ -272,15 +272,28 @@ namespace HWTokenLicenseChecker
             GetUserTokenInfo();
             
         }
-
-        private void ProcessTokens(String user, String host, int feature_id, String featureQuery)
+        /// <summary>
+        /// Process the HWU tokens used. Args: 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="host"></param>
+        /// <param name="feature_id"></param>
+        /// <param name="isPartner"> 1 = HWPA tokens used, 0 - Normal tokens</param>
+        private void ProcessTokens(String user, String host, int feature_id, int isPartner)
         {
+
+            //@"SELECT DISTINCT feature_id FROM feature WHERE isPartner = 1"
+
             SQLiteConnection cnn = new SQLiteConnection("Data Source=" + databasePath);
             cnn.Open();
             SQLiteCommand cmd = new SQLiteCommand(cnn);
 
             // get the features used
-            String sqlQuery = String.Format(@"SELECT DISTINCT feature.name,user.login_time,user.host||'/'||user.ip FROM user JOIN feature USING (feature_id) WHERE user.name = ""{0}"" AND user.host = ""{1}"" AND user.feature_id IN ({2});", user, host, featureQuery);
+            String sqlQuery = String.Format(@"SELECT DISTINCT feature.name,user.login_time,user.host||'/'||user.ip 
+                FROM user JOIN feature USING (feature_id) 
+                WHERE user.name = '{0}' AND user.host = '{1}' AND user.feature_id IN ( 
+                    SELECT DISTINCT feature_id FROM feature WHERE isPartner = {2}
+                );", user, host, isPartner);
 
             cmd.CommandText = sqlQuery;
 
