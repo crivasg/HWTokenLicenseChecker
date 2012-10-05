@@ -18,8 +18,6 @@ namespace HWTokenLicenseChecker
     public partial class HWTokenLicenseCheckerForm : Form
     {
         private String databasePath = String.Empty;
-        private String xmlFile = String.Empty;
-        private String folder = String.Empty;
         private String lmxconfigtool = String.Empty;
 
         private List<String> usersWithProblems = new List<String>();
@@ -64,13 +62,9 @@ namespace HWTokenLicenseChecker
             setup.CheckAndCreateAppData();
             setup.RemoveTempFiles();
             databasePath = setup.DatabasePath;
-            folder = setup.AppDataPath;
-            xmlFile = setup.XMLPath;
 
-            //UpdateLastPosition();
-
-            lmxendutil lmx = new lmxendutil() { 
-                XMLFile = xmlFile
+            lmxendutil lmx = new lmxendutil() {
+                XMLFile = setup.XMLPath
             };
 
             lmx.ExecuteLMX();
@@ -89,8 +83,8 @@ namespace HWTokenLicenseChecker
             //Clipboard.SetText(sqlPath);
 
             LMX2SQLite lmx2Sqlite = new LMX2SQLite {
-                DatabasePath = databasePath,
-                XMLFile = xmlFile
+                DatabasePath = setup.DatabasePath,
+                XMLFile = setup.XMLPath
             };
             lmx2Sqlite.Run();
 
