@@ -212,18 +212,9 @@ namespace HWTokenLicenseChecker
             {
                 //String xmlFile = Path.Combine(folder, @"Licenses.xml");
                 StringBuilder sb = new StringBuilder();
-
-                foreach (String line in output)
+                foreach (String line in output.Where(line => line.StartsWith(">") || line.StartsWith("<")))
                 {
-                    if (line.Trim().Length == 0)
-                    {
-                        continue;
-                    }
-
-                    if (line.StartsWith(@">") || line.StartsWith(@"<"))
-                    {
-                        sb.AppendLine(line.Trim());
-                    }
+                    sb.AppendLine(line.Trim());
                 }
 
                 using (StreamWriter outfile = new StreamWriter(this.XMLFile))
