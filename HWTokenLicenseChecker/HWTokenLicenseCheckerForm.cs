@@ -47,7 +47,7 @@ namespace HWTokenLicenseChecker
         public HWTokenLicenseCheckerForm()
         {
 
-            this.UpgradeSettings();
+            UpgradeSettings();
             InitializeComponent();
 
             GetLMXLicenseData();
