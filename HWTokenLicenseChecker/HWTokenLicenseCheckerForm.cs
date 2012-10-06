@@ -575,9 +575,10 @@ namespace HWTokenLicenseChecker
         {
             // http://blog.csharphelper.com/2010/05/31/calculate-a-datagridview-columns-value-and-highlight-specific-values-in-c.asp
 
+            dataGridView.ReadOnly = false;
             foreach (DataGridViewRow row in dataGridView.Rows)
             {
-                dataGridView.ReadOnly = false;
+                
                 String userData = (String)row.Cells["Username"].Value + @":" +
                     (String)row.Cells["Hostname"].Value;
 
@@ -595,10 +596,10 @@ namespace HWTokenLicenseChecker
                         cell.Style.BackColor = Color.White;
                     }
                 }
+            }
 
-                this.Update();
-                dataGridView.ReadOnly = true;
-            }       
+            this.Update();
+            dataGridView.ReadOnly = true;
         }
 
         private void dataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
