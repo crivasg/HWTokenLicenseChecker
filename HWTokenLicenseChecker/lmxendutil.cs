@@ -43,8 +43,7 @@ namespace HWTokenLicenseChecker
         private String lmx_server = String.Empty;
 
         private String[] output = null;
-
-        private List<String> lstFilesFound = null;
+        private List<String> lstFilesFound = new List<String>();;
 
 	    public lmxendutil ()
 	    {
@@ -167,8 +166,9 @@ namespace HWTokenLicenseChecker
             //MessageBox.Show(altair_Home);
 
             String securityPath = Path.Combine(altair_Home, @"security");
-            lstFilesFound = new List<String>();
-            DirSearch(securityPath, @"*.exe");
+            
+            lstFilesFound = Directory.GetFiles(securityPath, @"*.exe", SearchOption.AllDirectories).ToList();
+           
 
             foreach (String fileFound in lstFilesFound)
             {
@@ -231,28 +231,6 @@ namespace HWTokenLicenseChecker
             { 
             }
 
-
-        }
-
-        private void DirSearch(String sDir, String fileExtension)
-        {
-            // http://support.microsoft.com/kb/303974
-            try
-            {
-                foreach (String d in Directory.GetDirectories(sDir))
-                {
-                    foreach (String f in Directory.GetFiles(d, fileExtension))
-                    {
-                        lstFilesFound.Add(f);
-                    }
-                    DirSearch(d, fileExtension);
-                }
-            }
-            catch (System.Exception excpt)
-            {
-                MessageBox.Show(excpt.Message);
-                //Console.WriteLine(excpt.Message);
-            }
 
         }
 
