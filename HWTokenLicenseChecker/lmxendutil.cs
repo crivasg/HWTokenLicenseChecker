@@ -43,7 +43,7 @@ namespace HWTokenLicenseChecker
         private String lmx_server = String.Empty;
 
         private String[] output = null;
-        private List<String> lstFilesFound = new List<String>();;
+        private List<String> lstFilesFound = new List<String>();
 
 	    public lmxendutil ()
 	    {
