@@ -544,7 +544,7 @@ namespace HWTokenLicenseChecker
 
         private void CheckForLockedTokens()
         {
-            String sqlQuery = @"SELECT DISTINCT  user.name||':'||user.host 
+            String sqlQuery = @"SELECT DISTINCT  user.name||':'||user.host||':'||user.used_licenses  
                     FROM user JOIN feature USING (feature_id) 
                     WHERE user.share_custom LIKE '%:%:%' AND feature.name = 'HyperWorks';";
 
@@ -578,9 +578,10 @@ namespace HWTokenLicenseChecker
             dataGridView.ReadOnly = false;
             foreach (DataGridViewRow row in dataGridView.Rows)
             {
-                
+
                 String userData = (String)row.Cells["Username"].Value + @":" +
-                    (String)row.Cells["Hostname"].Value;
+                                  (String)row.Cells["Hostname"].Value + @":" + 
+                                  (String)row.Cells["Tokens"].Value.ToString();
 
                 if (usersWithProblems.Contains(userData))
                 {
