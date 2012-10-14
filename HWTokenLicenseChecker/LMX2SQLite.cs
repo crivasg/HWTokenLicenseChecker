@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Linq;
 using System.Collections;
 
 using System.Data;
@@ -51,6 +52,30 @@ namespace HWTokenLicenseChecker
             int userCounter = 0;
             String featureName = String.Empty;
             int featureId = 0;
+
+            // LINQ TO XML ...
+            // get the license path...
+            //<LICENSE_PATH TYPE="xxxxxxx" HOST="####@###.###.###.###" SERVER_VERSION="#.##" 
+            // UPTIME="## day(s) ## hour(s) ## min(s) ## sec(s)">
+
+            XElement xelement = XElement.Load(this.XMLFile);
+            var name = from nm in xelement.Elements(xmlNodes[0])
+                       select nm;
+
+            foreach (XElement xEle in name)
+            {
+                String type = xEle.Attribute("TYPE").Value.ToString();
+                String host = xEle.Attribute("HOST").Value.ToString();
+                String version = xEle.Attribute("SERVER_VERSION").Value.ToString();
+                String uptime = xEle.Attribute("UPTIME").Value.ToString();
+                String[] tmpAray = host.Split('@');
+
+                String tmp = String.Format(@"{0};{1};{2};{3};{4}", 
+                                           version, tmpAray[1],tmpAray[0],type,uptime);
+
+                MessageBox.Show(tmp);
+            }
+            // 
 
             XmlTextReader textReader = new XmlTextReader(this.XMLFile);
             
@@ -165,8 +190,7 @@ namespace HWTokenLicenseChecker
 
             }
 
-            textReader.Close();
-            
+            textReader.Close();            
         }
 
         private void CreateDatabase()
