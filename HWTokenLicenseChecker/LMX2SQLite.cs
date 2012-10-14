@@ -48,8 +48,6 @@ namespace HWTokenLicenseChecker
             featureData = new List<String> ();
             userData = new List<String> ();
 
-            int featureCounter = 0;
-            int userCounter = 0;
             String featureName = String.Empty;
             int featureId = 0;
 
@@ -142,125 +140,7 @@ namespace HWTokenLicenseChecker
                 userData.Add(tmp);
 
             }
-
-
-            return;
-
-            featureId = 0;
-            XmlTextReader textReader = new XmlTextReader(this.XMLFile);
-            
-            while (textReader.Read())
-            {
-                if(!String.IsNullOrEmpty(textReader.Name))
-                {
-                    if (textReader.Name == @"LICENSE_PATH" && textReader.NodeType != XmlNodeType.EndElement)
-                    {
-                        String license_PathTypeAttribute = textReader["TYPE"].Trim();
-                        String license_PathHostAttribute = textReader["HOST"].Trim();
-                        String license_PathServer_VersionAttribute = textReader["SERVER_VERSION"].Trim();
-                        String license_PathUptimeAttribute = textReader["UPTIME"].Trim();
-                        //license_PathUptimeAttribute = license_PathUptimeAttribute.Replace(' ','=');
-
-                        String[] hostArray = license_PathHostAttribute.Split(new Char[] {'@'});
-                        String license_PathHostAttribute_Port = hostArray[0];
-                        String license_PathHostAttribute_IP = hostArray[1];
-
-                        String tmp = String.Format(@"{0};{1};{2};{3};{4}", 
-                            license_PathServer_VersionAttribute, license_PathHostAttribute_IP,
-                            license_PathHostAttribute_Port,license_PathTypeAttribute,
-                            license_PathUptimeAttribute);
-                        //licensePathData.Add(tmp);
-                        
-
-                        //<LICENSE_PATH TYPE="xxxxxxx" HOST="####@###.###.###.###" SERVER_VERSION="#.##" 
-                        // UPTIME="## day(s) ## hour(s) ## min(s) ## sec(s)">
-                    }
-
-                    if (textReader.Name == @"FEATURE"  && textReader.NodeType != XmlNodeType.EndElement)
-                    {
-                        ++featureCounter;
-                        
-                        String featureNameAttribute = textReader["NAME"].Trim();
-                        String featureVersionAttribute = textReader["VERSION"].Trim();
-                        String featureVendorAttribute = textReader["VENDOR"].Trim();
-                        String featureStartAttribute = textReader["START"].Trim();
-                        String featureEndAttribute = textReader["END"].Trim();
-                        String featureUsedLicensesAttribute = textReader["USED_LICENSES"].Trim();
-                        String featureTotalLicensesAttribute = textReader["TOTAL_LICENSES"].Trim();
-                        String featureShareAttribute = textReader["SHARE"].Trim();
-                        //featureShareAttribute = featureShareAttribute.Replace(',', '_');
-
-                        int isPartner = 0;
-                        featureName = featureNameAttribute;
-                        //if (featureNameAttribute.StartsWith("HWPartner"))
-                        //{
-                        //    String tmp1 = featureNameAttribute.Substring(@"HWPartner".Length);
-
-                        //    isPartner = int.Parse(tmp1);
-                        //}
-                        ++featureId;
-
-                        String tmp = String.Format(@"{0};{1};{2};{3};{4};{5};{6};{7};{8};{9}",
-                            featureId, featureNameAttribute, featureVersionAttribute,
-                            featureVendorAttribute, featureStartAttribute, featureEndAttribute, 
-                            featureUsedLicensesAttribute, featureTotalLicensesAttribute,featureShareAttribute,isPartner);
-
-                        //featureData.Add(tmp);
-                        //<FEATURE NAME="xxxxxxx" VERSION="##.#" VENDOR="xxxxxxx" START="yyyy-mm-dd"
-                        // END="yyyy-mm-dd" USED_LICENSES="######" TOTAL_LICENSES="###" SHARE="xxxxxxx">
-                    }
-                    if (textReader.Name == @"USER" && textReader.NodeType != XmlNodeType.EndElement)
-                    {
-                        ++userCounter;
-                        int isBorrow = 0;
-                        // get the list of attributes for the <USER> item
-                        List<String> attrList = new List<String>();
-                        if (textReader.AttributeCount > 0)
-                        {
-                            while (textReader.MoveToNextAttribute())
-                            {
-                                attrList.Add(textReader.Name);
-                            }   
-                            textReader.MoveToElement();                            
-                        }
-
-                        //MessageBox.Show(String.Join(Environment.NewLine,attrList.ToArray()));
-
-                        String userNameAttribute = textReader[attrList[0]].Trim().ToLower();
-                        String userHostAttribute = textReader[attrList[1]].Trim().ToUpper();
-                        String userIpAttribute = textReader[attrList[2]].Trim();
-                        String userUsed_LicensesAttribute = textReader[attrList[3]].Trim();
-                        String userLogin_TimeAttribute = textReader[attrList[4]].Trim();
-                        String userCheckout_TimeAttribute = textReader[attrList[4]].Trim();
-                        String userShare_CustomAttribute = textReader[attrList[5]].Trim();
-
-                        if (attrList.Count == 7)
-                        {
-                            userCheckout_TimeAttribute = textReader[attrList[5]].Trim();
-                            userShare_CustomAttribute = textReader[attrList[6]].Trim();                           
-                        }
-
-                        if(attrList.Contains(BORROW_EXPIRE_TIME))
-                        {
-                            isBorrow = 1;
-                        }
-
-
-                        String tmp = String.Format(@"{0};{1};{2};{3};{4};{5};{6};{7};{8}",
-                            userNameAttribute, userHostAttribute,userIpAttribute, userUsed_LicensesAttribute,
-                            userLogin_TimeAttribute, userCheckout_TimeAttribute, userShare_CustomAttribute, featureId,isBorrow);
-
-                        //<USER NAME="xxxxxxx" HOST="xxxxxxx" IP="###.###.###.###" USED_LICENSES="####"
-                        // LOGIN_TIME="yyyy-mm-dd hh:mm" CHECKOUT_TIME="yyyy-mm-dd hh:min" SHARE_CUSTOM="xxxxxxx:xxxxxxx"/>
-                        //>
-                        //userData.Add(tmp);
-                    }
-                    
-                }
-
-            }
-
-            textReader.Close();            
+       
         }
 
         private void CreateDatabase()
