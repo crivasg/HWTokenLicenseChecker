@@ -79,8 +79,8 @@ namespace HWTokenLicenseChecker
             //<FEATURE NAME="xxxxxxx" VERSION="##.#" VENDOR="xxxxxxx" START="yyyy-mm-dd"
             // END="yyyy-mm-dd" USED_LICENSES="######" TOTAL_LICENSES="###" SHARE="xxxxxxx">
 
-            //xelement = XElement.Load(this.XMLFile);
-            var featureDataXML = from nm in xelement.Elements(xmlNodes[0]).Elements(xmlNodes[1])
+            Hashtable features = new Hashtable();
+            var featureDataXML = from nm in licenseData.Elements(xmlNodes[1])
                               select nm;
             foreach (XElement xEle in featureDataXML)
             {
@@ -98,10 +98,53 @@ namespace HWTokenLicenseChecker
                     featureId, name, version,vendor, start, end,used, total, share, 0);
 
                 featureData.Add(tmp);
+                features.Add(name, featureId);
             }
 
-            MessageBox.Show(String.Join(Environment.NewLine,featureData.ToArray()));
+            //MessageBox.Show(String.Join(Environment.NewLine,featureData.ToArray()));
 
+            // Get the user data from the XML...
+            //<USER NAME="xxxxxxx" HOST="xxxxxxx" IP="###.###.###.###" USED_LICENSES="####"
+            // LOGIN_TIME="yyyy-mm-dd hh:mm" CHECKOUT_TIME="yyyy-mm-dd hh:min" SHARE_CUSTOM="xxxxxxx:xxxxxxx"/>
+            //>
+
+            var userDataXML = from nm in featureDataXML.Elements(xmlNodes[2])
+                              select nm;
+            foreach (XElement xEle in userDataXML)
+            {
+                int numOfAttributes = xEle.Attributes().Count();
+                int isBorrow = numOfAttributes == 6 ? 1 : 0;
+                String name = xEle.Attribute("NAME").Value.ToString().ToLower();
+                String host = xEle.Attribute("HOST").Value.ToString().ToUpper();
+                String ip = xEle.Attribute("IP").Value.ToString();
+                String used = xEle.Attribute("USED_LICENSES").Value.ToString();
+                String login = String.Empty;
+                String checkout = String.Empty;
+
+                if (isBorrow == 0)
+                {
+                    login = xEle.Attribute("LOGIN_TIME").Value.ToString();
+                    checkout = xEle.Attribute("CHECKOUT_TIME").Value.ToString();
+                }
+                else if (isBorrow == 1)
+                {
+                    login = xEle.Attribute("BORROW_EXPIRE_TIME").Value.ToString();
+                    checkout = xEle.Attribute("BORROW_EXPIRE_TIME").Value.ToString();
+                }
+
+                String share = xEle.Attribute("SHARE_CUSTOM").Value.ToString();
+
+                String parentName = xEle.Parent.Attribute("NAME").Value.ToString();
+                int featId = (int)features[parentName];
+
+                String tmp = String.Format(@"{0};{1};{2};{3};{4};{5};{6};{7};{8}",
+                    name, host, ip, used,login, checkout, share, featId, isBorrow);
+                userData.Add(tmp);
+
+            }
+
+
+            return;
 
             featureId = 0;
             XmlTextReader textReader = new XmlTextReader(this.XMLFile);
@@ -210,7 +253,7 @@ namespace HWTokenLicenseChecker
                         //<USER NAME="xxxxxxx" HOST="xxxxxxx" IP="###.###.###.###" USED_LICENSES="####"
                         // LOGIN_TIME="yyyy-mm-dd hh:mm" CHECKOUT_TIME="yyyy-mm-dd hh:min" SHARE_CUSTOM="xxxxxxx:xxxxxxx"/>
                         //>
-                        userData.Add(tmp);
+                        //userData.Add(tmp);
                     }
                     
                 }
