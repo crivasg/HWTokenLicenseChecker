@@ -87,16 +87,14 @@ namespace HWTokenLicenseChecker
                 XMLFile = setup.XMLPath
             };
             lmx2Sqlite.Run();
-
             lmx2Sqlite.CloseDatabase();
+         
             LoadToDataGridView();
 
             // checks if there is user with locked tokens.
             CheckForLockedTokens();
 
             isRunning = false;
-
-  
         }
 
         private void LoadToDataGridView()
