@@ -75,8 +75,35 @@ namespace HWTokenLicenseChecker
                 licensePathData.Add(tmp);
                 //MessageBox.Show(tmp);
             }
-            // 
+            // Get the feature data
+            //<FEATURE NAME="xxxxxxx" VERSION="##.#" VENDOR="xxxxxxx" START="yyyy-mm-dd"
+            // END="yyyy-mm-dd" USED_LICENSES="######" TOTAL_LICENSES="###" SHARE="xxxxxxx">
 
+            //xelement = XElement.Load(this.XMLFile);
+            var featureDataXML = from nm in xelement.Elements(xmlNodes[0]).Elements(xmlNodes[1])
+                              select nm;
+            foreach (XElement xEle in featureDataXML)
+            {
+                ++featureId;
+                String name = xEle.Attribute("NAME").Value.ToString();
+                String version = xEle.Attribute("VERSION").Value.ToString();
+                String vendor = xEle.Attribute("VENDOR").Value.ToString();
+                String start = xEle.Attribute("START").Value.ToString();
+                String end = xEle.Attribute("END").Value.ToString();
+                String used = xEle.Attribute("USED_LICENSES").Value.ToString();
+                String total = xEle.Attribute("TOTAL_LICENSES").Value.ToString();
+                String share = xEle.Attribute("SHARE").Value.ToString();
+
+                String tmp = String.Format(@"{0};{1};{2};{3};{4};{5};{6};{7};{8};{9}",
+                    featureId, name, version,vendor, start, end,used, total, share, 0);
+
+                featureData.Add(tmp);
+            }
+
+            MessageBox.Show(String.Join(Environment.NewLine,featureData.ToArray()));
+
+
+            featureId = 0;
             XmlTextReader textReader = new XmlTextReader(this.XMLFile);
             
             while (textReader.Read())
@@ -135,7 +162,7 @@ namespace HWTokenLicenseChecker
                             featureVendorAttribute, featureStartAttribute, featureEndAttribute, 
                             featureUsedLicensesAttribute, featureTotalLicensesAttribute,featureShareAttribute,isPartner);
 
-                        featureData.Add(tmp);
+                        //featureData.Add(tmp);
                         //<FEATURE NAME="xxxxxxx" VERSION="##.#" VENDOR="xxxxxxx" START="yyyy-mm-dd"
                         // END="yyyy-mm-dd" USED_LICENSES="######" TOTAL_LICENSES="###" SHARE="xxxxxxx">
                     }
