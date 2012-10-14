@@ -59,10 +59,10 @@ namespace HWTokenLicenseChecker
             // UPTIME="## day(s) ## hour(s) ## min(s) ## sec(s)">
 
             XElement xelement = XElement.Load(this.XMLFile);
-            var name = from nm in xelement.Elements(xmlNodes[0])
+            var licenseData = from nm in xelement.Elements(xmlNodes[0])
                        select nm;
 
-            foreach (XElement xEle in name)
+            foreach (XElement xEle in licenseData)
             {
                 String type = xEle.Attribute("TYPE").Value.ToString();
                 String host = xEle.Attribute("HOST").Value.ToString();
@@ -72,8 +72,8 @@ namespace HWTokenLicenseChecker
 
                 String tmp = String.Format(@"{0};{1};{2};{3};{4}", 
                                            version, tmpAray[1],tmpAray[0],type,uptime);
-
-                MessageBox.Show(tmp);
+                licensePathData.Add(tmp);
+                //MessageBox.Show(tmp);
             }
             // 
 
@@ -99,7 +99,7 @@ namespace HWTokenLicenseChecker
                             license_PathServer_VersionAttribute, license_PathHostAttribute_IP,
                             license_PathHostAttribute_Port,license_PathTypeAttribute,
                             license_PathUptimeAttribute);
-                        licensePathData.Add(tmp);
+                        //licensePathData.Add(tmp);
                         
 
                         //<LICENSE_PATH TYPE="xxxxxxx" HOST="####@###.###.###.###" SERVER_VERSION="#.##" 
