@@ -51,6 +51,8 @@ namespace HWTokenLicenseChecker
             InitializeComponent();
 
             GetLMXLicenseData();
+
+            AddIconsToMenuItems();
         }
 
         private void GetLMXLicenseData()
@@ -620,6 +622,14 @@ namespace HWTokenLicenseChecker
         private void dataGridView_Sorted(object sender, EventArgs e)
         {
             ApplyStyleToCells();
+        }
+
+        private void AddIconsToMenuItems()
+        {
+            if (File.Exists(this.lmxconfigtool))
+            {
+                lmxConfigToolStripMenuItem.Image = Icon.ExtractAssociatedIcon(this.lmxconfigtool).ToBitmap();
+            }
         }
 
     }
