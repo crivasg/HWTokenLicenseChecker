@@ -632,5 +632,17 @@ namespace HWTokenLicenseChecker
             }
         }
 
+        /// <summary>
+        /// Quits the application when the esc key is pressed
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="keyData"></param>
+        /// <returns></returns>
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Escape) this.Close();
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
     }
 }
