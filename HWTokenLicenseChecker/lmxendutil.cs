@@ -152,7 +152,11 @@ namespace HWTokenLicenseChecker
             }
 
             // Get the server info using the LMX_LICENSE_PATH enviroment variable
-            EnvVariable lmxEnvVar = new EnvVariable() { Name = LMX_LICENSE_PATH_ENV_VAR, Type = EnvVarType.HostPortAndIp };
+            EnvVariable lmxEnvVar = new EnvVariable() { 
+                Name = LMX_LICENSE_PATH_ENV_VAR, 
+                Type = EnvVarType.HostPortAndIp 
+            };
+
             lmxEnvVar.GetEnviromentVariableData();
             String server_info = lmxEnvVar.Value;
             String[] server_info_array = server_info.Split(new Char[] { '@' });
@@ -160,9 +164,12 @@ namespace HWTokenLicenseChecker
             lmx_server = server_info_array[1];
             //MessageBox.Show(server_info);
 
-
             // Get the ALTAIR_HOME folder.
-            EnvVariable altairEnvVar = new EnvVariable() { Name = ALTAIR_HOME_ENV_VAR, Type = EnvVarType.FolderPath };
+            EnvVariable altairEnvVar = new EnvVariable() { 
+                Name = ALTAIR_HOME_ENV_VAR, 
+                Type = EnvVarType.FolderPath
+            };
+
             altairEnvVar.GetEnviromentVariableData();
             String altair_Home = altairEnvVar.Value;
             //MessageBox.Show(altair_Home);
