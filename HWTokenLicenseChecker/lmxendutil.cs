@@ -45,6 +45,8 @@ namespace HWTokenLicenseChecker
         private String[] output = null;
         private List<String> lstFilesFound = new List<String>();
 
+        private const int MAX_NUM_OF_PING_ITERS = 3;
+
 	    public lmxendutil ()
 	    {
             this.AppStatus = Status.OK;
@@ -276,42 +278,11 @@ namespace HWTokenLicenseChecker
                 return;
             }
 
-            //http://msdn.microsoft.com/en-us/library/system.net.networkinformation.ping(v=vs.90).aspx 
-
-            Ping pingSender = new Ping();
-            PingOptions options = new PingOptions();
-
-            // Use the default Ttl value which is 128, 
-            // but change the fragmentation behavior.
-            options.DontFragment = true;
-
-            // Create a buffer of 32 bytes of data to be transmitted.
-            String data = new String('a', 32);
-            byte[] buffer = Encoding.ASCII.GetBytes(data);
-            int timeout = 120;
-
-            PingReply reply = pingSender.Send(lmx_server, timeout, buffer, options);
-            String response = String.Empty;
-
-            if( reply.Status != IPStatus.Success)
+            IPStatus pingResponse = Utilities.PingServer(lmx_server);
+            if (pingResponse != IPStatus.Success)
             {
                 this.AppStatus = Status.ServerOffline;
             }
-
-            //if (reply.Status == IPStatus.Success)
-            //{
-            //    response += String.Format("Address: {0}\n", reply.Address.ToString());
-            //    response += String.Format("RoundTrip time: {0}\n", reply.RoundtripTime);
-            //    response += String.Format("Time to live: {0}\n", reply.Options.Ttl);
-            //    response += String.Format("Don't fragment: {0}\n", reply.Options.DontFragment);
-            //    response += String.Format("Buffer size: {0}\n", reply.Buffer.Length);
-            //    response += String.Format("Status: {0}\n", reply.Status.ToString());
-            //    MessageBox.Show(response);
-            //}
-            //else 
-            //{
-            //    MessageBox.Show(reply.Status.ToString());
-            //}
           
         }
     }
