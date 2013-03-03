@@ -46,12 +46,12 @@ namespace HWTokenLicenseChecker
 
         public HWTokenLicenseCheckerForm()
         {
-
+            
             UpgradeSettings();
             InitializeComponent();
-
+            
             GetLMXLicenseData();
-
+            
             AddIconsToMenuItems();
         }
 
