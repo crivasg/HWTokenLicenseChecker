@@ -61,11 +61,11 @@ namespace HWTokenLicenseChecker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This tool as created by Cesar A. Rivas ( crivasg@gmail.com ) to check and track the usage of the HyperWorks tokens by quering the LMX tools.Inspried by LS-DYNA Program Manager.\nThe code for this application is hosted at http://github.com/. Pull requsts with improvements are welcome! Select Help&gt; Visit project Github repo to browse the code.You are free to use and modify this application.\nIf you modify the application, please send a pull request in Guthub with your improvements..
+        ///   Looks up a localized string similar to This tool as created by Cesar A. Rivas ( crivasg@gmail.com ) to check and track the usage of the HyperWorks tokens by quering the LMX tools.Inspried by LS-DYNA Program Manager.The code for this application is hosted at http://github.com/. Pull requsts with improvements are welcome! Select Help&gt; Visit project Github repo to browse the code.You are free to use and modify this application. If you modify the application, please send a pull request in Guthub with your improvements..
         /// </summary>
-        internal static string AboutTextResource {
+        internal static string AboutStringRes {
             get {
-                return ResourceManager.GetString("AboutTextResource", resourceCulture);
+                return ResourceManager.GetString("AboutStringRes", resourceCulture);
             }
         }
     }
