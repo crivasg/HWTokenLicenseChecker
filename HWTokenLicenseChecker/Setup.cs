@@ -31,17 +31,17 @@ namespace HWTokenLicenseChecker
         /// </summary>
          public void CheckAndCreateAppData()
 	     {
-             this.AppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-             String exeName = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
-             this.AppDataPath = Path.Combine(this.AppDataPath, exeName);
+             //this.AppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+             //String exeName = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
+             //this.AppDataPath = Path.Combine(this.AppDataPath, exeName);
 
-             if (!Directory.Exists(this.AppDataPath))
+             if (!Directory.Exists(Utilities.ApplicationDataDir))
              {
-                 Directory.CreateDirectory(this.AppDataPath);
+                 Directory.CreateDirectory(Utilities.ApplicationDataDir);
              }
 
-             this.DatabasePath = Path.Combine(this.AppDataPath, SQLITE_FILE_NAME);
-             this.XMLPath = Path.Combine(this.AppDataPath, XML_FILE_NAME);
+             this.DatabasePath = Path.Combine(Utilities.ApplicationDataDir, SQLITE_FILE_NAME);
+             this.XMLPath = Path.Combine(Utilities.ApplicationDataDir, XML_FILE_NAME);
 
          }
 
