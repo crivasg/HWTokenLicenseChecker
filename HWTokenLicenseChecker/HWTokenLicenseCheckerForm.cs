@@ -493,13 +493,8 @@ namespace HWTokenLicenseChecker
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            String aboutText = @"This tool as created by Cesar A. Rivas ( crivasg@gmail.com ) to check and track the usage of the HyperWorks tokens by quering the LMX tools."
-                + Environment.NewLine + Environment.NewLine
-                + @"Inspried by LS-DYNA Program Manager. The code for this application is hosted at http://github.com/. Pull requsts with improvements are welcome! "
-                + @"Select Help> Visit project Github repo to browse the code"
-                + Environment.NewLine + Environment.NewLine 
-                + @"You are free to use and modify this application. If you modify the application, please send a pull request with your improvements." ;
-
+            String aboutText = Properties.Resources.AboutStringRes; 
+            
             AboutForm aboutForm = new AboutForm(aboutText);
             aboutForm.StartPosition = FormStartPosition.CenterParent;
             aboutForm.ShowDialog();
