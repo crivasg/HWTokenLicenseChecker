@@ -428,7 +428,7 @@ namespace HWTokenLicenseChecker
         private void lmxConfigToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            if (File.Exists(lmxconfigtool))
+            if (File.Exists(lmxconfigtool) && !String.IsNullOrEmpty(lmxconfigtool))
             {
                 Process.Start(lmxconfigtool);
             }
