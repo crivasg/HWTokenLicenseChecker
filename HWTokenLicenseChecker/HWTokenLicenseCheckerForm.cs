@@ -25,7 +25,8 @@ namespace HWTokenLicenseChecker
         private const String GITHUB_REPO_URL = @"https://github.com/crivasg/HWTokenLicenseChecker";
 
         private const String SQL_QUERY_FOR_GRIDDATAVIEW =
-        @"SELECT LOWER(name) AS Username, host AS Hostname, MAX(used_licenses) AS Tokens, share_custom AS 'Custom String','' AS Type, login_time AS Date, feature_id as 'Feature Id' 
+        @"SELECT LOWER(name) AS Username, host AS Hostname, MAX(used_licenses) AS Tokens, 
+    share_custom AS 'Custom String','' AS Type, login_time AS Date, feature_id as 'Feature Id' 
     FROM user 
     WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner = 0) AND isBorrow = 0 GROUP BY Username, Hostname 
     UNION 
