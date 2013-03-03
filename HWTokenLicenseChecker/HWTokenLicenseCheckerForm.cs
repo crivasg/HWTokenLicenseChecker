@@ -368,7 +368,7 @@ namespace HWTokenLicenseChecker
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Application.Exit();
         }
 
         private void copyRowToolStripMenuItem_Click(object sender, EventArgs e)
@@ -426,7 +426,15 @@ namespace HWTokenLicenseChecker
 
         private void lmxConfigToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start(lmxconfigtool);
+
+            if (File.Exists(lmxconfigtool))
+            {
+                Process.Start(lmxconfigtool);
+            }
+            else
+            {
+                MessageBox.Show(String.Format(@"{0} does not exist.", Path.GetFileName(lmxconfigtool)));
+            }
 
         }
 
@@ -436,7 +444,7 @@ namespace HWTokenLicenseChecker
             {
                 MessageBox.Show(@"Is running");
             }
-            if (!isRunning)
+            else
             {
                 refreshToolStripMenuItem.Enabled = false;
                 this.Text = @"HW Token License Checker";
