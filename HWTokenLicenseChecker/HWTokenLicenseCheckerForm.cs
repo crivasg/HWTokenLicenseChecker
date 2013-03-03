@@ -50,9 +50,6 @@ namespace HWTokenLicenseChecker
             UpgradeSettings();
             InitializeComponent();
             
-            GetLMXLicenseData();
-            
-            AddIconsToMenuItems();
         }
 
         private void GetLMXLicenseData()
@@ -637,6 +634,12 @@ namespace HWTokenLicenseChecker
         {
             if (keyData == Keys.Escape) this.Close();
             return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void HWTokenLicenseCheckerForm_Load(object sender, EventArgs e)
+        {
+            GetLMXLicenseData();
+            AddIconsToMenuItems();
         }
 
     }
