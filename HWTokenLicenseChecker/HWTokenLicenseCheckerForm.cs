@@ -75,6 +75,7 @@ namespace HWTokenLicenseChecker
             {
                 String msg = lmx.LMXStatusMessage();
                 MessageBox.Show(msg, @"LMX Error");
+                isRunning = false;
 
                 return;
             }
