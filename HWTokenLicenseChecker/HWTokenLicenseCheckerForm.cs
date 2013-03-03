@@ -495,7 +495,7 @@ namespace HWTokenLicenseChecker
 
             String aboutText = Properties.Resources.AboutStringRes; 
             
-            AboutForm aboutForm = new AboutForm(aboutText);
+            AboutForm aboutForm = new AboutForm(aboutText.Replace("#",Environment.NewLine+Environment.NewLine));
             aboutForm.StartPosition = FormStartPosition.CenterParent;
             aboutForm.ShowDialog();
         }
