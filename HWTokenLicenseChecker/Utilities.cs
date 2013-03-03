@@ -38,7 +38,6 @@ namespace HWTokenLicenseChecker
             int timeout = 120;
 
             PingReply reply = pingSender.Send(ipAddressString, timeout, buffer, options);
-            String response = String.Empty;
         
             return reply.Status;
         }
