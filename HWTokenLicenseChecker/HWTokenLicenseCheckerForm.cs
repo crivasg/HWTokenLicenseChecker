@@ -20,8 +20,7 @@ namespace HWTokenLicenseChecker
         private String databasePath = String.Empty;
         private String lmxconfigtool = String.Empty;
 
-        private const String ALTAIR_HOME_ENV_VAR = @"ALTAIR_HOME";
-        private const String LMX_LICENSE_PATH_ENV_VAR = @"LMX_LICENSE_PATH";
+        private List<String> APP_ENV_VARS = new List<String> () { @"ALTAIR_HOME", @"LMX_LICENSE_PATH" };
 
         private List<String> usersWithProblems = new List<String>();
 
@@ -657,7 +656,9 @@ namespace HWTokenLicenseChecker
 
         private void enviomentVarsStripMenuItem_Click(object sender, EventArgs e)
         {
-            EnvironmentVariablesForm evForm = new EnvironmentVariablesForm();
+            EnvironmentVariablesForm evForm = new EnvironmentVariablesForm() {
+                Variables = APP_ENV_VARS
+            };
             evForm.StartPosition = FormStartPosition.CenterParent;
             evForm.ShowDialog();
         }

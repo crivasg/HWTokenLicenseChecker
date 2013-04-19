@@ -11,7 +11,10 @@ namespace HWTokenLicenseChecker
 {
     public partial class EnvironmentVariablesForm : Form
     {
-        public EnvironmentVariablesForm()
+
+        public List<String> Variables { set; private get; }
+
+        public EnvironmentVariablesForm( )
         {
             InitializeComponent();
         }
@@ -19,6 +22,15 @@ namespace HWTokenLicenseChecker
         private void btn_Dismiss_EnvVarForm_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void EnvironmentVariablesForm_Load(object sender, EventArgs e)
+        {
+            foreach (String eVariable in Variables)
+            { 
+                
+            
+            }
         }
     }
 }

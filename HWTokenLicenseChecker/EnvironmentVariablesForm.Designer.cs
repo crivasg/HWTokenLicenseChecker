@@ -29,17 +29,17 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.evDataGridView = new System.Windows.Forms.DataGridView();
             this.btn_Dismiss_EnvVarForm = new System.Windows.Forms.Button();
             this.VariableTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ValueTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.dataGridView1);
+            this.groupBox1.Controls.Add(this.evDataGridView);
             this.groupBox1.Location = new System.Drawing.Point(13, 13);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(381, 154);
@@ -47,21 +47,21 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Environment Variables for HWTokenLicenseChecker";
             // 
-            // dataGridView1
+            // evDataGridView
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.evDataGridView.AllowUserToAddRows = false;
+            this.evDataGridView.AllowUserToDeleteRows = false;
+            this.evDataGridView.AllowUserToResizeRows = false;
+            this.evDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.evDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.VariableTextBoxColumn,
             this.ValueTextBoxColumn});
-            this.dataGridView1.Location = new System.Drawing.Point(7, 19);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(368, 129);
-            this.dataGridView1.TabIndex = 0;
+            this.evDataGridView.Location = new System.Drawing.Point(7, 19);
+            this.evDataGridView.Name = "evDataGridView";
+            this.evDataGridView.ReadOnly = true;
+            this.evDataGridView.RowHeadersVisible = false;
+            this.evDataGridView.Size = new System.Drawing.Size(368, 129);
+            this.evDataGridView.TabIndex = 0;
             // 
             // btn_Dismiss_EnvVarForm
             // 
@@ -97,8 +97,9 @@
             this.Name = "EnvironmentVariablesForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Environment Variables";
+            this.Load += new System.EventHandler(this.EnvironmentVariablesForm_Load);
             this.groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evDataGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -107,7 +108,7 @@
 
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btn_Dismiss_EnvVarForm;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView evDataGridView;
         private System.Windows.Forms.DataGridViewTextBoxColumn VariableTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ValueTextBoxColumn;
     }
