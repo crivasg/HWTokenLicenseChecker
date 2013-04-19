@@ -74,6 +74,8 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveCSVFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openLogFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.enviomentVarsStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -390,40 +392,40 @@
             this.sQLiteToolStripMenuItem,
             this.xMLToolStripMenuItem});
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveAsToolStripMenuItem.Text = "&Export";
             // 
             // csvToolStripMenuItem
             // 
             this.csvToolStripMenuItem.Name = "csvToolStripMenuItem";
-            this.csvToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.csvToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.csvToolStripMenuItem.Text = "CSV";
             this.csvToolStripMenuItem.Click += new System.EventHandler(this.csvToolStripMenuItem_Click);
             // 
             // sQLiteToolStripMenuItem
             // 
             this.sQLiteToolStripMenuItem.Name = "sQLiteToolStripMenuItem";
-            this.sQLiteToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.sQLiteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.sQLiteToolStripMenuItem.Text = "SQLite";
             this.sQLiteToolStripMenuItem.Click += new System.EventHandler(this.sQLiteToolStripMenuItem_Click);
             // 
             // xMLToolStripMenuItem
             // 
             this.xMLToolStripMenuItem.Name = "xMLToolStripMenuItem";
-            this.xMLToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.xMLToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.xMLToolStripMenuItem.Text = "XML";
             this.xMLToolStripMenuItem.Click += new System.EventHandler(this.xMLToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(140, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -442,20 +444,22 @@
             this.copyToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.copyToolStripMenuItem.Text = "&Copy";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // copyRowToolStripMenuItem
             // 
             this.copyRowToolStripMenuItem.Name = "copyRowToolStripMenuItem";
-            this.copyRowToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.copyRowToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.copyRowToolStripMenuItem.Text = "Copy Row";
             this.copyRowToolStripMenuItem.Click += new System.EventHandler(this.copyRowToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.enviomentVarsStripMenuItem,
+            this.toolStripSeparator2,
             this.refreshToolStripMenuItem,
             this.lmxConfigToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
@@ -466,14 +470,14 @@
             // 
             this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
             this.refreshToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.refreshToolStripMenuItem.Text = "&Refresh";
             this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // lmxConfigToolStripMenuItem
             // 
             this.lmxConfigToolStripMenuItem.Name = "lmxConfigToolStripMenuItem";
-            this.lmxConfigToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.lmxConfigToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.lmxConfigToolStripMenuItem.Text = "&Launch lmx-config";
             this.lmxConfigToolStripMenuItem.Click += new System.EventHandler(this.lmxConfigToolStripMenuItem_Click);
             // 
@@ -530,6 +534,17 @@
             // openLogFileDialog
             // 
             this.openLogFileDialog.Title = "Select LMX log file";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(176, 6);
+            // 
+            // enviomentVarsStripMenuItem
+            // 
+            this.enviomentVarsStripMenuItem.Name = "enviomentVarsStripMenuItem";
+            this.enviomentVarsStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.enviomentVarsStripMenuItem.Text = "toolStripMenuItem1";
             // 
             // HWTokenLicenseCheckerForm
             // 
@@ -612,6 +627,8 @@
         private System.Windows.Forms.ToolStripMenuItem copyRepoStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem addIssueStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openLogFileDialog;
+        private System.Windows.Forms.ToolStripMenuItem enviomentVarsStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }
 
