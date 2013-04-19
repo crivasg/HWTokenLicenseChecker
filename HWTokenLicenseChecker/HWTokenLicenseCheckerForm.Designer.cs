@@ -543,8 +543,8 @@
             // enviomentVarsStripMenuItem
             // 
             this.enviomentVarsStripMenuItem.Name = "enviomentVarsStripMenuItem";
-            this.enviomentVarsStripMenuItem.Size = new System.Drawing.Size(179, 22);
-            this.enviomentVarsStripMenuItem.Text = "toolStripMenuItem1";
+            this.enviomentVarsStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.enviomentVarsStripMenuItem.Text = "Environment variables";
             // 
             // HWTokenLicenseCheckerForm
             // 
