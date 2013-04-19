@@ -15,5 +15,10 @@ namespace HWTokenLicenseChecker
         {
             InitializeComponent();
         }
+
+        private void btn_Dismiss_EnvVarForm_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

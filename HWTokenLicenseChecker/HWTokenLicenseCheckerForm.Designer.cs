@@ -545,6 +545,7 @@
             this.enviomentVarsStripMenuItem.Name = "enviomentVarsStripMenuItem";
             this.enviomentVarsStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.enviomentVarsStripMenuItem.Text = "Environment variables";
+            this.enviomentVarsStripMenuItem.Click += new System.EventHandler(this.enviomentVarsStripMenuItem_Click);
             // 
             // HWTokenLicenseCheckerForm
             // 

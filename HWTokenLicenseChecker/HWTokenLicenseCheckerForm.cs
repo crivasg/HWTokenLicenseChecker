@@ -20,6 +20,9 @@ namespace HWTokenLicenseChecker
         private String databasePath = String.Empty;
         private String lmxconfigtool = String.Empty;
 
+        private const String ALTAIR_HOME_ENV_VAR = @"ALTAIR_HOME";
+        private const String LMX_LICENSE_PATH_ENV_VAR = @"LMX_LICENSE_PATH";
+
         private List<String> usersWithProblems = new List<String>();
 
         private const String GITHUB_REPO_URL = @"https://github.com/crivasg/HWTokenLicenseChecker";
@@ -650,6 +653,13 @@ namespace HWTokenLicenseChecker
         {
             GetLMXLicenseData();
             AddIconsToMenuItems();
+        }
+
+        private void enviomentVarsStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EnvironmentVariablesForm evForm = new EnvironmentVariablesForm();
+            evForm.StartPosition = FormStartPosition.CenterParent;
+            evForm.ShowDialog();
         }
 
     }

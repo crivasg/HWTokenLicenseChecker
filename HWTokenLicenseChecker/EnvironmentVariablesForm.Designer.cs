@@ -71,6 +71,7 @@
             this.btn_Dismiss_EnvVarForm.TabIndex = 1;
             this.btn_Dismiss_EnvVarForm.Text = "Dismiss";
             this.btn_Dismiss_EnvVarForm.UseVisualStyleBackColor = true;
+            this.btn_Dismiss_EnvVarForm.Click += new System.EventHandler(this.btn_Dismiss_EnvVarForm_Click);
             // 
             // VariableTextBoxColumn
             // 
@@ -94,6 +95,7 @@
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "EnvironmentVariablesForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Environment Variables";
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
