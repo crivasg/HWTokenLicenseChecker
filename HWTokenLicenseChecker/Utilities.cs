@@ -59,5 +59,21 @@ namespace HWTokenLicenseChecker
         
             return reply.Status;
         }
+
+        public static String GetIPFromHostname(String hostname)
+        {
+
+            String ip = String.Empty;
+
+            IPAddress[] addresslist = Dns.GetHostAddresses(hostname);
+            foreach (IPAddress theaddress in addresslist)
+            {
+                ip = theaddress.ToString();
+            }
+
+            return ip;
+        }
+
+
     }
 }

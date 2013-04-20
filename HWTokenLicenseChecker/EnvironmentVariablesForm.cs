@@ -30,7 +30,7 @@ namespace HWTokenLicenseChecker
 
             foreach (String eVariable in Variables)
             {
-                evDataGridView.Rows.Add(eVariable,Utilities.GetVariableValue(eVariable));
+                evDataGridView.Rows.Add(eVariable, Utilities.GetVariableValue(eVariable));
             }
 
             evDataGridView.ClearSelection();
