@@ -98,7 +98,9 @@
             this.ClientSize = new System.Drawing.Size(406, 207);
             this.Controls.Add(this.btn_Dismiss_EnvVarForm);
             this.Controls.Add(this.groupBox1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "EnvironmentVariablesForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Environment Variables";
