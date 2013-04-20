@@ -54,7 +54,13 @@ namespace HWTokenLicenseChecker
 
         private void evDataGridView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            MessageBox.Show(evDataGridView.CurrentRow.Index.ToString());
+
+            DataGridViewRow currentRow = evDataGridView.CurrentRow;
+            String variableName = Convert.ToString(currentRow.Cells[0].Value);
+            String variableValue = Convert.ToString(currentRow.Cells[1].Value);
+
+            MessageBox.Show(String.Format(@"{0}:{1}", variableName, variableValue));
+
         }
     }
 }
