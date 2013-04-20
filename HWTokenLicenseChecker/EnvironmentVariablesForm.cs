@@ -51,5 +51,10 @@ namespace HWTokenLicenseChecker
                 DataGridViewHeaderBorderStyle.Raised;
             }
         }
+
+        private void evDataGridView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            MessageBox.Show(evDataGridView.CurrentRow.Index.ToString());
+        }
     }
 }

@@ -63,6 +63,7 @@
             this.evDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.evDataGridView.Size = new System.Drawing.Size(368, 129);
             this.evDataGridView.TabIndex = 0;
+            this.evDataGridView.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.evDataGridView_CellContentDoubleClick);
             // 
             // VariableTextBoxColumn
             // 
