@@ -30,9 +30,9 @@
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.evDataGridView = new System.Windows.Forms.DataGridView();
+            this.btn_Dismiss_EnvVarForm = new System.Windows.Forms.Button();
             this.VariableTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ValueTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btn_Dismiss_EnvVarForm = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.evDataGridView)).BeginInit();
             this.SuspendLayout();
@@ -65,19 +65,6 @@
             this.evDataGridView.TabIndex = 0;
             this.evDataGridView.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.evDataGridView_CellContentDoubleClick);
             // 
-            // VariableTextBoxColumn
-            // 
-            this.VariableTextBoxColumn.HeaderText = "Variable";
-            this.VariableTextBoxColumn.Name = "VariableTextBoxColumn";
-            this.VariableTextBoxColumn.ReadOnly = true;
-            // 
-            // ValueTextBoxColumn
-            // 
-            this.ValueTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ValueTextBoxColumn.HeaderText = "Value";
-            this.ValueTextBoxColumn.Name = "ValueTextBoxColumn";
-            this.ValueTextBoxColumn.ReadOnly = true;
-            // 
             // btn_Dismiss_EnvVarForm
             // 
             this.btn_Dismiss_EnvVarForm.Location = new System.Drawing.Point(319, 173);
@@ -87,6 +74,21 @@
             this.btn_Dismiss_EnvVarForm.Text = "Dismiss";
             this.btn_Dismiss_EnvVarForm.UseVisualStyleBackColor = true;
             this.btn_Dismiss_EnvVarForm.Click += new System.EventHandler(this.btn_Dismiss_EnvVarForm_Click);
+            // 
+            // VariableTextBoxColumn
+            // 
+            this.VariableTextBoxColumn.FillWeight = 150F;
+            this.VariableTextBoxColumn.HeaderText = "Variable";
+            this.VariableTextBoxColumn.Name = "VariableTextBoxColumn";
+            this.VariableTextBoxColumn.ReadOnly = true;
+            this.VariableTextBoxColumn.Width = 150;
+            // 
+            // ValueTextBoxColumn
+            // 
+            this.ValueTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ValueTextBoxColumn.HeaderText = "Value";
+            this.ValueTextBoxColumn.Name = "ValueTextBoxColumn";
+            this.ValueTextBoxColumn.ReadOnly = true;
             // 
             // EnvironmentVariablesForm
             // 
