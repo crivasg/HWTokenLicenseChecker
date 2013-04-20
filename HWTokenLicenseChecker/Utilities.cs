@@ -20,6 +20,24 @@ namespace HWTokenLicenseChecker
         // Gets the TMP folder ...
         public readonly static String TempDir = Environment.GetEnvironmentVariable("TMP");
 
+        public static String GetVariableValue(String strEnvironmentVariable )
+        {
+
+            if (String.IsNullOrEmpty(strEnvironmentVariable))
+            {
+                return String.Empty;
+            }
+
+            String valueStr = String.Empty;
+
+            valueStr = Environment.GetEnvironmentVariable(strEnvironmentVariable, EnvironmentVariableTarget.User);
+            if (String.IsNullOrEmpty(valueStr))
+            {
+                valueStr = Environment.GetEnvironmentVariable(strEnvironmentVariable, EnvironmentVariableTarget.Machine);
+            }
+
+            return valueStr;
+        }
 
         public static IPStatus PingServer(String ipAddressString)
         {
