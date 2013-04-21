@@ -59,7 +59,10 @@ namespace HWTokenLicenseChecker
             String variableName = Convert.ToString(currentRow.Cells[0].Value);
             String variableValue = Convert.ToString(currentRow.Cells[1].Value);
 
+            String bb = Prompt.ShowDialog(variableValue, variableName);
+
             MessageBox.Show(String.Format(@"{0}:{1}", variableName, variableValue));
+            evDataGridView.ClearSelection();
 
         }
     }
