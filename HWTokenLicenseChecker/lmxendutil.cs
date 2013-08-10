@@ -265,13 +265,18 @@ namespace HWTokenLicenseChecker
                 result += lv1.ServerVersion.ToString();
             }
 
-            double sVersion = -9999.9;
-            bool parseResult = double.TryParse(result, out sVersion);
-
-            if (!parseResult)
+            if (String.IsNullOrEmpty(result))
             {
                 this.AppStatus = Status.LicenseServerOffline;
             }
+
+            //double sVersion = -9999.9;
+            //bool parseResult = double.TryParse(result, out sVersion);
+
+            //if (!parseResult)
+            //{
+            //    this.AppStatus = Status.LicenseServerOffline;
+            //}
 
             // if results is empty, the license server may not be running.
             //MessageBox.Show(result + Environment.NewLine + parseResult.ToString() + " " + this.AppStatus.ToString());
