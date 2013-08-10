@@ -651,6 +651,7 @@ namespace HWTokenLicenseChecker
             foreach (String env in APP_ENV_VARS)
             {
                 found = false;
+                index = APP_ENV_VARS.IndexOf(env);
 
                 foreach (DictionaryEntry de in userEnvironmentVariables)
                 { 
@@ -666,7 +667,6 @@ namespace HWTokenLicenseChecker
 
                 if (found)
                 {
-                    ++index;
                     continue;
                 }
 
@@ -677,11 +677,16 @@ namespace HWTokenLicenseChecker
                     if (key.CompareTo(env) == 0)
                     {
                         APP_ENV_VARS_TARGET.Insert(index, EnvironmentVariableTarget.Machine);
+                        found = true;
                         break;
                     }
                 }
+                if (found)
+                {
+                    continue;
+                }
 
-                ++index;
+                APP_ENV_VARS_TARGET.Insert(index, EnvironmentVariableTarget.Process);
             }
         }
 
