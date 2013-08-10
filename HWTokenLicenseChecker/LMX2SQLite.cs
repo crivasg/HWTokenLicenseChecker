@@ -187,7 +187,7 @@ namespace HWTokenLicenseChecker
                         typeParam.Value = tmpArray[3]; //
                         ipParam.Value = tmpArray[1];
                         portParam.Value = int.Parse(tmpArray[2]);
-                        serverVersionParam.Value = Double.Parse(tmpArray[0]);
+                        serverVersionParam.Value = tmpArray[0];
                         uptimeParam.Value = tmpArray[4];
 
                         mycommand.ExecuteNonQuery();
