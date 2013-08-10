@@ -12,7 +12,7 @@ namespace HWTokenLicenseChecker
 {
     public static class Prompt
     {
-        public static string ShowDialog(string text, string caption)
+        public static string ShowDialog(string text, string caption, String value)
         {
             Form prompt = new Form();
             prompt.Width = 500;
@@ -25,7 +25,7 @@ namespace HWTokenLicenseChecker
                 Font = new Font("Microsoft Sans Serif", 10, FontStyle.Bold)
             };
             
-            TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 400 ,
+            TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 400 ,Text = value,
                 Height = 100, Font = new Font("Microsoft Sans Serif", 24, FontStyle.Regular)
             };
 
