@@ -65,6 +65,19 @@ namespace HWTokenLicenseChecker
             if (bb.CompareTo(variableValue) != 0)
             { 
                 // set the enviroment variable
+                int index = Variables.IndexOf(variableName);
+                EnvironmentVariableTarget tgt = Targets[index];
+
+                try
+                {
+                    Environment.SetEnvironmentVariable(variableName, bb, tgt);
+                    currentRow.Cells[1].Value = bb;
+                }
+                catch
+                {
+                    MessageBox.Show(String.Format("Could not set the variable {0} to {1}", variableName,bb));
+                }
+
             }
 
             //MessageBox.Show(String.Format(@"{0}:{1}", variableName, variableValue));
