@@ -21,7 +21,7 @@ namespace HWTokenLicenseChecker
 
             prompt.FormBorderStyle = FormBorderStyle.FixedToolWindow;
 
-            Label textLabel = new Label() { Left = 50, Top = 20, Text = text + @":",
+            Label textLabel = new Label() { Left = 50, Top = 20, Width = 400, Text = text + @":",
                 Font = new Font("Microsoft Sans Serif", 10, FontStyle.Bold)
             };
             
