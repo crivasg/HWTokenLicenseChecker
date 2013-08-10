@@ -13,6 +13,7 @@ namespace HWTokenLicenseChecker
     {
 
         public List<String> Variables { set; private get; }
+        public List<EnvironmentVariableTarget> Targets { set; private get; }
 
         public EnvironmentVariablesForm( )
         {

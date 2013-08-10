@@ -713,7 +713,8 @@ namespace HWTokenLicenseChecker
         private void enviomentVarsStripMenuItem_Click(object sender, EventArgs e)
         {
             EnvironmentVariablesForm evForm = new EnvironmentVariablesForm() {
-                Variables = APP_ENV_VARS
+                Variables = APP_ENV_VARS,
+                Targets = APP_ENV_VARS_TARGET
             };
             evForm.StartPosition = FormStartPosition.CenterParent;
             evForm.ShowDialog();
