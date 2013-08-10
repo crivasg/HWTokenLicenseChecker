@@ -158,7 +158,7 @@ namespace HWTokenLicenseChecker
             bool flag = true;
             while (flag)
             {
-                this.Value = Prompt.ShowDialog("Value", String.Format(@"Enter value for {0}",this.Name) );
+                this.Value = Prompt.ShowDialog("Value", String.Format(@"Enter value for {0}",this.Name), String.Empty);
                 if (!String.IsNullOrEmpty(this.Value))
                 {
                     flag = false;
