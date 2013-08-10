@@ -12,6 +12,7 @@ using System.Data.SQLite;
 
 using System.IO;
 using System.Diagnostics;
+using System.Collections;
 
 namespace HWTokenLicenseChecker
 {
@@ -21,6 +22,7 @@ namespace HWTokenLicenseChecker
         private String lmxconfigtool = String.Empty;
 
         private List<String> APP_ENV_VARS = new List<String> () { @"ALTAIR_HOME", @"LMX_LICENSE_PATH" };
+        private List<EnvironmentVariableTarget> APP_ENV_VARS_TARGET = new List<EnvironmentVariableTarget>();
 
         private List<String> usersWithProblems = new List<String>();
 
@@ -636,6 +638,53 @@ namespace HWTokenLicenseChecker
             }
         }
 
+        private void GetTargetOfEnviromentVariables()
+        {
+
+            String key;
+
+            IDictionary userEnvironmentVariables = Environment.GetEnvironmentVariables(EnvironmentVariableTarget.User);
+            IDictionary machineEnvironmentVariables = Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Machine);
+
+            int index = 0;
+            bool found = false;
+            foreach (String env in APP_ENV_VARS)
+            {
+                found = false;
+
+                foreach (DictionaryEntry de in userEnvironmentVariables)
+                { 
+                    key = (String)de.Key;
+
+                    if(key.CompareTo(env) == 0)
+                    {
+                        APP_ENV_VARS_TARGET.Insert(index,EnvironmentVariableTarget.User);
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found)
+                {
+                    ++index;
+                    continue;
+                }
+
+                foreach (DictionaryEntry de in machineEnvironmentVariables)
+                {
+                    key = (String)de.Key;
+
+                    if (key.CompareTo(env) == 0)
+                    {
+                        APP_ENV_VARS_TARGET.Insert(index, EnvironmentVariableTarget.Machine);
+                        break;
+                    }
+                }
+
+                ++index;
+            }
+        }
+
         /// <summary>
         /// Quits the application when the esc key is pressed
         /// </summary>
@@ -650,6 +699,8 @@ namespace HWTokenLicenseChecker
 
         private void HWTokenLicenseCheckerForm_Load(object sender, EventArgs e)
         {
+            GetTargetOfEnviromentVariables();
+
             GetLMXLicenseData();
             AddIconsToMenuItems();
         }
