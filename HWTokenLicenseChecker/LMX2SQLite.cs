@@ -173,10 +173,10 @@ namespace HWTokenLicenseChecker
 
                     mycommand.CommandText = sqlStmtTextArray[0];
 
-                    mycommand.Parameters.Add(typeParam);
+                    mycommand.Parameters.Add(serverVersionParam);
                     mycommand.Parameters.Add(ipParam);
                     mycommand.Parameters.Add(portParam);
-                    mycommand.Parameters.Add(serverVersionParam);
+                    mycommand.Parameters.Add(typeParam);
                     mycommand.Parameters.Add(uptimeParam);
 
                     // server_version, ip-, port-, type-, server_version, uptime
