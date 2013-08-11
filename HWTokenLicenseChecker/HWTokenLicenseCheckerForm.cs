@@ -260,9 +260,6 @@ namespace HWTokenLicenseChecker
         /// <param name="isPartner"> 1 = HWPA tokens used, 0 - Normal tokens</param>
         private void ProcessTokens(String user, String host, int feature_id, int isPartner)
         {
-
-            //@"SELECT DISTINCT feature_id FROM feature WHERE isPartner = 1"
-
             SQLiteConnection cnn = new SQLiteConnection("Data Source=" + databasePath);
             cnn.Open();
             SQLiteCommand cmd = new SQLiteCommand(cnn);
