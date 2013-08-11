@@ -154,12 +154,6 @@ namespace HWTokenLicenseChecker
 
         private void ImportToDatabase()
         {
-
-            String[] sqlStmtTextArray = {
-                    @"INSERT INTO license_path (server_version, ip, port, type, uptime ) VALUES (?,?,?,?,?)",
-                    @"INSERT INTO feature (feature_id, name, version ,vendor, start, end, used_licenses, total_licenses, share, isPartner ) VALUES (?,?,?,?,?,?,?,?,?,?)",
-                    @"INSERT INTO user (name, host, ip, used_licenses, login_time, checkout_time, share_custom, feature_id, isBorrow ) VALUES (?,?,?,?,?,?,?,?,?)"};
-
             // insert to LICENSE_PATH table
             using (SQLiteTransaction sqlTransaction = cnn.BeginTransaction())
             {
@@ -171,7 +165,7 @@ namespace HWTokenLicenseChecker
                     SQLiteParameter serverVersionParam = new SQLiteParameter();
                     SQLiteParameter uptimeParam = new SQLiteParameter(); // 
 
-                    mycommand.CommandText = sqlStmtTextArray[0];
+                    mycommand.CommandText = Queries.InsertIntoLicensePath;
 
                     mycommand.Parameters.Add(serverVersionParam);
                     mycommand.Parameters.Add(ipParam);
@@ -215,7 +209,7 @@ namespace HWTokenLicenseChecker
                     SQLiteParameter shareParam = new SQLiteParameter();
                     SQLiteParameter isPartnerParam = new SQLiteParameter();
 
-                    mycommand.CommandText = sqlStmtTextArray[1];
+                    mycommand.CommandText = Queries.InsertIntoFeature;
 
                     mycommand.Parameters.Add(idParam);
                     mycommand.Parameters.Add(nameParam);
@@ -266,7 +260,7 @@ namespace HWTokenLicenseChecker
                     SQLiteParameter featureIdParam = new SQLiteParameter();
                     SQLiteParameter isBorrowParam = new SQLiteParameter();
 
-                    mycommand.CommandText = sqlStmtTextArray[2];
+                    mycommand.CommandText = Queries.InsertIntoUser;
 
                     mycommand.Parameters.Add(nameParam);
                     mycommand.Parameters.Add(hostParam);
