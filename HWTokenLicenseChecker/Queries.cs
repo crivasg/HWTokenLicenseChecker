@@ -31,5 +31,12 @@ namespace HWTokenLicenseChecker
         public readonly static String UsersWithLockedTokens = @"SELECT DISTINCT  user.name||':'||user.host||':'||user.used_licenses  
                     FROM user JOIN feature USING (feature_id) 
                     WHERE user.share_custom LIKE '%:%:%' AND feature.name = 'HyperWorks';";
+
+        public readonly static String GatherTokenUsagePerUsernameAndHostname = @"SELECT DISTINCT feature.name,user.login_time,user.host||'/'||user.ip 
+                FROM user JOIN feature USING (feature_id) 
+                WHERE user.name = '{0}' AND user.host = '{1}' AND user.feature_id IN ( 
+                    SELECT DISTINCT feature_id FROM feature WHERE isPartner = {2}
+                );";
+
     }
 }

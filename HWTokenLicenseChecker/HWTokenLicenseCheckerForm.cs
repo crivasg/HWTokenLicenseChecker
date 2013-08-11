@@ -267,14 +267,7 @@ namespace HWTokenLicenseChecker
             cnn.Open();
             SQLiteCommand cmd = new SQLiteCommand(cnn);
 
-            // get the features used
-            String sqlQuery = String.Format(@"SELECT DISTINCT feature.name,user.login_time,user.host||'/'||user.ip 
-                FROM user JOIN feature USING (feature_id) 
-                WHERE user.name = '{0}' AND user.host = '{1}' AND user.feature_id IN ( 
-                    SELECT DISTINCT feature_id FROM feature WHERE isPartner = {2}
-                );", user, host, isPartner);
-
-            cmd.CommandText = sqlQuery;
+            cmd.CommandText = String.Format(Queries.GatherTokenUsagePerUsernameAndHostname, user,host,isPartner);
 
             String tmp = String.Empty;
             //String logTmp = String.Empty;
