@@ -44,5 +44,7 @@ namespace HWTokenLicenseChecker
 
         public readonly static String InsertIntoUser = @"INSERT INTO user (name, host, ip, used_licenses, login_time, checkout_time, share_custom, feature_id, isBorrow ) VALUES (?,?,?,?,?,?,?,?,?)";
 
+        public readonly static String UpdateFeatureWithPartners = @"UPDATE feature SET isPartner = 1 WHERE name LIKE 'HWPartner%';";
+
     }
 }

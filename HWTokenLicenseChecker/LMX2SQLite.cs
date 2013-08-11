@@ -299,7 +299,7 @@ namespace HWTokenLicenseChecker
 
             // -- set isPartner = 1 where the feature name starts with 'HWPartner'
             SQLiteCommand cmd = new SQLiteCommand(cnn);
-            cmd.CommandText = @"UPDATE feature SET isPartner=1 WHERE name LIKE 'HWPartner%';";
+            cmd.CommandText = Queries.UpdateFeatureWithPartners;
             cmd.ExecuteNonQuery();
             cmd.Dispose();
 
