@@ -27,5 +27,9 @@ namespace HWTokenLicenseChecker
         public readonly static String GatherLicenseServerData = @"SELECT port,ip,uptime FROM license_path;";
 
         public readonly static String GetMinMaxPartnerFeaturesIds = @"SELECT MIN(feature_id),MAX(feature_id) FROM feature WHERE name LIKE '%Partner%';";
+
+        public readonly static String UsersWithLockedTokens = @"SELECT DISTINCT  user.name||':'||user.host||':'||user.used_licenses  
+                    FROM user JOIN feature USING (feature_id) 
+                    WHERE user.share_custom LIKE '%:%:%' AND feature.name = 'HyperWorks';";
     }
 }

@@ -532,14 +532,10 @@ namespace HWTokenLicenseChecker
 
         private void CheckForLockedTokens()
         {
-            String sqlQuery = @"SELECT DISTINCT  user.name||':'||user.host||':'||user.used_licenses  
-                    FROM user JOIN feature USING (feature_id) 
-                    WHERE user.share_custom LIKE '%:%:%' AND feature.name = 'HyperWorks';";
-
             SQLiteConnection cnn = new SQLiteConnection("Data Source=" + databasePath);
             cnn.Open();
             SQLiteCommand cmd = new SQLiteCommand(cnn);
-            cmd.CommandText = sqlQuery;
+            cmd.CommandText = Queries.UsersWithLockedTokens;
 
             String share_custom = String.Empty;
             
