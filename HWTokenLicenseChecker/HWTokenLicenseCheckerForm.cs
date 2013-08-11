@@ -640,9 +640,6 @@ namespace HWTokenLicenseChecker
 
         private void GetTargetOfEnviromentVariables()
         {
-
-            String key;
-
             IDictionary userEnvironmentVariables = Environment.GetEnvironmentVariables(EnvironmentVariableTarget.User);
             IDictionary machineEnvironmentVariables = Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Machine);
 
@@ -655,7 +652,7 @@ namespace HWTokenLicenseChecker
 
                 IEnumerable<String> keyList = userEnvironmentVariables.Keys.Cast<String>().Where(x => x.CompareTo(env) == 0);
 
-                foreach (String key2 in keyList)
+                foreach (String key in keyList)
                 { 
                     APP_ENV_VARS_TARGET.Insert(index,EnvironmentVariableTarget.User);
                     found = true;
@@ -669,7 +666,7 @@ namespace HWTokenLicenseChecker
 
                 keyList = machineEnvironmentVariables.Keys.Cast<String>().Where(x => x.CompareTo(env) == 0);
 
-                foreach (String key2 in keyList)
+                foreach (String key in keyList)
                 {
                     APP_ENV_VARS_TARGET.Insert(index, EnvironmentVariableTarget.Machine);
                     found = true;
