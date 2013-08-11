@@ -21,5 +21,11 @@ namespace HWTokenLicenseChecker
     FROM user 
     WHERE feature_id IN ( SELECT feature_id FROM feature WHERE isPartner = 0) AND isBorrow = 1 GROUP BY name, host 
     ORDER BY Tokens DESC, Username ASC, Hostname ASC;";
+
+        public readonly static String GatherHyperworksTokensData = @"SELECT used_licenses,total_licenses,end FROM feature WHERE name = 'HyperWorks';";
+
+        public readonly static String GatherLicenseServerData = @"SELECT port,ip,uptime FROM license_path;";
+
+        public readonly static String GetMinMaxPartnerFeaturesIds = @"SELECT MIN(feature_id),MAX(feature_id) FROM feature WHERE name LIKE '%Partner%';";
     }
 }

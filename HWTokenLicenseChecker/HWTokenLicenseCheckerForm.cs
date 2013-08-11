@@ -119,10 +119,9 @@ namespace HWTokenLicenseChecker
             int used_licenses = -1;
             int total_licenses = -1;
             String end_date = String.Empty;
-            sqlQuery = @"SELECT used_licenses,total_licenses,end FROM feature WHERE name = 'HyperWorks';";
 
             //
-            cmd.CommandText = sqlQuery;
+            cmd.CommandText = Queries.GatherHyperworksTokensData;
             using(DbDataReader reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
@@ -134,8 +133,7 @@ namespace HWTokenLicenseChecker
                 reader.Close();
             }
 
-            sqlQuery = @"SELECT port,ip,uptime FROM license_path;";
-            cmd.CommandText = sqlQuery;
+            cmd.CommandText = Queries.GatherLicenseServerData;
 
             int port = -1;
             String ip = String.Empty;
@@ -163,8 +161,7 @@ namespace HWTokenLicenseChecker
             // {0}@{1}.
 
             // Get range HWPartner's feature...
-            sqlQuery = @"SELECT MIN(feature_id),MAX(feature_id) FROM feature WHERE isPartner = 1;";
-            cmd.CommandText = sqlQuery;
+            cmd.CommandText = Queries.GetMinMaxPartnerFeaturesIds;
 
             using (DbDataReader reader = cmd.ExecuteReader())
             {
