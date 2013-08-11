@@ -38,5 +38,11 @@ namespace HWTokenLicenseChecker
                     SELECT DISTINCT feature_id FROM feature WHERE isPartner = {2}
                 );";
 
+        public readonly static String InsertIntoLicensePath = @"INSERT INTO license_path (server_version, ip, port, type, uptime ) VALUES (?,?,?,?,?)";
+
+        public readonly static String InsertIntoFeature = @"INSERT INTO feature (feature_id, name, version ,vendor, start, end, used_licenses, total_licenses, share, isPartner ) VALUES (?,?,?,?,?,?,?,?,?,?)";
+
+        public readonly static String InsertIntoUser = @"INSERT INTO user (name, host, ip, used_licenses, login_time, checkout_time, share_custom, feature_id, isBorrow ) VALUES (?,?,?,?,?,?,?,?,?)";
+
     }
 }
