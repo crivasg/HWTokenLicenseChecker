@@ -653,16 +653,13 @@ namespace HWTokenLicenseChecker
                 found = false;
                 index = APP_ENV_VARS.IndexOf(env);
 
-                foreach (DictionaryEntry de in userEnvironmentVariables)
-                { 
-                    key = (String)de.Key;
+                IEnumerable<String> keyList = userEnvironmentVariables.Keys.Cast<String>().Where(x => x.CompareTo(env) == 0);
 
-                    if(key.CompareTo(env) == 0)
-                    {
-                        APP_ENV_VARS_TARGET.Insert(index,EnvironmentVariableTarget.User);
-                        found = true;
-                        break;
-                    }
+                foreach (String key2 in keyList)
+                { 
+                    APP_ENV_VARS_TARGET.Insert(index,EnvironmentVariableTarget.User);
+                    found = true;
+                    break;
                 }
 
                 if (found)
@@ -670,16 +667,13 @@ namespace HWTokenLicenseChecker
                     continue;
                 }
 
-                foreach (DictionaryEntry de in machineEnvironmentVariables)
-                {
-                    key = (String)de.Key;
+                keyList = machineEnvironmentVariables.Keys.Cast<String>().Where(x => x.CompareTo(env) == 0);
 
-                    if (key.CompareTo(env) == 0)
-                    {
-                        APP_ENV_VARS_TARGET.Insert(index, EnvironmentVariableTarget.Machine);
-                        found = true;
-                        break;
-                    }
+                foreach (String key2 in keyList)
+                {
+                    APP_ENV_VARS_TARGET.Insert(index, EnvironmentVariableTarget.Machine);
+                    found = true;
+                    break;
                 }
                 if (found)
                 {
