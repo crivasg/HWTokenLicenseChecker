@@ -695,6 +695,9 @@ namespace HWTokenLicenseChecker
 
         private void HWTokenLicenseCheckerForm_Load(object sender, EventArgs e)
         {
+
+            toolStripStatusLabel1.Text = String.Empty;
+
             GetTargetOfEnviromentVariables();
 
             GetLMXLicenseData();
