@@ -109,7 +109,7 @@ namespace HWTokenLicenseChecker
             SQLiteConnection cnn = new SQLiteConnection("Data Source=" + databasePath);
             cnn.Open();
             SQLiteCommand cmd = new SQLiteCommand(cnn);
-            SQLiteDataAdapter db = new SQLiteDataAdapter(SQL_QUERY_FOR_GRIDDATAVIEW, cnn);
+            SQLiteDataAdapter db = new SQLiteDataAdapter(Queries.FillDataGridView, cnn);
 
             DataSet ds = new DataSet();
             ds.Reset();
