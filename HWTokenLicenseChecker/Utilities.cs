@@ -138,17 +138,19 @@ namespace HWTokenLicenseChecker
                 {
                     csvString = csvString.Replace(",", "\t");
                 }
-
-                using (StreamWriter streamWriter = new StreamWriter(saveDlg.FileName))
+                try
                 {
-                    streamWriter.Write(csvString);
+                    using (StreamWriter streamWriter = new StreamWriter(saveDlg.FileName))
+                    {
+                        streamWriter.Write(csvString);
+                    }
                 }
-                //streamWriter.Close();
+                catch
+                {
+                    status = false;
+                }
 
             }
-
-
-
 
             return status;
         }
