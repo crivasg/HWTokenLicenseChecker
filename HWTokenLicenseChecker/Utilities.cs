@@ -104,5 +104,54 @@ namespace HWTokenLicenseChecker
         }
 
 
+        public static bool ExportDataToCSV(String filter, String title, String filename, DataGridView dgv)
+        {
+            bool status = true;
+            String csvString = String.Empty;
+
+            SaveFileDialog saveDlg = new SaveFileDialog()
+            {
+                Title = title,
+                Filter = filter,
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+            };
+
+            if (saveDlg.ShowDialog() == DialogResult.OK)
+            {
+
+                foreach (DataGridViewColumn column in dgv.Columns)
+                {
+                    csvString += column.HeaderText + @",";
+                }
+                csvString += Environment.NewLine;
+
+                foreach (DataGridViewRow row in dgv.Rows)
+                {
+                    foreach (DataGridViewCell cell in row.Cells)
+                    {
+                        csvString += cell.Value.ToString() + @","; 
+                    }
+                    csvString += Environment.NewLine;
+                }
+
+                if (Path.GetExtension(saveDlg.FileName).CompareTo(@".tsv") == 0)
+                {
+                    csvString = csvString.Replace(",", "\t");
+                }
+
+                using (StreamWriter streamWriter = new StreamWriter(saveDlg.FileName))
+                {
+                    streamWriter.Write(csvString);
+                }
+                //streamWriter.Close();
+
+            }
+
+
+
+
+            return status;
+        }
+
     }
 }

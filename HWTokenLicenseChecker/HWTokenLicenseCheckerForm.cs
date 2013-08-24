@@ -382,34 +382,9 @@ namespace HWTokenLicenseChecker
 
         private void csvToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            String csvString = String.Empty;
-            int numCols = dataGridView.Columns.Count;
-            int numRows = dataGridView.Rows.Count;
 
-            for (int col = 0; col < numCols; ++col)
-            {
-                csvString += dataGridView.Columns[col].HeaderText + ",";
-            }
-            csvString += Environment.NewLine;
-            for (int row = 0; row < numRows; ++row)
-            {
-                for (int col = 0; col < numCols; ++col)
-                {
-                    csvString += dataGridView.Rows[row].Cells[col].Value + ",";
-                }
-                csvString += Environment.NewLine;
-            }
-            // 
-            saveCSVFileDialog.Title = "Export data inta CSV file";
-            saveCSVFileDialog.Filter = "CSV Files|*.csv|All Files|*.*";
-            if (saveCSVFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                //MessageBox.Show(csvString + Environment.NewLine + saveCSVFileDialog.FileName);
-                StreamWriter streamWriter = new StreamWriter(saveCSVFileDialog.FileName);
-
-                streamWriter.Write(csvString);
-                streamWriter.Close();
-            }
+            Utilities.ExportDataToCSV("Comma Separated values Files|*.csv|Tab Separated values Files|*.tsv|All Files|*.*",
+                "Export data inta CSV file", String.Empty, this.dataGridView);
 
         }
 
