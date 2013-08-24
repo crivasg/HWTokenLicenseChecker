@@ -74,6 +74,35 @@ namespace HWTokenLicenseChecker
             return ip;
         }
 
+        public static bool SaveFile(String format, String filter, String title, String filename)
+        {
+            SaveFileDialog saveDlg = new SaveFileDialog()
+            {
+                DefaultExt = format,
+                Title = title,
+                Filter = filter,
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+            };
+
+            String destination = String.Empty;
+            bool status = true;
+
+            if (saveDlg.ShowDialog() == DialogResult.OK)
+            {
+                destination = saveDlg.FileName;
+                try
+                {
+                    File.Copy(filename, destination);
+                }
+                catch (Exception ex)
+                {
+                    status = false;
+                }
+            }
+
+            return status;
+        }
+
 
     }
 }
