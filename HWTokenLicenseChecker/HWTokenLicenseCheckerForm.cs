@@ -331,16 +331,30 @@ namespace HWTokenLicenseChecker
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            selectedRow = dataGridView.CurrentRow.Index;
+
             dataGridView.MultiSelect = true;
             dataGridView.SelectAll();
-            DataObject dataObj = dataGridView.GetClipboardContent();
-            Clipboard.SetDataObject(dataObj, true);
+            //DataObject dataObj = dataGridView.GetClipboardContent();
+            //Clipboard.SetDataObject(dataObj, true);
+
+            if (this.dataGridView.GetCellCount(DataGridViewElementStates.Selected) > 0)
+            {
+                try
+                {
+                    // Add the selection to the clipboard.
+                    Clipboard.SetDataObject(
+                        this.dataGridView.GetClipboardContent());
+                }
+                catch (System.Runtime.InteropServices.ExternalException)
+                {
+                }
+            }
+
             dataGridView.ClearSelection();
             dataGridView.MultiSelect = false;
-
             dataGridView.Rows[selectedRow].Selected = true;
-
-            
+        
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -351,15 +365,18 @@ namespace HWTokenLicenseChecker
         private void copyRowToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            DataGridViewRow currentRow = dataGridView.CurrentRow;
-            int numCells = currentRow.Cells.Count;
-            String textToCopy = String.Empty;
-            for (int ii = 0; ii < numCells; ++ii)
+            if (this.dataGridView.GetCellCount(DataGridViewElementStates.Selected) > 0)
             {
-                textToCopy += String.Format("{0}\t", currentRow.Cells[ii].Value);
+                try
+                {
+                    // Add the selection to the clipboard.
+                    Clipboard.SetDataObject(
+                        this.dataGridView.GetClipboardContent());
+                }
+                catch (System.Runtime.InteropServices.ExternalException)
+                {
+                }
             }
-
-            Clipboard.SetText(textToCopy);
             
         }
 
@@ -641,6 +658,8 @@ namespace HWTokenLicenseChecker
 
             GetLMXLicenseData();
             AddIconsToMenuItems();
+
+            selectedRow = dataGridView.CurrentRow.Index;
         }
 
         private void enviomentVarsStripMenuItem_Click(object sender, EventArgs e)
