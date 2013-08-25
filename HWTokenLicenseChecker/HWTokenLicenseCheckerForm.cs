@@ -485,6 +485,8 @@ namespace HWTokenLicenseChecker
 
         private void CheckForLockedTokens()
         {
+            usersWithProblems.Clear();
+
             SQLiteConnection cnn = new SQLiteConnection("Data Source=" + databasePath);
             cnn.Open();
             SQLiteCommand cmd = new SQLiteCommand(cnn);
