@@ -108,6 +108,7 @@ namespace HWTokenLicenseChecker
         {
             bool status = true;
             String csvString = String.Empty;
+            String separator = @",";
 
             SaveFileDialog saveDlg = new SaveFileDialog()
             {
@@ -119,9 +120,14 @@ namespace HWTokenLicenseChecker
             if (saveDlg.ShowDialog() == DialogResult.OK)
             {
 
+                if (saveDlg.FilterIndex == 2)
+                {
+                    separator = "\t";
+                }
+
                 foreach (DataGridViewColumn column in dgv.Columns)
                 {
-                    csvString += column.HeaderText + @",";
+                    csvString += column.HeaderText + separator;
                 }
                 csvString += Environment.NewLine;
 
@@ -129,15 +135,11 @@ namespace HWTokenLicenseChecker
                 {
                     foreach (DataGridViewCell cell in row.Cells)
                     {
-                        csvString += cell.Value.ToString() + @","; 
+                        csvString += cell.Value.ToString() + separator; 
                     }
                     csvString += Environment.NewLine;
                 }
 
-                if (Path.GetExtension(saveDlg.FileName).CompareTo(@".tsv") == 0)
-                {
-                    csvString = csvString.Replace(",", "\t");
-                }
                 try
                 {
                     using (StreamWriter streamWriter = new StreamWriter(saveDlg.FileName))
