@@ -140,11 +140,17 @@ namespace HWTokenLicenseChecker
                     csvString += Environment.NewLine;
                 }
 
+                IEnumerable<String> csvData = csvString.Split('\n').ToList().Where(x => x.Trim().Length>0);
+
                 try
                 {
                     using (StreamWriter streamWriter = new StreamWriter(saveDlg.FileName))
                     {
-                        streamWriter.Write(csvString);
+                        foreach (String line in csvData)
+                        {
+                            int index = line.LastIndexOfAny(new Char[] { ',', '\t' });
+                            streamWriter.Write(line.Substring(0,index) + Environment.NewLine); 
+                        }
                     }
                 }
                 catch
