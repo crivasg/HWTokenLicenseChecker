@@ -16,6 +16,7 @@ namespace HWTokenLicenseChecker
 {
     class LMX2SQLite
     {
+        List<String> xmlElementNames = null;
         List<String> licensePathData = null;
         List<String> featureData = null;
         List<String> userData = null;
@@ -35,14 +36,34 @@ namespace HWTokenLicenseChecker
         public void Run()
         {
             CreateDatabase();
+
+            GetElementsName();
+
             ReadXMLLicenseData();
             ImportToDatabase();       
         }
 
 
+        private void GetElementsName()
+        {
+            XDocument xdoc = XDocument.Load(this.XMLFile);
+            IEnumerable<String> childList = xdoc.Root.DescendantNodesAndSelf().OfType<XElement>()
+                .Select(x => x.Name.LocalName).Distinct();
+
+            xmlElementNames = new List<String>();
+
+            foreach (String item in childList)
+            {
+                xmlElementNames.Add(item.ToUpper());
+            }
+ 
+        }
+
         private void ReadXMLLicenseData()
         {
             String[] xmlNodes = {@"LICENSE_PATH",@"FEATURE",@"USED", @"USER"};
+
+            bool containsUsed = this.xmlElementNames.Contains(@"USED");
 
             licensePathData =  new List<String> ();
             featureData = new List<String> ();
@@ -106,11 +127,21 @@ namespace HWTokenLicenseChecker
             // LOGIN_TIME="yyyy-mm-dd hh:mm" CHECKOUT_TIME="yyyy-mm-dd hh:min" SHARE_CUSTOM="xxxxxxx:xxxxxxx"/>
             //>
 
-            IEnumerable<XElement> usedData = from nm in featureDataXML.Elements(xmlNodes[2])
-                                             select nm;
+            IEnumerable<XElement> userDataXML;
 
-            var userDataXML = from nm in usedData.Elements(xmlNodes[3])
+            if (containsUsed)
+            {
+                IEnumerable<XElement> usedData = from nm in featureDataXML.Elements(xmlNodes[2])
+                                                 select nm;
+                userDataXML = from nm in usedData.Elements(xmlNodes[3])
                               select nm;
+            }
+            else 
+            {
+                userDataXML = from nm in featureDataXML.Elements(xmlNodes[3])
+                              select nm;
+            }
+
             foreach (XElement xEle in userDataXML)
             {
                 int numOfAttributes = xEle.Attributes().Count();
@@ -135,7 +166,16 @@ namespace HWTokenLicenseChecker
 
                 String share = xEle.Attribute("SHARE_CUSTOM").Value.ToString();
 
-                String parentName = xEle.Parent.Parent.Attribute("NAME").Value.ToString();
+                String parentName = String.Empty;
+                if (containsUsed)
+                {
+                    parentName = xEle.Parent.Parent.Attribute("NAME").Value.ToString();
+                }
+                else
+                {
+                    parentName = xEle.Parent.Attribute("NAME").Value.ToString();
+                }
+
                 int featId = (int)features[parentName];
 
                 String tmp = String.Format(@"{0};{1};{2};{3};{4};{5};{6};{7};{8}",
